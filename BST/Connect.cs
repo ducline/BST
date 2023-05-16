@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace BST
 {
-    public partial class Form1 : Form
+    public partial class Connect : Form
     {
-        public Form1()
+        public Connect()
         {
             InitializeComponent();
         }
