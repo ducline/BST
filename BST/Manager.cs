@@ -26,6 +26,33 @@ namespace BST
             this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             label1.Text = deviceName;
 
+            foreach (Control control in panel4.Controls)
+            {
+                if (control is Button button)
+                {
+                    button.Click += OpenInnerForm;
+                }
+            }
+
+        }
+        private void OpenInnerForm(object sender, EventArgs e)
+        {
+            panel2.Controls.Clear();
+            Button button = (Button)sender;
+            string formName = button.Name;
+
+            // Create the form type based on the button name
+            Type formType = Type.GetType("BST.InnerForms." + formName);
+
+            // Create an instance of the form
+            Form form = (Form)Activator.CreateInstance(formType);
+
+            // Set the form's parent to panel2
+            form.TopLevel = false;
+            form.FormBorderStyle = FormBorderStyle.None;
+            form.Dock = DockStyle.Fill;
+            panel2.Controls.Add(form);
+            form.Show();
         }
 
         private void panel3_MouseDown(object sender, MouseEventArgs e)

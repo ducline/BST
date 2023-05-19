@@ -79,6 +79,12 @@
     <Compile Include="Connect.Designer.cs">
       <DependentUpon>Connect.cs</DependentUpon>
     </Compile>
+    <Compile Include="InnerForms\Base.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InnerForms\Base.Designer.cs">
+      <DependentUpon>Base.cs</DependentUpon>
+    </Compile>
     <Compile Include="Manager.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,6 +95,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Connect.resx">
       <DependentUpon>Connect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InnerForms\Base.resx">
+      <DependentUpon>Base.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Manager.resx">
       <DependentUpon>Manager.cs</DependentUpon>
@@ -118,9 +127,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="InnerForms\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Images\bluetooth.png" />
     <Content Include="Images\BriareusLogo.png" />

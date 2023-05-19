@@ -32,7 +32,7 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.SetAngle = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -88,26 +88,26 @@
             this.label1.TabIndex = 11;
             this.label1.Text = "deviceName";
             // 
-            // button1
+            // SetAngle
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
-            this.button1.Location = new System.Drawing.Point(5, 5);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(140, 40);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "SET ANGLE";
-            this.button1.UseVisualStyleBackColor = false;
+            this.SetAngle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.SetAngle.FlatAppearance.BorderSize = 0;
+            this.SetAngle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SetAngle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SetAngle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
+            this.SetAngle.Location = new System.Drawing.Point(5, 5);
+            this.SetAngle.Name = "SetAngle";
+            this.SetAngle.Size = new System.Drawing.Size(140, 40);
+            this.SetAngle.TabIndex = 8;
+            this.SetAngle.Text = "SET ANGLE";
+            this.SetAngle.UseVisualStyleBackColor = false;
             // 
             // panel4
             // 
             this.panel4.Controls.Add(this.button4);
             this.panel4.Controls.Add(this.button3);
             this.panel4.Controls.Add(this.button2);
-            this.panel4.Controls.Add(this.button1);
+            this.panel4.Controls.Add(this.SetAngle);
             this.panel4.Location = new System.Drawing.Point(15, 75);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(150, 400);
@@ -236,7 +236,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button SetAngle;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
