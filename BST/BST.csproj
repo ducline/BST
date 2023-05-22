@@ -36,14 +36,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FireSharp, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FireSharp.1.1.0\lib\net45\FireSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="FireSharp.Serialization.JsonNet, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FireSharp.Serialization.JsonNet.1.1.0\lib\net45\FireSharp.Serialization.JsonNet.dll</HintPath>
+    </Reference>
     <Reference Include="InTheHand.Net.Bluetooth, Version=4.0.0.0, Culture=neutral, PublicKeyToken=ea38caa273134499, processorArchitecture=MSIL">
       <HintPath>..\packages\InTheHand.Net.Bluetooth.4.0.34.1\lib\net461\InTheHand.Net.Bluetooth.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK, Version=3.0.1.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\packages\OpenTK.3.0.1\lib\net20\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK.GLControl, Version=3.0.1.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\packages\OpenTK.GLControl.3.0.1\lib\net20\OpenTK.GLControl.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=104.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -85,6 +97,30 @@
     <Compile Include="InnerForms\Base.Designer.cs">
       <DependentUpon>Base.cs</DependentUpon>
     </Compile>
+    <Compile Include="InnerForms\CollectionManagement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InnerForms\CollectionManagement.Designer.cs">
+      <DependentUpon>CollectionManagement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InnerForms\Predefine.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InnerForms\Predefine.Designer.cs">
+      <DependentUpon>Predefine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InnerForms\PredefinitionManagement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InnerForms\PredefinitionManagement.Designer.cs">
+      <DependentUpon>PredefinitionManagement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InnerForms\SetAngle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InnerForms\SetAngle.Designer.cs">
+      <DependentUpon>SetAngle.cs</DependentUpon>
+    </Compile>
     <Compile Include="Manager.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,6 +134,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="InnerForms\Base.resx">
       <DependentUpon>Base.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InnerForms\CollectionManagement.resx">
+      <DependentUpon>CollectionManagement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InnerForms\Predefine.resx">
+      <DependentUpon>Predefine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InnerForms\PredefinitionManagement.resx">
+      <DependentUpon>PredefinitionManagement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InnerForms\SetAngle.resx">
+      <DependentUpon>SetAngle.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Manager.resx">
       <DependentUpon>Manager.cs</DependentUpon>

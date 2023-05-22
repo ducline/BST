@@ -38,11 +38,30 @@ namespace BST
         private void OpenInnerForm(object sender, EventArgs e)
         {
             panel2.Controls.Clear();
-            Button button = (Button)sender;
-            string formName = button.Name;
+            foreach (Control control in panel4.Controls)
+            {
+                if (control is Button clearbuttons)
+                {
+                    clearbuttons.BackColor = Color.FromArgb(40, 60, 70);
+                    clearbuttons.ForeColor = Color.FromArgb(230, 230, 230);
+                }
+            }
 
+            Button button = (Button)sender;
+
+            button.BackColor = Color.FromArgb(20, 32, 38);
+            button.ForeColor = Color.White;
+
+            string formName = button.Name;
+            
             // Create the form type based on the button name
             Type formType = Type.GetType("BST.InnerForms." + formName);
+
+            if (formType == null)
+            {
+                // Form not found, load the Base form instead
+                formType = Type.GetType("BST.InnerForms.Base");
+            }
 
             // Create an instance of the form
             Form form = (Form)Activator.CreateInstance(formType);
