@@ -43,9 +43,9 @@ namespace BST.InnerForms
         private void PredefinitionManagement_Load(object sender, EventArgs e)
         {
             client = new FireSharp.FirebaseClient(config);
-            if (client != null)
+            if (client == null)
             {
-                label3.Text = "connected";
+                MessageBox.Show("Error in connection");
             }
         }
     }

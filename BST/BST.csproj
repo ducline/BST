@@ -103,6 +103,7 @@
     <Compile Include="InnerForms\CollectionManagement.Designer.cs">
       <DependentUpon>CollectionManagement.cs</DependentUpon>
     </Compile>
+    <Compile Include="InnerForms\Data.cs" />
     <Compile Include="InnerForms\Predefine.cs">
       <SubType>Form</SubType>
     </Compile>
