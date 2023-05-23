@@ -23,10 +23,31 @@ namespace BST.InnerForms
         };
 
         IFirebaseClient client;
-
+        string newsearch = "";
         public Predefine(string search)
         {
             InitializeComponent();
+
+            newsearch = search;
+
+
+        }
+       
+        private async void LoadData(string search)
+        {
+            if (search != null || search != "")
+            {
+                FirebaseResponse response = await client.GetTaskAsync("predefinitions/" + search);
+                Data obj = response.ResultAs<Data>();
+
+                textBox1.Text = search;
+                numericUpDown1.Value = obj.thumb;
+                numericUpDown2.Value = obj.index;
+                numericUpDown3.Value = obj.middle;
+                numericUpDown4.Value = obj.ring;
+                numericUpDown5.Value = obj.little;
+
+            }
         }
 
         private async void button2_Click(object sender, EventArgs e) // SAVE PREDEFINITION
@@ -52,6 +73,53 @@ namespace BST.InnerForms
             if (client == null)
             {
                 MessageBox.Show("Error in connection");
+            }
+            LoadData(newsearch);
+        }
+        private void OpenPredefinitionManagement()
+        {
+
+
+            Manager managerForm = this.Parent.Parent as Manager;
+
+            if (managerForm != null)
+            {
+                // Call the OpenSearchableForm method of the Manager 
+                managerForm.OpenSearchableForm("", "PredefinitionManagement");
+
+                // Close the PredefinitionManagement form
+                this.Close();
+
+                // Open the Predefine form
+                //Predefine predefineForm = new Predefine();
+                //predefineForm.Show();
+            }
+            
+        }
+
+        private void button1_MouseDown(object sender, MouseEventArgs e)
+        {
+            OpenPredefinitionManagement();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (textBox1.Text == string.Empty) {
+                // Disabled Background Color
+                button2.BackColor = Color.FromArgb(200, 200, 200);
+
+                // Disabled Font Color
+                button2.ForeColor = Color.FromArgb(150, 150, 150);
+
+                // Disable Interactions
+                button2.Enabled = false;
+            } else
+            {
+                button2.BackColor = Color.FromArgb(40, 60, 70);
+                button2.ForeColor = Color.FromArgb(230, 230, 230);
+
+                // Disable Interactions
+                button2.Enabled = true;
             }
         }
     }

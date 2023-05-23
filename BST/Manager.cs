@@ -51,7 +51,7 @@ namespace BST
             {
                 if (control is Button button)
                 {
-                    if (button.Text == formName)
+                    if (button.Name == formName)
                     {
                         button.BackColor = Color.FromArgb(20, 32, 38);
                         button.ForeColor = Color.White;

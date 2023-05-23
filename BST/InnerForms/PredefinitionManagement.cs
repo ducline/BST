@@ -36,10 +36,11 @@ namespace BST.InnerForms
             {
                 Label predefname = button.Tag as Label;
 
-                Manager managerForm = this.Owner as Manager;
+                Manager managerForm = this.Parent.Parent as Manager;
+
                 if (managerForm != null)
                 {
-                    // Call the OpenSearchableForm method of the Manager form
+                    // Call the OpenSearchableForm method of the Manager 
                     managerForm.OpenSearchableForm(predefname.Text, "Predefine");
 
                     // Close the PredefinitionManagement form
@@ -97,7 +98,7 @@ namespace BST.InnerForms
                         predefgoto.Tag = predefname;
 
 
-                        yLocation += 50;
+                        yLocation += 30;
                     }
                 }
                 else
