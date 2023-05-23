@@ -12,7 +12,7 @@ namespace BST.InnerForms
 {
     public partial class Base : Form
     {
-        public Base()
+        public Base(string search)
         {
             InitializeComponent();
         }

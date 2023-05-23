@@ -24,7 +24,7 @@ namespace BST.InnerForms
 
         IFirebaseClient client;
 
-        public Predefine()
+        public Predefine(string search)
         {
             InitializeComponent();
         }

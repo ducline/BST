@@ -12,7 +12,7 @@ namespace BST.InnerForms
 {
     public partial class CollectionManagement : Form
     {
-        public CollectionManagement()
+        public CollectionManagement(string search)
         {
             InitializeComponent();
         }

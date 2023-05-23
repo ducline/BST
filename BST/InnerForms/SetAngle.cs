@@ -12,7 +12,7 @@ namespace BST.InnerForms
 {
     public partial class SetAngle : Form
     {
-        public SetAngle()
+        public SetAngle(string search)
         {
             InitializeComponent();
         }

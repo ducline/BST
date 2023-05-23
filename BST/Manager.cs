@@ -1,4 +1,5 @@
 ﻿using BriareusSupportTool;
+using BST.InnerForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,6 +36,42 @@ namespace BST
             }
 
         }
+
+        public void OpenSearchableForm(string search, string formName)
+        {
+            foreach (Control control in panel4.Controls)
+            {
+                if (control is Button clearbuttons)
+                {
+                    clearbuttons.BackColor = Color.FromArgb(40, 60, 70);
+                    clearbuttons.ForeColor = Color.FromArgb(230, 230, 230);
+                }
+            }
+            foreach (Control control in panel4.Controls)
+            {
+                if (control is Button button)
+                {
+                    if (button.Text == formName)
+                    {
+                        button.BackColor = Color.FromArgb(20, 32, 38);
+                        button.ForeColor = Color.White;
+                    }
+                }
+            }
+
+            Type formType = Type.GetType("BST.InnerForms." + formName);
+
+            Form form = (Form)Activator.CreateInstance(formType, search);
+
+
+            // Set the form's parent to panel2
+            form.TopLevel = false;
+            form.FormBorderStyle = FormBorderStyle.None;
+            form.Dock = DockStyle.Fill;
+            panel2.Controls.Add(form);
+            form.Show();
+        }
+
         private void OpenInnerForm(object sender, EventArgs e)
         {
             panel2.Controls.Clear();
@@ -64,7 +101,10 @@ namespace BST
             }
 
             // Create an instance of the form
-            Form form = (Form)Activator.CreateInstance(formType);
+            // Create an instance of the form and pass a value to its constructor
+
+            Form form = (Form)Activator.CreateInstance(formType, "");
+
 
             // Set the form's parent to panel2
             form.TopLevel = false;
