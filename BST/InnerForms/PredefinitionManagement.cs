@@ -53,14 +53,8 @@ namespace BST.InnerForms
             }
         }
 
-
-
-
-
-
         private async void SearchPredefinition(string search)
         {
-
             panel1.Controls.Clear();
 
             FirebaseResponse response = await client.GetTaskAsync("predefinitions");
@@ -84,6 +78,7 @@ namespace BST.InnerForms
 
                         Label predefname = new Label();
                         panel1.Controls.Add(predefname);
+                        panel1.Controls.SetChildIndex(predefname, 2);
                         predefname.Text = item.Key;
                         predefname.ForeColor = Color.White;
                         predefname.Location = new Point(30, yLocation);
@@ -91,11 +86,33 @@ namespace BST.InnerForms
                         Button predefgoto = new Button();
                         panel1.Controls.Add(predefgoto);
                         predefgoto.Text = "Edit";
+                        panel1.Controls.SetChildIndex(predefgoto, 1);
                         predefgoto.ForeColor = Color.White;
                         predefgoto.Location = new Point(200, yLocation);
 
                         // Associate predefname label with predefgoto button using Tag property
                         predefgoto.Tag = predefname;
+
+                        // Create a hidden panel underneath the row
+                        Panel highlightPanel = new Panel();
+                        panel1.Controls.Add(highlightPanel);
+                        panel1.Controls.SetChildIndex(highlightPanel, 0);
+                        highlightPanel.BackColor = Color.Yellow; // Set desired highlight color
+                        highlightPanel.Location = new Point(0, yLocation);
+                        highlightPanel.Size = new Size(panel1.Width, predefname.Height);
+                        highlightPanel.Visible = false;
+
+                        // Event handler for Ctrl + click on the row
+                        predefname.MouseDown += (sender, e) =>
+                        {
+                            if (e.Button == MouseButtons.Left && ModifierKeys.HasFlag(Keys.Shift))
+                            {
+                                // Toggle the visibility of the highlight panel
+                                highlightPanel.Visible = !highlightPanel.Visible;
+                            }
+                        };
+
+                        
 
 
                         yLocation += 30;
@@ -118,9 +135,9 @@ namespace BST.InnerForms
                         button.Click += OpenPredefine;
                     }
                 }
-
             }
         }
+
 
 
         private void textBox1_TextChanged(object sender, EventArgs e)

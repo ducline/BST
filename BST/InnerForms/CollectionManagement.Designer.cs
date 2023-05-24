@@ -59,6 +59,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(152, 20);
             this.textBox2.TabIndex = 36;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // label2
             // 
@@ -95,7 +96,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(140, 40);
             this.button1.TabIndex = 38;
-            this.button1.Text = "ADD PREDEFINITION";
+            this.button1.Text = "MANAGE COLLECTION";
             this.button1.UseVisualStyleBackColor = false;
             // 
             // button2
@@ -109,7 +110,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(140, 40);
             this.button2.TabIndex = 39;
-            this.button2.Text = "CLEAR COLLECTION";
+            this.button2.Text = "CREATE NEW COLLECTION";
             this.button2.UseVisualStyleBackColor = false;
             // 
             // CollectionManagement

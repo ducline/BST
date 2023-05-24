@@ -33,13 +33,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.Location = new System.Drawing.Point(21, 69);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(648, 299);
+            this.panel1.Size = new System.Drawing.Size(650, 300);
             this.panel1.TabIndex = 0;
             // 
             // textBox1
@@ -81,12 +82,27 @@
             this.textBox2.Size = new System.Drawing.Size(152, 20);
             this.textBox2.TabIndex = 32;
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
+            this.button1.Location = new System.Drawing.Point(520, 13);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(140, 40);
+            this.button1.TabIndex = 39;
+            this.button1.Text = "CREATE NEW COLLECTION";
+            this.button1.UseVisualStyleBackColor = false;
+            // 
             // PredefinitionManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(41)))), ((int)(((byte)(48)))));
             this.ClientSize = new System.Drawing.Size(700, 400);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBox1);
@@ -108,5 +124,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Button button1;
     }
 }
