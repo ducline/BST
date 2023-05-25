@@ -97,6 +97,12 @@
     <Compile Include="InnerForms\Base.Designer.cs">
       <DependentUpon>Base.cs</DependentUpon>
     </Compile>
+    <Compile Include="InnerForms\QuickForms\Collection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InnerForms\QuickForms\Collection.Designer.cs">
+      <DependentUpon>Collection.cs</DependentUpon>
+    </Compile>
     <Compile Include="InnerForms\CollectionManagement.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,6 +122,7 @@
     <Compile Include="InnerForms\PredefinitionManagement.Designer.cs">
       <DependentUpon>PredefinitionManagement.cs</DependentUpon>
     </Compile>
+    <Compile Include="InnerForms\QuickForms\CollectionData.cs" />
     <Compile Include="InnerForms\SetAngle.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,6 +142,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="InnerForms\Base.resx">
       <DependentUpon>Base.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InnerForms\QuickForms\Collection.resx">
+      <DependentUpon>Collection.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InnerForms\CollectionManagement.resx">
       <DependentUpon>CollectionManagement.cs</DependentUpon>

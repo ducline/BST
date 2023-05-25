@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using FireSharp.Config;
 using FireSharp.Response;
 using FireSharp.Interfaces;
+using System.Collections.ObjectModel;
 
 namespace BST.InnerForms
 {
@@ -53,6 +54,51 @@ namespace BST.InnerForms
             }
         }
 
+        private void UpdateCollectionValidation()
+        {
+            foreach (Control control in panel1.Controls)
+            {
+                if (control is Label) 
+                {
+                    Label predefname = control as Label;
+                    if (predefname.BackColor == Color.Yellow)
+                    {
+                        button1.BackColor = Color.FromArgb(40, 60, 70);
+                        button1.ForeColor = Color.FromArgb(230, 230, 230);
+
+                        // Enabled Interactions
+                        button1.Enabled = true;
+
+                        break;
+                    }
+
+                    // Disabled Background Color
+                    button1.BackColor = Color.FromArgb(200, 200, 200);
+
+                    // Disabled Font Color
+                    button1.ForeColor = Color.FromArgb(150, 150, 150);
+
+                    // Disable Interactions
+                    button1.Enabled = false;
+
+                }
+                
+            }
+        }
+
+        private void ClearHighlights(Label predefname)
+        {
+            foreach (Control control in panel1.Controls)
+            {
+                if (control == predefname) { continue; }
+                if (control is Label label)
+                {
+                    label.BackColor = Color.FromArgb(26, 41, 48);
+                    label.ForeColor = Color.White;
+                }
+            }
+
+        }
         private async void SearchPredefinition(string search)
         {
             panel1.Controls.Clear();
@@ -81,38 +127,59 @@ namespace BST.InnerForms
                         panel1.Controls.SetChildIndex(predefname, 2);
                         predefname.Text = item.Key;
                         predefname.ForeColor = Color.White;
+                        predefname.BackColor = Color.FromArgb(26, 41, 48);
+                        predefname.Size = new Size(panel1.Width, 20);
                         predefname.Location = new Point(30, yLocation);
 
                         Button predefgoto = new Button();
                         panel1.Controls.Add(predefgoto);
+                        panel1.Controls.SetChildIndex(predefgoto, 0);
                         predefgoto.Text = "Edit";
-                        panel1.Controls.SetChildIndex(predefgoto, 1);
                         predefgoto.ForeColor = Color.White;
                         predefgoto.Location = new Point(200, yLocation);
 
                         // Associate predefname label with predefgoto button using Tag property
                         predefgoto.Tag = predefname;
 
-                        // Create a hidden panel underneath the row
-                        Panel highlightPanel = new Panel();
-                        panel1.Controls.Add(highlightPanel);
-                        panel1.Controls.SetChildIndex(highlightPanel, 0);
-                        highlightPanel.BackColor = Color.Yellow; // Set desired highlight color
-                        highlightPanel.Location = new Point(0, yLocation);
-                        highlightPanel.Size = new Size(panel1.Width, predefname.Height);
-                        highlightPanel.Visible = false;
-
                         // Event handler for Ctrl + click on the row
                         predefname.MouseDown += (sender, e) =>
                         {
+                            UpdateCollectionValidation();
                             if (e.Button == MouseButtons.Left && ModifierKeys.HasFlag(Keys.Shift))
                             {
                                 // Toggle the visibility of the highlight panel
-                                highlightPanel.Visible = !highlightPanel.Visible;
+                                if (predefname.BackColor == Color.Yellow)
+                                {
+                                    predefname.BackColor = Color.FromArgb(26, 41, 48);
+                                    predefname.ForeColor = Color.White;
+                                } else
+                                {
+                                    predefname.BackColor = Color.Yellow;
+                                    predefname.ForeColor = Color.Black;
+                                }
+
+                            } else if (e.Button == MouseButtons.Left)
+                            {
+                                ClearHighlights(predefname);
+                                if (predefname.BackColor == Color.Yellow)
+                                {
+                                    predefname.BackColor = Color.FromArgb(26, 41, 48);
+                                    predefname.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    predefname.BackColor = Color.Yellow;
+                                    predefname.ForeColor = Color.Black;
+                                }
+                                
                             }
+                            UpdateCollectionValidation();
+
+
                         };
 
-                        
+
+
 
 
                         yLocation += 30;
@@ -136,6 +203,7 @@ namespace BST.InnerForms
                     }
                 }
             }
+            UpdateCollectionValidation();
         }
 
 
@@ -143,6 +211,7 @@ namespace BST.InnerForms
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             //PREDEFINITION SEARCH
+            UpdateCollectionValidation();
             SearchPredefinition(textBox1.Text);
         }
 
@@ -154,6 +223,42 @@ namespace BST.InnerForms
                 MessageBox.Show("Error in connection");
             }
             SearchPredefinition("");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string matchedStrings = "";
+            foreach (Control control in panel1.Controls)
+            {
+                if (control is Label)
+                {
+                    Label predefname = control as Label;
+                    if (predefname.BackColor == Color.Yellow)
+                    {
+                        matchedStrings += predefname.Text + ";";
+                    }
+
+                }
+            }
+
+            string modifiedString = matchedStrings.Substring(0, matchedStrings.Length - 1);
+
+
+            Manager managerForm = this.Parent.Parent as Manager;
+
+            if (managerForm != null)
+            {
+                // Call the OpenSearchableForm method of the Manager 
+                managerForm.OpenSearchableForm(modifiedString, "Collection");
+
+                this.Close();
+                //% Close the PredefinitionManagement form
+
+                // Open the Predefine form
+                //Predefine predefineForm = new Predefine();
+                //predefineForm.Show();
+            }
+
         }
     }
 }

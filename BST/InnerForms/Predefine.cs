@@ -118,9 +118,14 @@ namespace BST.InnerForms
                 button2.BackColor = Color.FromArgb(40, 60, 70);
                 button2.ForeColor = Color.FromArgb(230, 230, 230);
 
-                // Disable Interactions
+                // Enabled Interactions
                 button2.Enabled = true;
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenPredefinitionManagement();
         }
     }
 }

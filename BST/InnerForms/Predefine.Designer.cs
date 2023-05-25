@@ -119,7 +119,7 @@
             this.button1.TabIndex = 25;
             this.button1.Text = "LOAD EXISTING PREDEFINITION";
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.button1_MouseDown);
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
