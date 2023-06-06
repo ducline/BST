@@ -1,6 +1,4 @@
-﻿using FireSharp.Config;
-using FireSharp.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;

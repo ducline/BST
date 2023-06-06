@@ -39,16 +39,18 @@
             // 
             // panel2
             // 
+            this.panel2.AutoScroll = true;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Location = new System.Drawing.Point(63, 66);
+            this.panel2.Location = new System.Drawing.Point(296, 63);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(170, 275);
             this.panel2.TabIndex = 2;
             // 
             // panel1
             // 
+            this.panel1.AutoScroll = true;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Location = new System.Drawing.Point(296, 63);
+            this.panel1.Location = new System.Drawing.Point(63, 66);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(170, 275);
             this.panel1.TabIndex = 3;

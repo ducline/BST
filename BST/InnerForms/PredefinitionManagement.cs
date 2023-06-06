@@ -128,7 +128,7 @@ namespace BST.InnerForms
                         predefname.Text = item.Key;
                         predefname.ForeColor = Color.White;
                         predefname.BackColor = Color.FromArgb(26, 41, 48);
-                        predefname.Size = new Size(panel1.Width, 20);
+                        predefname.Size = new Size(panel1.Width - 50, 20);
                         predefname.Location = new Point(30, yLocation);
 
                         Button predefgoto = new Button();

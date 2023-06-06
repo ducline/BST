@@ -29,10 +29,9 @@ namespace BST.InnerForms
 
         private async void SearchCollections(string search)
         {
-            panel2.Controls.Clear();
             panel1.Controls.Clear();
 
-            FirebaseResponse response = await client.GetTaskAsync("collections");
+            FirebaseResponse response = await client.GetTaskAsync("predefinitions");
             if (response.Body != "null")
             {
                 Dictionary<string, Data> data = response.ResultAs<Dictionary<string, Data>>();
@@ -52,19 +51,23 @@ namespace BST.InnerForms
                         Data obj = item.Value;
 
                         Label predefname = new Label();
-                        panel2.Controls.Add(predefname);
+                        panel1.Controls.Add(predefname);
+                        panel1.Controls.SetChildIndex(predefname, 2);
                         predefname.Text = item.Key;
                         predefname.ForeColor = Color.White;
+                        predefname.BackColor = Color.FromArgb(26, 41, 48);
+                        predefname.Size = new Size(panel1.Width, 20);
                         predefname.Location = new Point(30, yLocation);
 
-                        //Button predefgoto = new Button();
-                        //panel2.Controls.Add(predefgoto);
-                        //predefgoto.Text = "Edit";
-                        //predefgoto.ForeColor = Color.White;
-                        //predefgoto.Location = new Point(200, yLocation);
+                        Button predefgoto = new Button();
+                        panel1.Controls.Add(predefgoto);
+                        panel1.Controls.SetChildIndex(predefgoto, 0);
+                        predefgoto.Text = "Edit";
+                        predefgoto.ForeColor = Color.White;
+                        predefgoto.Location = new Point(200, yLocation);
 
-
-
+                        // Associate predefname label with predefgoto button using Tag property
+                        predefgoto.Tag = predefname;
 
                         yLocation += 30;
                     }
@@ -79,14 +82,38 @@ namespace BST.InnerForms
                     // ...
                 }
 
-                //foreach (Control control in panel1.Controls)
-                //{
-                //    if (control is Button button)
-                //    {
-                //        button.Click += OpenPredefine;
-                //    }
-                //}
+                foreach (Control control in panel1.Controls)
+                {
+                    if (control is Button button)
+                    {
+                        button.Click += OpenCollection;
+                    }
+                }
+            }
+        }
 
+        private void OpenCollection(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+
+            if (button.Text == "Edit")
+            {
+                Label predefname = button.Tag as Label;
+
+                Manager managerForm = this.Parent.Parent as Manager;
+
+                if (managerForm != null)
+                {
+                    // Call the OpenSearchableForm method of the Manager 
+                    managerForm.OpenSearchableForm(predefname.Text, "Predefine");
+
+                    // Close the PredefinitionManagement form
+                    this.Close();
+
+                    // Open the Predefine form
+                    //Predefine predefineForm = new Predefine();
+                    //predefineForm.Show();
+                }
             }
         }
 

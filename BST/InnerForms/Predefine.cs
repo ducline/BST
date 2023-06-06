@@ -63,8 +63,6 @@ namespace BST.InnerForms
 
             SetResponse resp = await client.SetTaskAsync("predefinitions/" + textBox1.Text, datalayer);
             Data result = resp.ResultAs<Data>();
-            MessageBox.Show("Data inserted");
-
         }
 
         private void Predefine_Load(object sender, EventArgs e)
@@ -75,6 +73,7 @@ namespace BST.InnerForms
                 MessageBox.Show("Error in connection");
             }
             LoadData(newsearch);
+            CheckForValidation();
         }
         private void OpenPredefinitionManagement()
         {
@@ -102,9 +101,10 @@ namespace BST.InnerForms
             OpenPredefinitionManagement();
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void CheckForValidation()
         {
-            if (textBox1.Text == string.Empty) {
+            if (string.IsNullOrWhiteSpace(textBox1.Text))
+            {
                 // Disabled Background Color
                 button2.BackColor = Color.FromArgb(200, 200, 200);
 
@@ -113,7 +113,8 @@ namespace BST.InnerForms
 
                 // Disable Interactions
                 button2.Enabled = false;
-            } else
+            }
+            else
             {
                 button2.BackColor = Color.FromArgb(40, 60, 70);
                 button2.ForeColor = Color.FromArgb(230, 230, 230);
@@ -122,6 +123,39 @@ namespace BST.InnerForms
                 button2.Enabled = true;
             }
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            string text = textBox1.Text;
+            string validText = RemoveInvalidCharacters(text);
+
+            if (text != validText)
+            {
+                // Update the text in the TextBox without the invalid characters
+                textBox1.Text = validText;
+
+                // Set the cursor position at the end of the TextBox
+                textBox1.SelectionStart = validText.Length;
+            }
+
+            CheckForValidation();
+        }
+
+        private string RemoveInvalidCharacters(string text)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (char c in text)
+            {
+                if (Char.IsLetterOrDigit(c) || c == '_' || c == '-')
+                {
+                    sb.Append(c);
+                }
+            }
+
+            return sb.ToString();
+        }
+
 
         private void button1_Click(object sender, EventArgs e)
         {
