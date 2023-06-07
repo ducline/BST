@@ -42,6 +42,7 @@ namespace BST.InnerForms
 
         private void Collection_Load(object sender, EventArgs e)
         {
+            CheckForValidation();
             client = new FireSharp.FirebaseClient(config);
             if (client == null)
             {
@@ -144,6 +145,24 @@ namespace BST.InnerForms
             nameLabel[index2].Text = predefnames[index2];
         }
 
+        private void OpenCollectionManagement()
+        {
+
+
+            Manager managerForm = this.Parent.Parent as Manager;
+
+            if (managerForm != null)
+            {
+                // Call the OpenSearchableForm method of the Manager 
+                managerForm.OpenSearchableForm(textBox1.Text, "CollectionManagement");
+
+                // Close the PredefinitionManagement form
+                this.Close();
+
+            }
+
+        }
+
         private async void button1_Click(object sender, EventArgs e)
         {
             string collectionName = textBox1.Text;
@@ -164,9 +183,63 @@ namespace BST.InnerForms
 
             SetResponse resp = await client.SetTaskAsync("collections/" + collectionName, datalayer);
 
-            MessageBox.Show("Data inserted");
+            OpenCollectionManagement();
+
         }
 
+        private void CheckForValidation()
+        {
+            if (string.IsNullOrWhiteSpace(textBox1.Text))
+            {
+                // Disabled Background Color
+                button1.BackColor = Color.FromArgb(200, 200, 200);
 
+                // Disabled Font Color
+                button1.ForeColor = Color.FromArgb(150, 150, 150);
+
+                // Disable Interactions
+                button1.Enabled = false;
+            }
+            else
+            {
+                button1.BackColor = Color.FromArgb(40, 60, 70);
+                button1.ForeColor = Color.FromArgb(230, 230, 230);
+
+                // Enabled Interactions
+                button1.Enabled = true;
+            }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            string text = textBox1.Text;
+            string validText = RemoveInvalidCharacters(text);
+
+            if (text != validText)
+            {
+                // Update the text in the TextBox without the invalid characters
+                textBox1.Text = validText;
+
+                // Set the cursor position at the end of the TextBox
+                textBox1.SelectionStart = validText.Length;
+            }
+
+            CheckForValidation();
+        }
+
+        private string RemoveInvalidCharacters(string text)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (char c in text)
+            {
+                if (Char.IsLetterOrDigit(c) || c == '_' || c == '-')
+                {
+                    sb.Append(c);
+                }
+            }
+
+            return sb.ToString();
+        }
     }
 }

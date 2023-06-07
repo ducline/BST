@@ -89,9 +89,6 @@ namespace BST.InnerForms
                 // Close the PredefinitionManagement form
                 this.Close();
 
-                // Open the Predefine form
-                //Predefine predefineForm = new Predefine();
-                //predefineForm.Show();
             }
             
         }

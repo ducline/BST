@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using FireSharp.Config;
 using FireSharp.Response;
 using FireSharp.Interfaces;
+using System.Collections;
+using System.Collections.ObjectModel;
 
 namespace BST.InnerForms
 {
@@ -22,16 +24,105 @@ namespace BST.InnerForms
         };
 
         IFirebaseClient client;
+
+        string collectiontosearch = "";
         public CollectionManagement(string search)
         {
             InitializeComponent();
+
+            collectiontosearch = search;
+        }
+
+        private async void LoadPredefinitions(string collectionName)
+        {
+            panel2.Controls.Clear();
+
+            FirebaseResponse response = await client.GetTaskAsync($"collections/{collectionName}/Collection");
+            if (response.Body != "null")
+            {
+                List<Dictionary<string, object>> data = response.ResultAs<List<Dictionary<string, object>>>();
+
+                // Access the values inside the "Collection" location and process them as needed
+                int yLocation = 15;
+                foreach (var entry in data)
+                {
+                    string key = entry["Key"].ToString();
+                    object value = entry["Value"];
+
+                    // Process the key-value pair as per your requirements
+                    // ...
+
+                    Label predefname = new Label();
+                    panel2.Controls.Add(predefname);
+                    panel2.Controls.SetChildIndex(predefname, 2);
+                    predefname.Text = key;
+                    predefname.ForeColor = Color.White;
+                    predefname.BackColor = Color.FromArgb(26, 41, 48);
+                    predefname.Size = new Size(panel2.Width - 30, 20);
+                    predefname.Location = new Point(10, yLocation);
+
+                    yLocation += 30;
+                }
+            }
+        }
+
+
+        private void UpdateCollectionValidation()
+        {
+            foreach (Control control in panel1.Controls)
+            {
+                if (control is Label)
+                {
+                    Label predefname = control as Label;
+                    if (predefname.BackColor == Color.Yellow)
+                    {
+                        button1.BackColor = Color.FromArgb(40, 60, 70);
+                        button1.ForeColor = Color.FromArgb(230, 230, 230);
+
+                        // Enabled Interactions
+                        button1.Enabled = true;
+
+                        LoadPredefinitions(predefname.Text);
+
+                        break;
+                    }
+
+                    // Disabled Background Color
+                    button1.BackColor = Color.FromArgb(200, 200, 200);
+
+                    // Disabled Font Color
+                    button1.ForeColor = Color.FromArgb(150, 150, 150);
+
+                    // Disable Interactions
+                    button1.Enabled = false;
+
+                    panel2.Controls.Clear();
+                }
+
+            }
+        }
+
+        private void ClearHighlights(Label predefname)
+        {
+            foreach (Control control in panel1.Controls)
+            {
+                if (control == predefname) { continue; }
+                if (control is Label label)
+                {
+                    label.BackColor = Color.FromArgb(26, 41, 48);
+                    label.ForeColor = Color.White;
+                }
+            }
+
+            panel2.Controls.Clear();
+
         }
 
         private async void SearchCollections(string search)
         {
             panel1.Controls.Clear();
 
-            FirebaseResponse response = await client.GetTaskAsync("predefinitions");
+            FirebaseResponse response = await client.GetTaskAsync("collections");
             if (response.Body != "null")
             {
                 Dictionary<string, Data> data = response.ResultAs<Dictionary<string, Data>>();
@@ -56,18 +147,32 @@ namespace BST.InnerForms
                         predefname.Text = item.Key;
                         predefname.ForeColor = Color.White;
                         predefname.BackColor = Color.FromArgb(26, 41, 48);
-                        predefname.Size = new Size(panel1.Width, 20);
-                        predefname.Location = new Point(30, yLocation);
+                        predefname.Size = new Size(panel1.Width - 30, 20);
+                        predefname.Location = new Point(10, yLocation);
 
-                        Button predefgoto = new Button();
-                        panel1.Controls.Add(predefgoto);
-                        panel1.Controls.SetChildIndex(predefgoto, 0);
-                        predefgoto.Text = "Edit";
-                        predefgoto.ForeColor = Color.White;
-                        predefgoto.Location = new Point(200, yLocation);
+                        predefname.MouseDown += (sender, e) =>
+                        {
+                            UpdateCollectionValidation();
+                            if (e.Button == MouseButtons.Left)
+                            {
+                                ClearHighlights(predefname);
+                                if (predefname.BackColor == Color.Yellow)
+                                {
+                                    predefname.BackColor = Color.FromArgb(26, 41, 48);
+                                    predefname.ForeColor = Color.White;
+                                }
+                                else
+                                {
+                                    predefname.BackColor = Color.Yellow;
+                                    predefname.ForeColor = Color.Black;
+                                }
 
-                        // Associate predefname label with predefgoto button using Tag property
-                        predefgoto.Tag = predefname;
+                            }
+                            UpdateCollectionValidation();
+
+
+                        };
+
 
                         yLocation += 30;
                     }
@@ -82,14 +187,9 @@ namespace BST.InnerForms
                     // ...
                 }
 
-                foreach (Control control in panel1.Controls)
-                {
-                    if (control is Button button)
-                    {
-                        button.Click += OpenCollection;
-                    }
-                }
             }
+
+            UpdateCollectionValidation();
         }
 
         private void OpenCollection(object sender, EventArgs e)
@@ -120,6 +220,19 @@ namespace BST.InnerForms
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
             SearchCollections(textBox2.Text);
+        }
+
+        private void CollectionManagement_Load(object sender, EventArgs e)
+        {
+            client = new FireSharp.FirebaseClient(config);
+            if (client == null)
+            {
+                MessageBox.Show("Error in connection");
+            }
+
+            SearchCollections(collectiontosearch);
+            textBox2.Text = collectiontosearch;
+
         }
     }
 }
