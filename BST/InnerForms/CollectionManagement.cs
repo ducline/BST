@@ -73,6 +73,7 @@ namespace BST.InnerForms
             {
                 if (control is Label)
                 {
+                    panel2.Controls.Clear();
                     Label predefname = control as Label;
                     if (predefname.BackColor == Color.Yellow)
                     {
@@ -81,7 +82,6 @@ namespace BST.InnerForms
 
                         // Enabled Interactions
                         button1.Enabled = true;
-
                         LoadPredefinitions(predefname.Text);
 
                         break;
@@ -95,8 +95,6 @@ namespace BST.InnerForms
 
                     // Disable Interactions
                     button1.Enabled = false;
-
-                    panel2.Controls.Clear();
                 }
 
             }
@@ -152,7 +150,7 @@ namespace BST.InnerForms
 
                         predefname.MouseDown += (sender, e) =>
                         {
-                            UpdateCollectionValidation();
+                            //UpdateCollectionValidation();
                             if (e.Button == MouseButtons.Left)
                             {
                                 ClearHighlights(predefname);
@@ -224,6 +222,7 @@ namespace BST.InnerForms
 
         private void CollectionManagement_Load(object sender, EventArgs e)
         {
+
             client = new FireSharp.FirebaseClient(config);
             if (client == null)
             {
