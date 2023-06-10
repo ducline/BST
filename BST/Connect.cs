@@ -11,6 +11,8 @@ using System.IO.Ports;
 using InTheHand.Net.Sockets;
 using InTheHand.Net;
 using BST;
+using InTheHand.Net.Bluetooth;
+using System.Net.Sockets;
 
 namespace BriareusSupportTool
 {
@@ -79,8 +81,20 @@ namespace BriareusSupportTool
                     {
                         // Use Invoke to update the label on the UI thread
                         comPort = port;
-                        establishedConnection(comPort, deviceName);
 
+                        // Connect to the Bluetooth device
+                        BluetoothClient client = new BluetoothClient();
+                        BluetoothEndPoint endPoint = new BluetoothEndPoint(device.DeviceAddress, BluetoothService.SerialPort);
+                        await client.ConnectAsync(endPoint);
+
+
+                        // Close the connection
+                        //client.Close();
+
+                        
+                        MessageBox.Show(GetConnectedComPort(comPort));
+
+                        establishedConnection(GetConnectedComPort(comPort), deviceName);
 
                         break;
                     }
@@ -203,6 +217,19 @@ namespace BriareusSupportTool
             }
             
 
+        }
+
+        private string GetConnectedComPort(string previousComPort)
+        {
+            string[] portNamesAfterConnection = SerialPort.GetPortNames();
+            foreach (string portName in portNamesAfterConnection)
+            {
+                if (!previousComPort.Contains(portName))
+                {
+                    return portName;
+                }
+            }
+            return null;
         }
     }
 }

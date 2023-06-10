@@ -1,38 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO.Ports;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BST.InnerForms
 {
     public partial class SetAngle : Form
     {
-        private SerialPort arduinoSerialPort;
-
+        private string retrievedVariable;
+        int count = 0;
         public SetAngle(string search)
         {
             InitializeComponent();
-
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             int angle = (int)numericUpDown1.Value;
-            arduinoSerialPort.WriteLine(angle.ToString()); // Send the angle value to Arduino
+            string message = Convert.ToString(angle);
 
-            
-        }
-
-        private void SetAngle_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            base.OnFormClosing(e);
-            arduinoSerialPort.Close(); // Close the serial port connection when the form is closing
         }
 
         private void SetAngle_Load(object sender, EventArgs e)
@@ -41,10 +27,35 @@ namespace BST.InnerForms
 
             if (managerForm != null)
             {
-                string retrievedVariable = managerForm.CommunicationPort;
+                retrievedVariable = managerForm.CommunicationPort;
+                serialPort1.PortName = retrievedVariable;
+                serialPort1.BaudRate = 9600;
+                try
+                {
+                    if (!serialPort1.IsOpen)
+                        serialPort1.Open();
+                } catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
 
-                arduinoSerialPort = new SerialPort(retrievedVariable, 9600); // Replace "COMX" with your Arduino's COM port
-                arduinoSerialPort.Open(); // Open the serial port connection
+                serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(DataReceived);
+
+            }
+        }
+
+        private void DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            //throw new NotImplementedException();
+
+            try
+            {
+                SerialPort bluetoothdevice = (SerialPort)sender;
+                Console.Write("Data" + count);
+                count++;
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
     }
