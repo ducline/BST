@@ -203,7 +203,7 @@ namespace BST.InnerForms
                 if (managerForm != null)
                 {
                     // Call the OpenSearchableForm method of the Manager 
-                    managerForm.OpenSearchableForm(predefname.Text, "Predefine");
+                    managerForm.OpenSearchableForm(predefname.Text, "Predefine", false);
 
                     // Close the PredefinitionManagement form
                     this.Close();
@@ -222,7 +222,7 @@ namespace BST.InnerForms
 
         private void CollectionManagement_Load(object sender, EventArgs e)
         {
-
+            textBox2.Select();
             client = new FireSharp.FirebaseClient(config);
             if (client == null)
             {
@@ -233,5 +233,41 @@ namespace BST.InnerForms
             textBox2.Text = collectiontosearch;
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string matchedStrings = "";
+            foreach (Control control in panel2.Controls)
+            {
+                if (control is Label)
+                {
+                    Label predefname = control as Label;
+
+                    matchedStrings += predefname.Text + ";";
+                    
+
+                }
+            }
+
+            string modifiedString = matchedStrings.Substring(0, matchedStrings.Length - 1);
+
+
+            Manager managerForm = this.Parent.Parent as Manager;
+
+            if (managerForm != null)
+            {
+                // Call the OpenSearchableForm method of the Manager 
+                managerForm.OpenSearchableForm(modifiedString, "Collection", false);
+
+                this.Close();
+                //% Close the PredefinitionManagement form
+
+                // Open the Predefine form
+                //Predefine predefineForm = new Predefine();
+                //predefineForm.Show();
+            }
+
+        }
     }
+    
 }

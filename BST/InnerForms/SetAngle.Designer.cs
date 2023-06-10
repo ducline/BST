@@ -70,6 +70,7 @@
             this.button1.TabIndex = 17;
             this.button1.Text = "SET ANGLE";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // SetAngle
             // 
@@ -83,6 +84,8 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "SetAngle";
             this.Text = "SetAngle";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SetAngle_FormClosing);
+            this.Load += new System.EventHandler(this.SetAngle_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

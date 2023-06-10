@@ -21,9 +21,12 @@ namespace BST
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
+
+        public string CommunicationPort = "";
         public Manager(string comPort, string deviceName)
         {
             InitializeComponent();
+            CommunicationPort = comPort;
             this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             label1.Text = deviceName;
 
@@ -37,7 +40,7 @@ namespace BST
 
         }
 
-        public void OpenSearchableForm(string search, string formName)
+        public void OpenSearchableForm(string search, string formName, bool activation)
         {
             foreach (Control control in panel4.Controls)
             {

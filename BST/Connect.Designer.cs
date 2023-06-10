@@ -160,6 +160,7 @@
             this.Name = "Connect";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Connect";
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Connect_KeyPress);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Connect_MouseDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();

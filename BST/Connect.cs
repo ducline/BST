@@ -29,12 +29,11 @@ namespace BriareusSupportTool
             this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         }
 
-
-        private async void button1_Click(object sender, EventArgs e)
+        private async void CreateConnection()
         {
             string deviceName = textBox1.Text;
 
-            establishedConnection("testCOM", deviceName);
+            //establishedConnection("testCOM", deviceName); TEST
 
             if (button1.Text == "CONNECTING") return;
             // Use Invoke to run the code on the UI thread
@@ -57,7 +56,7 @@ namespace BriareusSupportTool
 
             // Wait for the Bluetooth device discovery to complete
             var devices = await devicesTask;
-                
+
             // Search for the specified device and get its Bluetooth address
             string deviceAddress = "";
             foreach (BluetoothDeviceInfo device in devices)
@@ -154,6 +153,12 @@ namespace BriareusSupportTool
             });
         }
 
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            CreateConnection();
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -187,6 +192,17 @@ namespace BriareusSupportTool
 
             Image newImage = Image.FromFile(imagePath);
             pictureBox3.Image = newImage;
+        }
+
+        private void Connect_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                CreateConnection();
+            }
+            
+
         }
     }
 }

@@ -52,6 +52,7 @@ namespace BST.InnerForms
 
         private async void button2_Click(object sender, EventArgs e) // SAVE PREDEFINITION
         {
+
             var datalayer = new Data
             {
                 thumb = numericUpDown1.Value,
@@ -65,12 +66,18 @@ namespace BST.InnerForms
             Data result = resp.ResultAs<Data>();
         }
 
+
         private void Predefine_Load(object sender, EventArgs e)
         {
+            textBox1.Select();
             client = new FireSharp.FirebaseClient(config);
             if (client == null)
             {
                 MessageBox.Show("Error in connection");
+            }
+            if (!string.IsNullOrEmpty(newsearch))
+            {
+                textBox1.Enabled = false;
             }
             LoadData(newsearch);
             CheckForValidation();
@@ -84,7 +91,7 @@ namespace BST.InnerForms
             if (managerForm != null)
             {
                 // Call the OpenSearchableForm method of the Manager 
-                managerForm.OpenSearchableForm("", "PredefinitionManagement");
+                managerForm.OpenSearchableForm("", "PredefinitionManagement", false);
 
                 // Close the PredefinitionManagement form
                 this.Close();
@@ -102,27 +109,60 @@ namespace BST.InnerForms
         {
             if (string.IsNullOrWhiteSpace(textBox1.Text))
             {
-                // Disabled Background Color
-                button2.BackColor = Color.FromArgb(200, 200, 200);
-
-                // Disabled Font Color
-                button2.ForeColor = Color.FromArgb(150, 150, 150);
-
-                // Disable Interactions
-                button2.Enabled = false;
+                DisableSaveButton();
             }
             else
             {
-                button2.BackColor = Color.FromArgb(40, 60, 70);
-                button2.ForeColor = Color.FromArgb(230, 230, 230);
-
-                // Enabled Interactions
-                button2.Enabled = true;
+                EnableSaveButton();
             }
+
+            CheckIfNameAlreadyExists();
+        }
+
+        private void DisableSaveButton()
+        {
+            // Disabled Background Color
+            button2.BackColor = Color.FromArgb(200, 200, 200);
+
+            // Disabled Font Color
+            button2.ForeColor = Color.FromArgb(150, 150, 150);
+
+            // Disable Interactions
+            button2.Enabled = false;
+        }
+
+        private void EnableSaveButton()
+        {
+            button2.BackColor = Color.FromArgb(40, 60, 70);
+            button2.ForeColor = Color.FromArgb(230, 230, 230);
+
+            // Enabled Interactions
+            button2.Enabled = true;
+        }
+
+
+        private async void CheckIfNameAlreadyExists()
+        {
+            if (string.IsNullOrEmpty(newsearch))
+            {
+                if (string.IsNullOrWhiteSpace(textBox1.Text)) { label2.Text = ""; return; }
+
+                // Check if the predefinition already exists in the database
+                FirebaseResponse checkResponse = await client.GetTaskAsync("predefinitions/" + textBox1.Text);
+                if (checkResponse.Body != "null")
+                {
+                    label2.Text = "Name already exists!";
+                    DisableSaveButton();
+                } else { label2.Text = ""; EnableSaveButton();  }
+
+
+            }
+
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
+
             string text = textBox1.Text;
             string validText = RemoveInvalidCharacters(text);
 
@@ -157,6 +197,11 @@ namespace BST.InnerForms
         private void button1_Click(object sender, EventArgs e)
         {
             OpenPredefinitionManagement();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

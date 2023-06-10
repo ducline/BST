@@ -42,7 +42,7 @@ namespace BST.InnerForms
                 if (managerForm != null)
                 {
                     // Call the OpenSearchableForm method of the Manager 
-                    managerForm.OpenSearchableForm(predefname.Text, "Predefine");
+                    managerForm.OpenSearchableForm(predefname.Text, "Predefine", false);
 
                     // Close the PredefinitionManagement form
                     this.Close();
@@ -99,9 +99,23 @@ namespace BST.InnerForms
             }
 
         }
+
+        private void ClearControls()
+        {
+            for (int i = panel1.Controls.Count - 1; i >= 0; i--)
+            {
+                Control control = panel1.Controls[i];
+                panel1.Controls.Remove(control);
+                control.Dispose();
+            }
+        }
+
+
         private async void SearchPredefinition(string search)
         {
-            panel1.Controls.Clear();
+            if (active) { return; }
+            active = true;
+            ClearControls();
 
             FirebaseResponse response = await client.GetTaskAsync("predefinitions");
             if (response.Body != "null")
@@ -130,6 +144,7 @@ namespace BST.InnerForms
                         predefname.BackColor = Color.FromArgb(26, 41, 48);
                         predefname.Size = new Size(panel1.Width - 50, 20);
                         predefname.Location = new Point(30, yLocation);
+                        predefname.Name = item.Key;
 
                         Button predefgoto = new Button();
                         panel1.Controls.Add(predefgoto);
@@ -137,6 +152,7 @@ namespace BST.InnerForms
                         predefgoto.Text = "Edit";
                         predefgoto.ForeColor = Color.White;
                         predefgoto.Location = new Point(200, yLocation);
+                        predefgoto.Name = item.Key + "_button";
 
                         // Associate predefname label with predefgoto button using Tag property
                         predefgoto.Tag = predefname;
@@ -152,7 +168,9 @@ namespace BST.InnerForms
                                 {
                                     predefname.BackColor = Color.FromArgb(26, 41, 48);
                                     predefname.ForeColor = Color.White;
-                                } else
+
+                                }
+                                else
                                 {
                                     predefname.BackColor = Color.Yellow;
                                     predefname.ForeColor = Color.Black;
@@ -204,9 +222,11 @@ namespace BST.InnerForms
                 }
             }
             UpdateCollectionValidation();
+
+            active = false;
         }
 
-
+        bool active = false;
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -249,7 +269,7 @@ namespace BST.InnerForms
             if (managerForm != null)
             {
                 // Call the OpenSearchableForm method of the Manager 
-                managerForm.OpenSearchableForm(modifiedString, "Collection");
+                managerForm.OpenSearchableForm(modifiedString, "Collection", false);
 
                 this.Close();
                 //% Close the PredefinitionManagement form
