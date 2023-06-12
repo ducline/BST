@@ -26,7 +26,7 @@ namespace BST
         public Manager(string comPort, string deviceName)
         {
             InitializeComponent();
-            CommunicationPort = comPort;
+            CommunicationPort = "COM4";
             this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             label1.Text = deviceName;
 

@@ -34,6 +34,7 @@ namespace BriareusSupportTool
         private async void CreateConnection()
         {
             string deviceName = textBox1.Text;
+            establishedConnection("", "test"); return;
 
             //establishedConnection("testCOM", deviceName); TEST
 
@@ -90,9 +91,6 @@ namespace BriareusSupportTool
 
                         // Close the connection
                         //client.Close();
-
-                        
-                        MessageBox.Show(GetConnectedComPort(comPort));
 
                         establishedConnection(GetConnectedComPort(comPort), deviceName);
 

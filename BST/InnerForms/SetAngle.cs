@@ -32,8 +32,7 @@ namespace BST.InnerForms
                 serialPort1.BaudRate = 9600;
                 try
                 {
-                    if (!serialPort1.IsOpen)
-                        serialPort1.Open();
+                   
                 } catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
