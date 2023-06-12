@@ -23,39 +23,9 @@ namespace BST.InnerForms
 
         private void SetAngle_Load(object sender, EventArgs e)
         {
-            Manager managerForm = this.Parent.Parent as Manager;
-
-            if (managerForm != null)
-            {
-                retrievedVariable = managerForm.CommunicationPort;
-                serialPort1.PortName = retrievedVariable;
-                serialPort1.BaudRate = 9600;
-                try
-                {
-                   
-                } catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-
-                serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(DataReceived);
-
-            }
+            
         }
 
-        private void DataReceived(object sender, SerialDataReceivedEventArgs e)
-        {
-            //throw new NotImplementedException();
 
-            try
-            {
-                SerialPort bluetoothdevice = (SerialPort)sender;
-                Console.Write("Data" + count);
-                count++;
-            } catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
     }
 }

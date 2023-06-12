@@ -42,7 +42,7 @@ namespace BST.InnerForms
                 if (managerForm != null)
                 {
                     // Call the OpenSearchableForm method of the Manager 
-                    managerForm.OpenSearchableForm(predefname.Text, "Predefine", false);
+                    managerForm.OpenSearchableForm(predefname.Text, "Predefine", "");
 
                     // Close the PredefinitionManagement form
                     this.Close();
@@ -269,7 +269,7 @@ namespace BST.InnerForms
             if (managerForm != null)
             {
                 // Call the OpenSearchableForm method of the Manager 
-                managerForm.OpenSearchableForm(modifiedString, "Collection", false);
+                managerForm.OpenSearchableForm(modifiedString, "Collection", "");
 
                 this.Close();
                 //% Close the PredefinitionManagement form

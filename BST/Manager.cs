@@ -40,8 +40,9 @@ namespace BST
 
         }
 
-        public void OpenSearchableForm(string search, string formName, bool activation)
+        public void OpenSearchableForm(string search, string formName, string secondaryValue)
         {
+
             foreach (Control control in panel4.Controls)
             {
                 if (control is Button clearbuttons)
@@ -66,13 +67,23 @@ namespace BST
 
             Form form = (Form)Activator.CreateInstance(formType, search);
 
-
             // Set the form's parent to panel2
             form.TopLevel = false;
             form.FormBorderStyle = FormBorderStyle.None;
             form.Dock = DockStyle.Fill;
             panel2.Controls.Add(form);
             form.Show();
+
+            // Access the textbox control and set its text
+            TextBox textBox1 = (TextBox)form.Controls.Find("textBox1", true).FirstOrDefault();
+            Button button1 = (Button)form.Controls.Find("button1", true).FirstOrDefault();
+            if (textBox1 != null && secondaryValue != "")
+            {
+                if (button1 != null) button1.Text = "SAVE COLLECTION";
+                textBox1.Text = secondaryValue;
+                textBox1.Enabled = false;
+            }
+
         }
 
         private void OpenInnerForm(object sender, EventArgs e)

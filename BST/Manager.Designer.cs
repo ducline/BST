@@ -42,6 +42,7 @@
             this.CollectionManagement = new System.Windows.Forms.Button();
             this.PredefinitionManagement = new System.Windows.Forms.Button();
             this.Predefine = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -151,6 +152,7 @@
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.button1);
             this.panel4.Controls.Add(this.CollectionManagement);
             this.panel4.Controls.Add(this.PredefinitionManagement);
             this.panel4.Controls.Add(this.Predefine);
@@ -202,6 +204,20 @@
             this.Predefine.Text = "PREDEFINE";
             this.Predefine.UseVisualStyleBackColor = false;
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
+            this.button1.Location = new System.Drawing.Point(5, 185);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(140, 40);
+            this.button1.TabIndex = 12;
+            this.button1.Text = "COLLECTION MANAGEMENT";
+            this.button1.UseVisualStyleBackColor = false;
+            // 
             // Manager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -242,5 +258,6 @@
         private System.Windows.Forms.Button Predefine;
         private System.Windows.Forms.Button PredefinitionManagement;
         private System.Windows.Forms.Button CollectionManagement;
+        private System.Windows.Forms.Button button1;
     }
 }

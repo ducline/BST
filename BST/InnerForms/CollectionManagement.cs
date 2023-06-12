@@ -66,6 +66,25 @@ namespace BST.InnerForms
             }
         }
 
+        private string SelectedCollection()
+        {
+            foreach (Control control in panel1.Controls)
+            {
+                if (control is Label)
+                {
+                    Label predefname = control as Label;
+                    if (predefname.BackColor == Color.Yellow)
+                    {
+
+                        return predefname.Text;
+                    }
+
+                }
+
+            }
+
+            return "";
+        }
 
         private void UpdateCollectionValidation()
         {
@@ -203,7 +222,7 @@ namespace BST.InnerForms
                 if (managerForm != null)
                 {
                     // Call the OpenSearchableForm method of the Manager 
-                    managerForm.OpenSearchableForm(predefname.Text, "Predefine", false);
+                    managerForm.OpenSearchableForm(predefname.Text, "Predefine", "");
 
                     // Close the PredefinitionManagement form
                     this.Close();
@@ -251,13 +270,12 @@ namespace BST.InnerForms
 
             string modifiedString = matchedStrings.Substring(0, matchedStrings.Length - 1);
 
-
             Manager managerForm = this.Parent.Parent as Manager;
 
             if (managerForm != null)
             {
                 // Call the OpenSearchableForm method of the Manager 
-                managerForm.OpenSearchableForm(modifiedString, "Collection", false);
+                managerForm.OpenSearchableForm(modifiedString, "Collection", SelectedCollection());
 
                 this.Close();
                 //% Close the PredefinitionManagement form

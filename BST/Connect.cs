@@ -35,7 +35,7 @@ namespace BriareusSupportTool
         {
             string deviceName = textBox1.Text;
             establishedConnection("", "test"); return;
-
+            
             //establishedConnection("testCOM", deviceName); TEST
 
             if (button1.Text == "CONNECTING") return;

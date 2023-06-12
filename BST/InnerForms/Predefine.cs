@@ -91,7 +91,7 @@ namespace BST.InnerForms
             if (managerForm != null)
             {
                 // Call the OpenSearchableForm method of the Manager 
-                managerForm.OpenSearchableForm("", "PredefinitionManagement", false);
+                managerForm.OpenSearchableForm("", "PredefinitionManagement", "");
 
                 // Close the PredefinitionManagement form
                 this.Close();
