@@ -7,17 +7,26 @@ namespace BST.InnerForms
 {
     public partial class SetAngle : Form
     {
-        private string retrievedVariable;
+        private SerialPort arduinoPort;
+
         int count = 0;
         public SetAngle(string search)
         {
             InitializeComponent();
+            InitializeSerialPort();
+
+        }
+
+        private void InitializeSerialPort()
+        {
+            arduinoPort = new SerialPort("COM8", 9600); // Replace "COM3" with the appropriate COM port
+            arduinoPort.Open();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             int angle = (int)numericUpDown1.Value;
-            string message = Convert.ToString(angle);
+            arduinoPort.WriteLine(angle.ToString());
 
         }
 
@@ -26,6 +35,9 @@ namespace BST.InnerForms
             
         }
 
-
+        private void SetAngle_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            arduinoPort.Close();
+        }
     }
 }

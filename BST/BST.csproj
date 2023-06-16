@@ -208,6 +208,7 @@
     <Content Include="Images\logout.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Images\record.png" />
     <Content Include="Images\repair.png" />
     <Content Include="Images\undo-darker.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -75,6 +75,7 @@
             this.label2.TabIndex = 31;
             this.label2.Text = "Collection name:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.label2.Visible = false;
             // 
             // textBox2
             // 
@@ -82,6 +83,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(152, 20);
             this.textBox2.TabIndex = 32;
+            this.textBox2.Visible = false;
             // 
             // button1
             // 

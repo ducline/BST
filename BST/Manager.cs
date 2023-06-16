@@ -14,6 +14,8 @@ namespace BST
 {
     public partial class Manager : Form
     {
+
+
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
 
@@ -39,6 +41,38 @@ namespace BST
             }
 
         }
+
+        private void LoadForm_LoopingPlayingChanged(object sender, EventArgs e)
+        {
+            Load loadForm = (Load)sender;
+
+            // Check if looping or playing values have changed
+            bool looping = loadForm.Looping;
+            bool playing = loadForm.Playing;
+
+            if(looping || playing)
+            {
+                foreach (Control control in panel4.Controls)
+                {
+                    if (control is Button buttons)
+                    {
+                        buttons.Enabled = false;
+                    }
+                }
+            } else
+            {
+                foreach (Control control in panel4.Controls)
+                {
+                    if (control is Button buttons)
+                    {
+                        buttons.Enabled = true;
+                    }
+                }
+            }
+            // Process the updated looping and playing values as needed
+            // ...
+        }
+
 
         public void OpenSearchableForm(string search, string formName, string secondaryValue)
         {
@@ -74,15 +108,42 @@ namespace BST
             panel2.Controls.Add(form);
             form.Show();
 
-            // Access the textbox control and set its text
-            TextBox textBox1 = (TextBox)form.Controls.Find("textBox1", true).FirstOrDefault();
-            Button button1 = (Button)form.Controls.Find("button1", true).FirstOrDefault();
-            if (textBox1 != null && secondaryValue != "")
+            if (form.Name == "Load")
             {
-                if (button1 != null) button1.Text = "SAVE COLLECTION";
-                textBox1.Text = secondaryValue;
-                textBox1.Enabled = false;
+                Load loadForm = (Load)form;
+                loadForm.LoopingPlayingChanged += LoadForm_LoopingPlayingChanged;
             }
+
+            if (form.Name == "PredefinitionManagement")
+            {
+                TextBox textBox2 = (TextBox)form.Controls.Find("textBox2", true).FirstOrDefault();
+                Button button1 = (Button)form.Controls.Find("button1", true).FirstOrDefault();
+                if (textBox2 != null && secondaryValue != "")
+                {
+                    Label label2 = (Label)form.Controls.Find("label2", true).FirstOrDefault();
+
+                    textBox2.Visible = true; label2.Visible = true;
+
+                    if (button1 != null) button1.Text = "ADD TO COLLECTION";
+                    textBox2.Text = secondaryValue;
+                    textBox2.Enabled = false;
+                }
+            }
+
+
+            if (form.Name == "Collection")
+            {
+                // Access the textbox control and set its text
+                TextBox textBox1 = (TextBox)form.Controls.Find("textBox1", true).FirstOrDefault();
+                Button button1 = (Button)form.Controls.Find("button1", true).FirstOrDefault();
+                if (textBox1 != null && secondaryValue != "")
+                {
+                    if (button1 != null) button1.Text = "SAVE COLLECTION";
+                    textBox1.Text = secondaryValue;
+                    textBox1.Enabled = false;
+                }
+            }
+
 
         }
 

@@ -86,6 +86,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "SetAngle";
             this.Text = "SetAngle";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SetAngle_FormClosing);
             this.Load += new System.EventHandler(this.SetAngle_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);

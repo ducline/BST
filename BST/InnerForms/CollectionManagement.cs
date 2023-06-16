@@ -276,7 +276,6 @@ namespace BST.InnerForms
             {
                 // Call the OpenSearchableForm method of the Manager 
                 managerForm.OpenSearchableForm(modifiedString, "Collection", SelectedCollection());
-
                 this.Close();
                 //% Close the PredefinitionManagement form
 

@@ -23,10 +23,13 @@ namespace BST.InnerForms
             BasePath = "https://briareus-64aeb-default-rtdb.europe-west1.firebasedatabase.app/"
         };
 
+        string IncomingString;
+
         IFirebaseClient client;
         public PredefinitionManagement(string search)
         {
             InitializeComponent();
+            IncomingString = search;
         }
 
         private void OpenPredefine(object sender, EventArgs e)
@@ -245,8 +248,30 @@ namespace BST.InnerForms
             SearchPredefinition("");
         }
 
+        private void AddToCollection(string stringToAdd)
+        {
+            string collectionName = textBox2.Text;
+
+            Manager managerForm = this.Parent.Parent as Manager;
+
+            if (managerForm != null)
+            {
+                // Call the OpenSearchableForm method of the Manager 
+
+                managerForm.OpenSearchableForm(IncomingString + stringToAdd, "Collection", collectionName);
+
+                this.Close();
+                //% Close the PredefinitionManagement form
+
+                // Open the Predefine form
+                //Predefine predefineForm = new Predefine();
+                //predefineForm.Show();
+            }
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
+
             string matchedStrings = "";
             foreach (Control control in panel1.Controls)
             {
@@ -263,6 +288,10 @@ namespace BST.InnerForms
 
             string modifiedString = matchedStrings.Substring(0, matchedStrings.Length - 1);
 
+            if (button1.Text != "CREATE NEW COLLECTION")
+            {
+                AddToCollection(modifiedString); return;
+            }
 
             Manager managerForm = this.Parent.Parent as Manager;
 

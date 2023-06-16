@@ -30,6 +30,9 @@ namespace BST.InnerForms
         private List<Button> upButtons;
         private List<Button> downButtons;
 
+        private Button addPredefinitionButton;
+
+
         public Collection(string matchedStrings)
         {
             InitializeComponent();
@@ -60,7 +63,54 @@ namespace BST.InnerForms
                 positionValue++;
                 yLocation += 30;
             }
+
+            CreatePositionLabel(positionValue, yLocation);
+
+            addPredefinitionButton = new Button();
+            panel1.Controls.Add(addPredefinitionButton);
+            addPredefinitionButton.Text = "Add Predefinition";
+            addPredefinitionButton.ForeColor = Color.White;
+            addPredefinitionButton.Location = new Point(25, yLocation - 8); // Adjust the location as needed
+            addPredefinitionButton.Size = new Size(100, 30); // Adjust the size as needed
+            addPredefinitionButton.Click += AddPredefinitionButton_Click;
+
         }
+
+        private void AddPredefinitionButton_Click(object sender, EventArgs e)
+        {
+            // Add your logic for adding a predefinition here
+            // This method will be called when the button is clicked
+            // You can open a dialog, prompt the user for input, or perform any other necessary actions
+
+            Manager managerForm = this.Parent.Parent as Manager;
+
+            if (managerForm != null)
+            {
+                string matchedStrings = "";
+                foreach (Control control in panel1.Controls)
+                {
+                    if (control is Label)
+                    {
+                        Label predefname = control as Label;
+                        if (predefname.Name == "nameLabel")
+                        {
+                            matchedStrings += predefname.Text + ";";
+                        }
+
+                    }
+                }
+
+                // Call the OpenSearchableForm method of the Manager 
+                managerForm.OpenSearchableForm(matchedStrings, "PredefinitionManagement", textBox1.Text);
+                this.Close();
+                //% Close the PredefinitionManagement form
+
+                // Open the Predefine form
+                //Predefine predefineForm = new Predefine();
+                //predefineForm.Show();
+            }
+        }
+
 
         private void CreatePositionLabel(int position, int yLocation)
         {
@@ -83,6 +133,8 @@ namespace BST.InnerForms
             nameLabel.Text = name;
             nameLabel.AutoSize = true;
             nameLabel.Location = new Point(30, yLocation);
+            nameLabel.MaximumSize = new Size(100, 30);
+            nameLabel.Name = "nameLabel";
             this.nameLabel.Add(nameLabel);
         }
 
@@ -240,6 +292,21 @@ namespace BST.InnerForms
             }
 
             return sb.ToString();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Manager managerForm = this.Parent.Parent as Manager;
+
+            if (managerForm != null)
+            {
+                // Call the OpenSearchableForm method of the Manager 
+                managerForm.OpenSearchableForm(textBox1.Text, "Load", "");
+
+                // Close the PredefinitionManagement form
+                this.Close();
+
+            }
         }
     }
 }
