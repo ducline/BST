@@ -34,6 +34,7 @@ namespace BST.InnerForms
 
         }
 
+        List<string> stringList = new List<string>();
         private async void LoadCollection(string collectionName)
         {
             FirebaseResponse response = await client.GetTaskAsync($"collections/{collectionName}/Collection");
@@ -61,11 +62,30 @@ namespace BST.InnerForms
                     predefname.Size = new Size(panel1.Width - 30, 20);
                     predefname.Location = new Point(10, yLocation);
 
+                    // Remove "(number)" suffix from key
+                    string originalKey = RemoveNumberSuffix(key);
+                    predefname.Text = position + " | " + originalKey;
+
+                    stringList.Add(originalKey);
+
                     yLocation += 30;
                     position++;
                 }
             }
         }
+
+        private string RemoveNumberSuffix(string key)
+        {
+            // Check if the key ends with "(number)" pattern
+            int suffixIndex = key.LastIndexOf(" (");
+            if (suffixIndex != -1 && key.EndsWith(")"))
+            {
+                return key.Substring(0, suffixIndex);
+            }
+
+            return key; // No "(number)" suffix found, return original key
+        }
+
 
         private void Load_Load(object sender, EventArgs e)
         {
@@ -108,6 +128,8 @@ namespace BST.InnerForms
             {
                 // LOOP ACTIVITIES
 
+
+
                 await Task.Delay(1000); // Delay for 1 second
                 runningTime = runningTime.Add(TimeSpan.FromSeconds(1));
                 UpdateRunningTime();
@@ -128,6 +150,15 @@ namespace BST.InnerForms
 
             while (playing)
             {
+                this.Invoke((MethodInvoker)delegate
+                {
+                    foreach (var predefname in stringList)
+                    {
+                        // PLAY ARDUINO MOTORS
+
+                    }
+                });
+
                 // PLAY ACTIVITIES
 
                 await Task.Delay(1000); // Delay for 1 second
@@ -185,5 +216,25 @@ namespace BST.InnerForms
             OnLoopingPlayingChanged();
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string matchedStrings = "";
+
+            foreach (string labelText in stringList)
+            {
+                matchedStrings += labelText + ";";
+            }
+
+            string modifiedString = matchedStrings.TrimEnd(';');
+
+            Manager managerForm = this.Parent.Parent as Manager;
+
+            if (managerForm != null)
+            {
+                managerForm.OpenSearchableForm(modifiedString, "Collection", label1.Text);
+                this.Close();
+
+            }
+        }
     }
 }

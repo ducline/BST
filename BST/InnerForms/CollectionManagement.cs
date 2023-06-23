@@ -33,9 +33,12 @@ namespace BST.InnerForms
             collectiontosearch = search;
         }
 
+        private List<string> labelOrder = new List<string>(); // Declare a list to store label texts in order
+
         private async void LoadPredefinitions(string collectionName)
         {
             panel2.Controls.Clear();
+            labelOrder.Clear(); // Clear the label order list
 
             FirebaseResponse response = await client.GetTaskAsync($"collections/{collectionName}/Collection");
             if (response.Body != "null")
@@ -60,6 +63,8 @@ namespace BST.InnerForms
                     predefname.BackColor = Color.FromArgb(26, 41, 48);
                     predefname.Size = new Size(panel2.Width - 30, 20);
                     predefname.Location = new Point(10, yLocation);
+
+                    labelOrder.Add(key); // Store the label text in the order they are created
 
                     yLocation += 30;
                 }
@@ -256,35 +261,24 @@ namespace BST.InnerForms
         private void button1_Click(object sender, EventArgs e)
         {
             string matchedStrings = "";
-            foreach (Control control in panel2.Controls)
+
+            foreach (string labelText in labelOrder)
             {
-                if (control is Label)
-                {
-                    Label predefname = control as Label;
-
-                    matchedStrings += predefname.Text + ";";
-                    
-
-                }
+                matchedStrings += labelText + ";";
             }
 
-            string modifiedString = matchedStrings.Substring(0, matchedStrings.Length - 1);
+            string modifiedString = matchedStrings.TrimEnd(';');
 
             Manager managerForm = this.Parent.Parent as Manager;
 
             if (managerForm != null)
             {
-                // Call the OpenSearchableForm method of the Manager 
                 managerForm.OpenSearchableForm(modifiedString, "Collection", SelectedCollection());
                 this.Close();
-                //% Close the PredefinitionManagement form
 
-                // Open the Predefine form
-                //Predefine predefineForm = new Predefine();
-                //predefineForm.Show();
             }
-
         }
+
     }
     
 }

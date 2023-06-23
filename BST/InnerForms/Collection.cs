@@ -51,21 +51,32 @@ namespace BST.InnerForms
             {
                 MessageBox.Show("Error in connection");
             }
+            ReorderList();
+
+        }
+
+        private void ReorderList()
+        {
+            int scrollPosition = panel1.VerticalScroll.Value;
+
+            // Remove all controls from the panel
+            panel1.Controls.Clear();
+
             int yLocation = 0;
             int positionValue = 1;
             foreach (string value in predefnames)
             {
                 CreatePositionLabel(positionValue, yLocation);
-                CreateNameLabel(value, yLocation);
+                CreateNameLabel(value, yLocation, positionValue);
                 CreateUpButton(positionValue, yLocation);
                 CreateDownButton(positionValue, yLocation);
 
                 positionValue++;
-                yLocation += 30;
+                yLocation += 35;
             }
 
             CreatePositionLabel(positionValue, yLocation);
-
+            // ... Continue with the rest of the code
             addPredefinitionButton = new Button();
             panel1.Controls.Add(addPredefinitionButton);
             addPredefinitionButton.Text = "Add Predefinition";
@@ -74,7 +85,10 @@ namespace BST.InnerForms
             addPredefinitionButton.Size = new Size(100, 30); // Adjust the size as needed
             addPredefinitionButton.Click += AddPredefinitionButton_Click;
 
+            panel1.VerticalScroll.Value = scrollPosition;
+
         }
+
 
         private void AddPredefinitionButton_Click(object sender, EventArgs e)
         {
@@ -124,7 +138,7 @@ namespace BST.InnerForms
             positionLabels.Add(positionLabel);
         }
 
-        private void CreateNameLabel(string name, int yLocation)
+        private void CreateNameLabel(string name, int yLocation, int position)
         {
             Label nameLabel = new Label();
             panel1.Controls.Add(nameLabel);
@@ -136,7 +150,31 @@ namespace BST.InnerForms
             nameLabel.MaximumSize = new Size(100, 30);
             nameLabel.Name = "nameLabel";
             this.nameLabel.Add(nameLabel);
+
+            Button deleteButton = new Button();
+            panel1.Controls.Add(deleteButton);
+            deleteButton.Text = "X";
+            deleteButton.Tag = position;
+            deleteButton.Location = new Point(210, yLocation);
+            deleteButton.Size = new Size(20, 20); // Set the size of the button
+            deleteButton.Click += DeleteButton_Click;
+            deleteButton.ForeColor = Color.Red;
         }
+
+        private void DeleteButton_Click(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+            int position = (int)button.Tag;
+
+            int index = position - 1;
+            if (index >= 0 && index < predefnames.Count)
+            {
+                predefnames.RemoveAt(index);
+                ReorderList();
+            }
+        }
+
+
 
         private void CreateUpButton(int position, int yLocation)
         {
@@ -146,6 +184,7 @@ namespace BST.InnerForms
             upButton.Tag = position;
             upButton.Location = new Point(150, yLocation);
             upButton.Size = new Size(20, 20); // Set the size of the button
+            upButton.ForeColor = Color.Yellow;
             upButton.Click += UpButton_Click;
             upButtons.Add(upButton);
         }
@@ -158,6 +197,7 @@ namespace BST.InnerForms
             downButton.Tag = position;
             downButton.Location = new Point(180, yLocation);
             downButton.Size = new Size(20, 20); // Set the size of the button
+            downButton.ForeColor = Color.Yellow;
             downButton.Click += DownButton_Click;
             downButtons.Add(downButton);
         }
@@ -224,8 +264,16 @@ namespace BST.InnerForms
             for (int i = 0; i < predefnames.Count; i++)
             {
                 string name = predefnames[i];
+                string newName = name;
+                int count = 1;
 
-                collectionData.Add(name, i + 1);
+                while (collectionData.ContainsKey(newName))
+                {
+                    newName = $"{name} ({count})";
+                    count++;
+                }
+
+                collectionData.Add(newName, i + 1);
             }
 
             var datalayer = new CollectionData
@@ -236,8 +284,8 @@ namespace BST.InnerForms
             SetResponse resp = await client.SetTaskAsync("collections/" + collectionName, datalayer);
 
             OpenCollectionManagement();
-
         }
+
 
         private void CheckForValidation()
         {

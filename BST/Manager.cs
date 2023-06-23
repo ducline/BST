@@ -181,12 +181,14 @@ namespace BST
             Form form = (Form)Activator.CreateInstance(formType, "");
 
 
+
             // Set the form's parent to panel2
             form.TopLevel = false;
             form.FormBorderStyle = FormBorderStyle.None;
             form.Dock = DockStyle.Fill;
             panel2.Controls.Add(form);
             form.Show();
+
         }
 
         private void panel3_MouseDown(object sender, MouseEventArgs e)
