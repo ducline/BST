@@ -193,6 +193,7 @@ namespace BST.InnerForms
             if (SetAngle.Text != "PLAY")
                 return;
 
+            button1.Enabled = false;
             checkBox1.Enabled = false;
             pictureBox1.Visible = true;
             label2.Visible = true;
@@ -209,6 +210,7 @@ namespace BST.InnerForms
             label2.Visible = false;
             pictureBox1.Visible = false;
             checkBox1.Enabled = true;
+            button1.Enabled = true;
         }
 
         private void UpdateLoopingPlaying()

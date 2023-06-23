@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using FireSharp.Config;
 using FireSharp.Response;
 using FireSharp.Interfaces;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace BST.InnerForms
 {
@@ -45,14 +46,51 @@ namespace BST.InnerForms
 
         private void Collection_Load(object sender, EventArgs e)
         {
+            label3.Text = "";
+            addPredefinitionButton = new Button();
+            if (textBox1.Text == null || textBox1.Text == "")
+            {
+                addPredefinitionButton.Enabled = false;
+            }
+            else addPredefinitionButton.Enabled = true;
+
             CheckForValidation();
             client = new FireSharp.FirebaseClient(config);
             if (client == null)
             {
                 MessageBox.Show("Error in connection");
             }
+
             ReorderList();
 
+        }
+
+        private async void CheckIfNameAlreadyExists()
+        {
+            if (string.IsNullOrEmpty(textBox1.Text))
+                return;
+
+            FirebaseResponse response = await client.GetTaskAsync("collections/" + textBox1.Text);
+            if (response.Body != "null")
+            {
+                // Name already exists
+                if (textBox1.Enabled == false) return;
+                label3.Text = "Name already exists!";
+                // Perform additional actions if needed
+            }
+            else label3.Text = "";
+        }
+
+
+
+        private void EnableButtons()
+        {
+            
+        }
+
+        private void DisableButtons()
+        {
+            
         }
 
         private void ReorderList()
@@ -66,6 +104,7 @@ namespace BST.InnerForms
             int positionValue = 1;
             foreach (string value in predefnames)
             {
+                if(positionValue == 1 && value == "") { yLocation = 10; break; }
                 CreatePositionLabel(positionValue, yLocation);
                 CreateNameLabel(value, yLocation, positionValue);
                 CreateUpButton(positionValue, yLocation);
@@ -77,10 +116,13 @@ namespace BST.InnerForms
 
             CreatePositionLabel(positionValue, yLocation);
             // ... Continue with the rest of the code
-            addPredefinitionButton = new Button();
             panel1.Controls.Add(addPredefinitionButton);
+            addPredefinitionButton.Parent = panel1;
             addPredefinitionButton.Text = "Add Predefinition";
             addPredefinitionButton.ForeColor = Color.White;
+            addPredefinitionButton.BackColor = Color.FromArgb(40, 60, 70);
+            addPredefinitionButton.FlatStyle = FlatStyle.Flat;
+            addPredefinitionButton.FlatAppearance.BorderSize = 0;
             addPredefinitionButton.Location = new Point(25, yLocation - 8); // Adjust the location as needed
             addPredefinitionButton.Size = new Size(100, 30); // Adjust the size as needed
             addPredefinitionButton.Click += AddPredefinitionButton_Click;
@@ -89,13 +131,11 @@ namespace BST.InnerForms
 
         }
 
-
+        bool buttonclicked = false;
         private void AddPredefinitionButton_Click(object sender, EventArgs e)
         {
-            // Add your logic for adding a predefinition here
-            // This method will be called when the button is clicked
-            // You can open a dialog, prompt the user for input, or perform any other necessary actions
-
+            if (buttonclicked) return;
+            buttonclicked = true;
             Manager managerForm = this.Parent.Parent as Manager;
 
             if (managerForm != null)
@@ -159,6 +199,9 @@ namespace BST.InnerForms
             deleteButton.Size = new Size(20, 20); // Set the size of the button
             deleteButton.Click += DeleteButton_Click;
             deleteButton.ForeColor = Color.Red;
+            deleteButton.FlatStyle = FlatStyle.Flat;
+            deleteButton.FlatAppearance.BorderSize = 0;
+
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
@@ -186,6 +229,8 @@ namespace BST.InnerForms
             upButton.Size = new Size(20, 20); // Set the size of the button
             upButton.ForeColor = Color.Yellow;
             upButton.Click += UpButton_Click;
+            upButton.FlatStyle = FlatStyle.Flat;
+            upButton.FlatAppearance.BorderSize = 0;
             upButtons.Add(upButton);
         }
 
@@ -199,6 +244,8 @@ namespace BST.InnerForms
             downButton.Size = new Size(20, 20); // Set the size of the button
             downButton.ForeColor = Color.Yellow;
             downButton.Click += DownButton_Click;
+            downButton.FlatStyle = FlatStyle.Flat;
+            downButton.FlatAppearance.BorderSize = 0;
             downButtons.Add(downButton);
         }
 
@@ -308,6 +355,8 @@ namespace BST.InnerForms
                 // Enabled Interactions
                 button1.Enabled = true;
             }
+
+            CheckIfNameAlreadyExists();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -323,6 +372,10 @@ namespace BST.InnerForms
                 // Set the cursor position at the end of the TextBox
                 textBox1.SelectionStart = validText.Length;
             }
+
+            if (text == null || text == "") {
+                addPredefinitionButton.Enabled = false;
+            } else addPredefinitionButton.Enabled = true;
 
             CheckForValidation();
         }

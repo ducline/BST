@@ -12,6 +12,8 @@ using FireSharp.Response;
 using FireSharp.Interfaces;
 using System.Collections;
 using System.Collections.ObjectModel;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace BST.InnerForms
 {
@@ -104,8 +106,12 @@ namespace BST.InnerForms
                         button1.BackColor = Color.FromArgb(40, 60, 70);
                         button1.ForeColor = Color.FromArgb(230, 230, 230);
 
+                        button3.BackColor = Color.FromArgb(150, 0, 0);
+                        button3.ForeColor = Color.FromArgb(230, 230, 230);
+
                         // Enabled Interactions
                         button1.Enabled = true;
+                        button3.Enabled = true;
                         LoadPredefinitions(predefname.Text);
 
                         break;
@@ -113,12 +119,17 @@ namespace BST.InnerForms
 
                     // Disabled Background Color
                     button1.BackColor = Color.FromArgb(200, 200, 200);
+                    button3.BackColor = Color.FromArgb(200, 200, 200);
 
                     // Disabled Font Color
                     button1.ForeColor = Color.FromArgb(150, 150, 150);
+                    button3.ForeColor = Color.FromArgb(150, 150, 150);
+
+
 
                     // Disable Interactions
                     button1.Enabled = false;
+                    button3.Enabled= false;
                 }
 
             }
@@ -139,7 +150,6 @@ namespace BST.InnerForms
             panel2.Controls.Clear();
 
         }
-
         private async void SearchCollections(string search)
         {
             panel1.Controls.Clear();
@@ -253,8 +263,13 @@ namespace BST.InnerForms
                 MessageBox.Show("Error in connection");
             }
 
+            if (collectiontosearch != "")
+            {
+                textBox2.Text = collectiontosearch;
+            }
+
             SearchCollections(collectiontosearch);
-            textBox2.Text = collectiontosearch;
+            
 
         }
 
@@ -279,6 +294,51 @@ namespace BST.InnerForms
             }
         }
 
+        private async void button3_Click(object sender, EventArgs e)
+        {
+            int scrollPosition = panel1.VerticalScroll.Value;
+
+            string selectedCollection = SelectedCollection(); // Assuming SelectedCollection() returns the ID or name of the collection to be deleted
+
+            // Get a reference to the collection
+            FirebaseResponse collectionResponse = await client.GetTaskAsync($"collections/{selectedCollection}/");
+            string collectionJson = collectionResponse.Body;
+
+            // Deserialize the collection data into a dictionary
+            IDictionary<string, JToken> collectionData = JsonConvert.DeserializeObject<IDictionary<string, JToken>>(collectionJson);
+
+            // Iterate over each document in the collection and delete them
+            foreach (var document in collectionData)
+            {
+                string documentId = document.Key;
+                FirebaseResponse documentResponse = await client.DeleteTaskAsync($"collections/{selectedCollection}/{documentId}");
+
+                // Handle the deletion response if needed
+            }
+
+            // Delete the collection itself
+            FirebaseResponse deleteCollectionResponse = await client.DeleteTaskAsync($"collections/{selectedCollection}");
+
+            // Handle the deletion response if needed
+            SearchCollections(textBox2.Text);
+
+            panel1.VerticalScroll.Value = scrollPosition;
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+            Manager managerForm = this.Parent.Parent as Manager;
+
+            if (managerForm != null)
+            {
+                managerForm.OpenSearchableForm("", "Collection", "");
+
+                this.Close();
+
+            }
+        }
     }
-    
+
 }

@@ -11,6 +11,8 @@ using FireSharp.Config;
 using FireSharp.Response;
 using FireSharp.Interfaces;
 using System.Collections.ObjectModel;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace BST.InnerForms
 {
@@ -69,20 +71,25 @@ namespace BST.InnerForms
                         button1.BackColor = Color.FromArgb(40, 60, 70);
                         button1.ForeColor = Color.FromArgb(230, 230, 230);
 
+                        button2.BackColor = Color.FromArgb(150, 0, 0);
+                        button2.ForeColor = Color.FromArgb(230, 230, 230);
+
                         // Enabled Interactions
                         button1.Enabled = true;
+                        button2.Enabled = true;
 
                         break;
                     }
 
                     // Disabled Background Color
                     button1.BackColor = Color.FromArgb(200, 200, 200);
-
+                    button2.BackColor = Color.FromArgb(200, 200, 200);
                     // Disabled Font Color
                     button1.ForeColor = Color.FromArgb(150, 150, 150);
 
                     // Disable Interactions
                     button1.Enabled = false;
+                    button2.Enabled = false;
 
                 }
                 
@@ -297,17 +304,59 @@ namespace BST.InnerForms
 
             if (managerForm != null)
             {
-                // Call the OpenSearchableForm method of the Manager 
                 managerForm.OpenSearchableForm(modifiedString, "Collection", "");
 
                 this.Close();
-                //% Close the PredefinitionManagement form
 
-                // Open the Predefine form
-                //Predefine predefineForm = new Predefine();
-                //predefineForm.Show();
             }
 
         }
+
+        private async void button2_Click(object sender, EventArgs e)
+        {
+            int scrollPosition = panel1.VerticalScroll.Value;
+
+            string matchedStrings = "";
+            List<Task> deletionTasks = new List<Task>(); // Track the deletion tasks
+
+            foreach (Control control in panel1.Controls)
+            {
+                if (control is Label)
+                {
+                    Label predefname = control as Label;
+                    if (predefname.BackColor == Color.Yellow)
+                    {
+                        string selectedPrefinitions = predefname.Text;
+
+                        // Get a reference to the collection
+                        FirebaseResponse collectionResponse = await client.GetTaskAsync($"predefinitions/{selectedPrefinitions}/");
+                        string collectionJson = collectionResponse.Body;
+
+                        // Deserialize the collection data into a dictionary
+                        IDictionary<string, JToken> collectionData = JsonConvert.DeserializeObject<IDictionary<string, JToken>>(collectionJson);
+
+                        // Iterate over each document in the collection and delete them asynchronously
+                        foreach (var document in collectionData)
+                        {
+                            string documentId = document.Key;
+                            Task deletionTask = client.DeleteTaskAsync($"predefinitions/{selectedPrefinitions}/{documentId}");
+                            deletionTasks.Add(deletionTask); // Add the deletion task to the list
+                        }
+
+                        // Delete the collection itself asynchronously
+                        Task deleteCollectionTask = client.DeleteTaskAsync($"predefinitions/{selectedPrefinitions}");
+                        deletionTasks.Add(deleteCollectionTask); // Add the deletion task to the list
+                    }
+                }
+            }
+
+            // Wait for all deletion tasks to complete
+            await Task.WhenAll(deletionTasks);
+
+            SearchPredefinition(textBox1.Text);
+
+            panel1.VerticalScroll.Value = scrollPosition;
+        }
+
     }
 }
