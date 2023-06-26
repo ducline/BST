@@ -370,5 +370,10 @@ namespace BST
         }
 
 
+        public void SetPictureBox4Image(Image image)
+        {
+            pictureBox4.Image = image;
+        }
+
     }
 }

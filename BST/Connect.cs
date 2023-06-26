@@ -34,8 +34,12 @@ namespace BriareusSupportTool
         private async void CreateConnection()
         {
             string deviceName = textBox1.Text;
-            establishedConnection("", "test"); return;
-            
+
+            if (!bluetooth)
+            {
+                establishedConnection("testCOM", "Wired"); return;
+            }
+
             //establishedConnection("testCOM", deviceName); TEST
 
             if (button1.Text == "CONNECTING") return;
@@ -107,7 +111,7 @@ namespace BriareusSupportTool
                 this.Invoke((MethodInvoker)delegate
                 {
                     button1.Text = "CONNECT";
-                    button1.BackColor = Color.Green;
+                    button1.BackColor = Color.FromArgb(40, 60, 70);
                     label2.ForeColor = Color.Red;
                     label2.Text = string.Format("Device {0} not found. Make sure it is on discoverable mode", deviceName);
                 });
@@ -118,20 +122,28 @@ namespace BriareusSupportTool
 
         private void establishedConnection(string comPort, string deviceName)
         {
+
             this.Invoke((MethodInvoker)delegate
             {
                 label2.ForeColor = Color.DarkGreen;
                 label2.Text = string.Format("COM port for {0} is {1}", deviceName, comPort);
                 button1.Text = "CONNECT";
-                button1.BackColor = Color.Green;
+                button1.BackColor = Color.FromArgb(40, 60, 70);
 
                 // Create a new Menu
                 Manager menu = new Manager(comPort, deviceName);
 
-
                 // Set the parent form and position the Menu form
                 menu.Owner = this;
                 menu.StartPosition = FormStartPosition.Manual;
+
+                if (!bluetooth)
+                {
+                    string imagePath = @"Images\cable.png"; // Path to the image file
+
+                    Image newImage = Image.FromFile(imagePath);
+                    menu.SetPictureBox4Image(newImage);
+                }
 
                 // Calculate the center point of the parent form
                 Point parentCenter = new Point(
@@ -228,6 +240,113 @@ namespace BriareusSupportTool
                 }
             }
             return null;
+        }
+
+        bool bluetooth = true;
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            label3.Visible = !label3.Visible;
+            pictureBox4.Visible = !pictureBox4.Visible;
+            
+        }
+
+        private void SwitchConnectivity()
+        {
+            label3.Visible = false;
+            pictureBox4.Visible = false;
+            if (bluetooth)
+            {
+                string imagePath = @"Images\cable.png"; // Path to the image file
+                label3.Text = "Switch to bluetooth connection";
+                Image newImage = Image.FromFile(imagePath);
+                pictureBox2.Image = newImage;
+                bluetooth = false;
+                textBox1.Enabled = false;
+            }
+            else
+            {
+                string imagePath = @"Images\bluetooth.png"; // Path to the image file
+                label3.Text = "Switch to wired connection";
+                Image newImage = Image.FromFile(imagePath);
+                pictureBox2.Image = newImage;
+                bluetooth = true;
+                textBox1.Enabled = true;
+                textBox1.Select();
+            }
+        }
+
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+            SwitchConnectivity();
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+            SwitchConnectivity();
+        }
+
+        private void pictureBox2_MouseHover(object sender, EventArgs e)
+        {
+            if (bluetooth)
+            {
+                string imagePath = @"Images\bluetooth-darker.png"; // Path to the image file
+                Image newImage = Image.FromFile(imagePath);
+                pictureBox2.Image = newImage;
+            } else
+            {
+                string imagePath = @"Images\cable-darker.png"; // Path to the image file
+                Image newImage = Image.FromFile(imagePath);
+                pictureBox2.Image = newImage;
+            }
+        }
+
+        private void pictureBox2_MouseLeave(object sender, EventArgs e)
+        {
+            if (bluetooth)
+            {
+                string imagePath = @"Images\bluetooth.png"; // Path to the image file
+                Image newImage = Image.FromFile(imagePath);
+                pictureBox2.Image = newImage;
+            }
+            else
+            {
+                string imagePath = @"Images\cable.png"; // Path to the image file
+                Image newImage = Image.FromFile(imagePath);
+                pictureBox2.Image = newImage;
+            }
+        }
+
+        private void pictureBox4_MouseHover(object sender, EventArgs e)
+        {
+            string imagePath = @"Images\shuffle-darker.png"; // Path to the image file
+            Image newImage = Image.FromFile(imagePath);
+            pictureBox4.Image = newImage;
+            label3.ForeColor = Color.White;
+        }
+
+        private void label3_MouseHover(object sender, EventArgs e)
+        {
+            string imagePath = @"Images\shuffle-darker.png"; // Path to the image file
+            Image newImage = Image.FromFile(imagePath);
+            pictureBox4.Image = newImage;
+            label3.ForeColor = Color.White;
+        }
+
+        private void pictureBox4_MouseLeave(object sender, EventArgs e)
+        {
+            string imagePath = @"Images\shuffle.png"; // Path to the image file
+            Image newImage = Image.FromFile(imagePath);
+            pictureBox4.Image = newImage;
+            label3.ForeColor = Color.DarkGray;
+        }
+
+        private void label3_MouseLeave(object sender, EventArgs e)
+        {
+            string imagePath = @"Images\shuffle.png"; // Path to the image file
+            Image newImage = Image.FromFile(imagePath);
+            pictureBox4.Image = newImage;
+            label3.ForeColor = Color.DarkGray;
         }
     }
 }

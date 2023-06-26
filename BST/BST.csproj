@@ -172,20 +172,20 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -197,9 +197,11 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Images\bluetooth-darker.png" />
     <Content Include="Images\bluetooth.png" />
     <Content Include="Images\BriareusLogo.png" />
     <Content Include="Images\BriareusSupport.png" />
+    <Content Include="Images\cable.png" />
     <Content Include="Images\Ico\BriareusLogo.ico" />
     <Content Include="Images\Ico\BriareusSupportLogo.ico" />
     <Content Include="Images\logout-darker.png">
@@ -208,6 +210,7 @@
     <Content Include="Images\logout.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\shuffle.png" />
     <Content Include="Images\wifi.png" />
     <None Include="Images\record.png" />
     <Content Include="Images\no-wifi.png" />
