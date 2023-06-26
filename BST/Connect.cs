@@ -28,7 +28,7 @@ namespace BriareusSupportTool
         public Connect()
         {
             InitializeComponent();
-            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+            this.Icon = Icon.ExtractAssociatedIcon(@"Images\Ico\BriareusSupportLogo.Ico");
         }
 
         private async void CreateConnection()

@@ -47,8 +47,9 @@ namespace BST.InnerForms
         private void Collection_Load(object sender, EventArgs e)
         {
             label3.Text = "";
+            Button button = new Button();
 
-            addPredefinitionButton = new Button();
+            addPredefinitionButton = button;
             if (textBox1.Text == null || textBox1.Text == "")
             {
                 addPredefinitionButton.Enabled = false;
@@ -77,9 +78,10 @@ namespace BST.InnerForms
                 // Name already exists
                 if (textBox1.Enabled == false) return;
                 label3.Text = "Name already exists!";
+
                 // Perform additional actions if needed
             }
-            else label3.Text = "";
+            else label3.Text = ""; 
         }
 
 
@@ -136,6 +138,8 @@ namespace BST.InnerForms
         private void AddPredefinitionButton_Click(object sender, EventArgs e)
         {
             if (buttonclicked) return;
+            if (label3.Text == "Name already exists!") return;
+
             buttonclicked = true;
             Manager managerForm = this.Parent.Parent as Manager;
 

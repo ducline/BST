@@ -10,11 +10,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net.NetworkInformation;
+using System.Runtime.CompilerServices;
 
 namespace BST
 {
     public partial class Manager : Form
     {
+
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
 
@@ -28,7 +30,7 @@ namespace BST
         {
             InitializeComponent();
             CommunicationPort = "COM4";
-            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+            this.Icon = Icon.ExtractAssociatedIcon(@"Images\Ico\BriareusSupportLogo.Ico");
             label1.Text = deviceName;
 
             foreach (Control control in panel4.Controls)
@@ -76,6 +78,7 @@ namespace BST
 
         public void OpenSearchableForm(string search, string formName, string secondaryValue)
         {
+            this.Text = formName + " | Briareus Support Tool";
 
             foreach (Control control in panel4.Controls)
             {
@@ -107,6 +110,8 @@ namespace BST
             form.Dock = DockStyle.Fill;
             panel2.Controls.Add(form);
             form.Show();
+
+
 
             if (form.Name == "Load")
             {
@@ -165,8 +170,10 @@ namespace BST
             button.ForeColor = Color.White;
 
             string formName = button.Name;
-            
+
             // Create the form type based on the button name
+            this.Text = formName + " | Briareus Support Tool";
+
             Type formType = Type.GetType("BST.InnerForms." + formName);
 
             if (formType == null)
