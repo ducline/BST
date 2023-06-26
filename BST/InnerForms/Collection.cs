@@ -47,6 +47,7 @@ namespace BST.InnerForms
         private void Collection_Load(object sender, EventArgs e)
         {
             label3.Text = "";
+
             addPredefinitionButton = new Button();
             if (textBox1.Text == null || textBox1.Text == "")
             {
@@ -397,6 +398,11 @@ namespace BST.InnerForms
 
         private void button2_Click(object sender, EventArgs e)
         {
+            if (textBox1.Enabled)
+            {
+                label3.Text = "Save first!"; return;
+            }
+
             Manager managerForm = this.Parent.Parent as Manager;
 
             if (managerForm != null)
@@ -409,5 +415,6 @@ namespace BST.InnerForms
 
             }
         }
+
     }
 }

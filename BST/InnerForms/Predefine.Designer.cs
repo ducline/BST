@@ -172,7 +172,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.label2.ForeColor = System.Drawing.Color.DarkRed;
+            this.label2.ForeColor = System.Drawing.Color.Firebrick;
             this.label2.Location = new System.Drawing.Point(15, 64);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(0, 15);

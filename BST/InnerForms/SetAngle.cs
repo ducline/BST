@@ -13,9 +13,7 @@ namespace BST.InnerForms
         public SetAngle(string search)
         {
             InitializeComponent();
-            InitializeSerialPort();
         }
-
         bool error = false;
         private void InitializeSerialPort()
         {
@@ -30,13 +28,13 @@ namespace BST.InnerForms
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Failed to open the Arduino port. Error: " + ex.Message);
+                    label1.Text = "Failed to open the Arduino port. Error: " + ex.Message;
                     error = true;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Failed to initialize the Arduino port. Error: " + ex.Message);
+                label1.Text = "Failed to initialize the Arduino port. Error: " + ex.Message;
                 error = true;
             }
         }
@@ -56,15 +54,18 @@ namespace BST.InnerForms
                 string angles = string.Join(",", angle1, angle2, angle3, angle4, angle5);
                 arduinoPort.WriteLine(angles);
                 MessageBox.Show("SENT VALUES");
+                label1.Text = "";
             }
             else
             {
-                MessageBox.Show("Arduino port is not open.");
+                label1.Text = "Arduino port is not open.";
             }
         }
 
         private void SetAngle_Load(object sender, EventArgs e)
         {
+            label1.Text = "";
+            InitializeSerialPort();
             if (error)
             {
                 Manager managerForm = this.Parent.Parent as Manager;

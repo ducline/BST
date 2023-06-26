@@ -280,7 +280,7 @@ namespace BST
             await CheckInternetConnectionAsync(); // Perform the initial check
 
             // Start the timer to continuously check for internet connection
-            timer1.Interval = 1000;
+            timer1.Interval = 2000;
             timer1.Enabled = true;
             timer1.Tick += async (s, args) => await Timer_TickAsync();
         }
