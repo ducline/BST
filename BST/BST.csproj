@@ -208,7 +208,9 @@
     <Content Include="Images\logout.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\wifi.png" />
     <None Include="Images\record.png" />
+    <Content Include="Images\no-wifi.png" />
     <Content Include="Images\repair.png" />
     <Content Include="Images\undo-darker.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

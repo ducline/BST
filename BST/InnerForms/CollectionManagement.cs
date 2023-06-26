@@ -28,6 +28,7 @@ namespace BST.InnerForms
         IFirebaseClient client;
 
         string collectiontosearch = "";
+
         public CollectionManagement(string search)
         {
             InitializeComponent();

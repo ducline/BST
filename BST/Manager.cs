@@ -9,13 +9,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net.NetworkInformation;
 
 namespace BST
 {
     public partial class Manager : Form
     {
-
-
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
 
@@ -273,5 +272,103 @@ namespace BST
             connect.Show();
             this.Hide();
         }
+
+        private async void Manager_Load(object sender, EventArgs e)
+        {
+            IsInternetAvailable();
+            await CheckInternetConnectionAsync(); // Perform the initial check
+
+            // Start the timer to continuously check for internet connection
+            timer1.Interval = 1000;
+            timer1.Enabled = true;
+            timer1.Tick += async (s, args) => await Timer_TickAsync();
+        }
+
+        private async Task Timer_TickAsync()
+        {
+            await CheckInternetConnectionAsync();
+        }
+
+        private async Task CheckInternetConnectionAsync()
+        {
+            bool hasInternetConnection = await Task.Run(() => IsInternetAvailable());
+            // Use BeginInvoke to update UI controls from the UI thread 
+            BeginInvoke(new Action(() =>
+            {
+                if (hasInternetConnection)
+                {
+                    WifiConnection(true);
+                }
+                else
+                {
+                    WifiConnection(false);
+                }
+            }));
+        }
+
+        private string CheckForSelectedButton()
+        {
+            foreach (Control control in panel4.Controls)
+            {
+                if (control is Button button)
+                {
+                    if (button.BackColor == Color.FromArgb(20, 32, 38))
+                    {
+                        return button.Name;
+                    }
+
+                }
+            }
+
+            return "";
+        }
+
+        private void WifiConnection(bool enable)
+        {
+            if (enable)
+            {
+                // Enable the Predefine, PredefinitionManagement, and CollectionManagement buttons
+                Predefine.Enabled = true;
+                PredefinitionManagement.Enabled = true;
+                CollectionManagement.Enabled = true;
+
+                string imagePath = @"Images\wifi.png"; // Path to the image file
+
+                Image newImage = Image.FromFile(imagePath);
+                pictureBox5.Image = newImage;
+            } else
+            {
+                // Disable the Predefine, PredefinitionManagement, and CollectionManagement buttons
+                Predefine.Enabled = false;
+                PredefinitionManagement.Enabled = false;
+                CollectionManagement.Enabled = false;
+
+                if(!(CheckForSelectedButton() == "SetAngle")) panel2.Controls.Clear();
+
+
+                string imagePath = @"Images\no-wifi.png"; // Path to the image file
+
+                Image newImage = Image.FromFile(imagePath);
+                pictureBox5.Image = newImage;
+            }
+        }
+
+        public bool IsInternetAvailable()
+        {
+            try
+            {
+                using (Ping ping = new Ping())
+                {
+                    PingReply reply = ping.Send("8.8.8.8", 2000); // Ping Google's public DNS server (8.8.8.8) with a timeout of 2 seconds
+                    return reply?.Status == IPStatus.Success;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
     }
 }

@@ -28,26 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Manager));
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.SetAngle = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
             this.CollectionManagement = new System.Windows.Forms.Button();
             this.PredefinitionManagement = new System.Windows.Forms.Button();
             this.Predefine = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.panel3.SuspendLayout();
+            this.panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -61,6 +65,7 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(32)))), ((int)(((byte)(38)))));
+            this.panel3.Controls.Add(this.pictureBox5);
             this.panel3.Controls.Add(this.label1);
             this.panel3.Controls.Add(this.pictureBox4);
             this.panel3.Controls.Add(this.pictureBox3);
@@ -76,16 +81,102 @@
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(97, 5);
+            this.label1.Location = new System.Drawing.Point(149, 6);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(67, 13);
             this.label1.TabIndex = 11;
             this.label1.Text = "deviceName";
             // 
+            // panel2
+            // 
+            this.panel2.Location = new System.Drawing.Point(192, 75);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(700, 400);
+            this.panel2.TabIndex = 3;
+            // 
+            // SetAngle
+            // 
+            this.SetAngle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.SetAngle.FlatAppearance.BorderSize = 0;
+            this.SetAngle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SetAngle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SetAngle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
+            this.SetAngle.Location = new System.Drawing.Point(5, 5);
+            this.SetAngle.Name = "SetAngle";
+            this.SetAngle.Size = new System.Drawing.Size(140, 40);
+            this.SetAngle.TabIndex = 8;
+            this.SetAngle.Text = "SET ANGLE";
+            this.SetAngle.UseVisualStyleBackColor = false;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.CollectionManagement);
+            this.panel4.Controls.Add(this.PredefinitionManagement);
+            this.panel4.Controls.Add(this.Predefine);
+            this.panel4.Controls.Add(this.SetAngle);
+            this.panel4.Location = new System.Drawing.Point(15, 75);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(150, 400);
+            this.panel4.TabIndex = 4;
+            // 
+            // CollectionManagement
+            // 
+            this.CollectionManagement.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.CollectionManagement.Enabled = false;
+            this.CollectionManagement.FlatAppearance.BorderSize = 0;
+            this.CollectionManagement.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CollectionManagement.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CollectionManagement.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
+            this.CollectionManagement.Location = new System.Drawing.Point(5, 140);
+            this.CollectionManagement.Name = "CollectionManagement";
+            this.CollectionManagement.Size = new System.Drawing.Size(140, 40);
+            this.CollectionManagement.TabIndex = 11;
+            this.CollectionManagement.Text = "COLLECTION MANAGEMENT";
+            this.CollectionManagement.UseVisualStyleBackColor = false;
+            // 
+            // PredefinitionManagement
+            // 
+            this.PredefinitionManagement.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.PredefinitionManagement.Enabled = false;
+            this.PredefinitionManagement.FlatAppearance.BorderSize = 0;
+            this.PredefinitionManagement.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PredefinitionManagement.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PredefinitionManagement.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
+            this.PredefinitionManagement.Location = new System.Drawing.Point(5, 95);
+            this.PredefinitionManagement.Name = "PredefinitionManagement";
+            this.PredefinitionManagement.Size = new System.Drawing.Size(140, 40);
+            this.PredefinitionManagement.TabIndex = 10;
+            this.PredefinitionManagement.Text = "PREDEFINITION MANAGEMENT";
+            this.PredefinitionManagement.UseVisualStyleBackColor = false;
+            // 
+            // Predefine
+            // 
+            this.Predefine.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.Predefine.Enabled = false;
+            this.Predefine.FlatAppearance.BorderSize = 0;
+            this.Predefine.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Predefine.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Predefine.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
+            this.Predefine.Location = new System.Drawing.Point(5, 50);
+            this.Predefine.Name = "Predefine";
+            this.Predefine.Size = new System.Drawing.Size(140, 40);
+            this.Predefine.TabIndex = 9;
+            this.Predefine.Text = "PREDEFINE";
+            this.Predefine.UseVisualStyleBackColor = false;
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.Location = new System.Drawing.Point(46, 1);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(20, 25);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox5.TabIndex = 12;
+            this.pictureBox5.TabStop = false;
+            // 
             // pictureBox4
             // 
             this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(78, 0);
+            this.pictureBox4.Location = new System.Drawing.Point(130, 1);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(20, 25);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -128,80 +219,6 @@
             this.pictureBox2.MouseLeave += new System.EventHandler(this.pictureBox2_MouseLeave);
             this.pictureBox2.MouseHover += new System.EventHandler(this.pictureBox2_MouseHover);
             // 
-            // panel2
-            // 
-            this.panel2.Location = new System.Drawing.Point(192, 75);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(700, 400);
-            this.panel2.TabIndex = 3;
-            // 
-            // SetAngle
-            // 
-            this.SetAngle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.SetAngle.FlatAppearance.BorderSize = 0;
-            this.SetAngle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.SetAngle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SetAngle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
-            this.SetAngle.Location = new System.Drawing.Point(5, 5);
-            this.SetAngle.Name = "SetAngle";
-            this.SetAngle.Size = new System.Drawing.Size(140, 40);
-            this.SetAngle.TabIndex = 8;
-            this.SetAngle.Text = "SET ANGLE";
-            this.SetAngle.UseVisualStyleBackColor = false;
-            // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.CollectionManagement);
-            this.panel4.Controls.Add(this.PredefinitionManagement);
-            this.panel4.Controls.Add(this.Predefine);
-            this.panel4.Controls.Add(this.SetAngle);
-            this.panel4.Location = new System.Drawing.Point(15, 75);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(150, 400);
-            this.panel4.TabIndex = 4;
-            // 
-            // CollectionManagement
-            // 
-            this.CollectionManagement.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.CollectionManagement.FlatAppearance.BorderSize = 0;
-            this.CollectionManagement.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CollectionManagement.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CollectionManagement.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
-            this.CollectionManagement.Location = new System.Drawing.Point(5, 140);
-            this.CollectionManagement.Name = "CollectionManagement";
-            this.CollectionManagement.Size = new System.Drawing.Size(140, 40);
-            this.CollectionManagement.TabIndex = 11;
-            this.CollectionManagement.Text = "COLLECTION MANAGEMENT";
-            this.CollectionManagement.UseVisualStyleBackColor = false;
-            // 
-            // PredefinitionManagement
-            // 
-            this.PredefinitionManagement.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.PredefinitionManagement.FlatAppearance.BorderSize = 0;
-            this.PredefinitionManagement.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PredefinitionManagement.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PredefinitionManagement.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
-            this.PredefinitionManagement.Location = new System.Drawing.Point(5, 95);
-            this.PredefinitionManagement.Name = "PredefinitionManagement";
-            this.PredefinitionManagement.Size = new System.Drawing.Size(140, 40);
-            this.PredefinitionManagement.TabIndex = 10;
-            this.PredefinitionManagement.Text = "PREDEFINITION MANAGEMENT";
-            this.PredefinitionManagement.UseVisualStyleBackColor = false;
-            // 
-            // Predefine
-            // 
-            this.Predefine.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.Predefine.FlatAppearance.BorderSize = 0;
-            this.Predefine.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Predefine.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Predefine.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
-            this.Predefine.Location = new System.Drawing.Point(5, 50);
-            this.Predefine.Name = "Predefine";
-            this.Predefine.Size = new System.Drawing.Size(140, 40);
-            this.Predefine.TabIndex = 9;
-            this.Predefine.Text = "PREDEFINE";
-            this.Predefine.UseVisualStyleBackColor = false;
-            // 
             // Manager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -216,13 +233,15 @@
             this.Name = "Manager";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "a";
+            this.Load += new System.EventHandler(this.Manager_Load);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            this.panel4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -242,5 +261,7 @@
         private System.Windows.Forms.Button Predefine;
         private System.Windows.Forms.Button PredefinitionManagement;
         private System.Windows.Forms.Button CollectionManagement;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.PictureBox pictureBox5;
     }
 }
