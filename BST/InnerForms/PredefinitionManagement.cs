@@ -26,12 +26,20 @@ namespace BST.InnerForms
         };
 
         string IncomingString;
+        string searchBox;
 
         IFirebaseClient client;
         public PredefinitionManagement(string search)
         {
             InitializeComponent();
-            IncomingString = search;
+            if (search.Contains(";"))
+            {
+                IncomingString = search;
+                searchBox = "";
+            } else
+            {
+                searchBox = search;
+            }
         }
 
         private void OpenPredefine(object sender, EventArgs e)
@@ -252,7 +260,8 @@ namespace BST.InnerForms
             {
                 MessageBox.Show("Error in connection");
             }
-            SearchPredefinition("");
+            textBox1.Text = searchBox;
+            SearchPredefinition(searchBox);
         }
 
         private void AddToCollection(string stringToAdd)

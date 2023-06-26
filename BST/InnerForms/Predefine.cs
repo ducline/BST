@@ -64,6 +64,9 @@ namespace BST.InnerForms
 
             SetResponse resp = await client.SetTaskAsync("predefinitions/" + textBox1.Text, datalayer);
             Data result = resp.ResultAs<Data>();
+            OpenPredefinitionManagement(textBox1.Text);
+
+
         }
 
 
@@ -82,7 +85,7 @@ namespace BST.InnerForms
             LoadData(newsearch);
             CheckForValidation();
         }
-        private void OpenPredefinitionManagement()
+        private void OpenPredefinitionManagement(string predefinitiontosearch)
         {
 
 
@@ -91,7 +94,7 @@ namespace BST.InnerForms
             if (managerForm != null)
             {
                 // Call the OpenSearchableForm method of the Manager 
-                managerForm.OpenSearchableForm("", "PredefinitionManagement", "");
+                managerForm.OpenSearchableForm(predefinitiontosearch, "PredefinitionManagement", "");
 
                 // Close the PredefinitionManagement form
                 this.Close();
@@ -102,7 +105,7 @@ namespace BST.InnerForms
 
         private void button1_MouseDown(object sender, MouseEventArgs e)
         {
-            OpenPredefinitionManagement();
+            OpenPredefinitionManagement("");
         }
 
         private void CheckForValidation()
@@ -196,7 +199,7 @@ namespace BST.InnerForms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            OpenPredefinitionManagement();
+            OpenPredefinitionManagement("");
         }
 
         private void button3_Click(object sender, EventArgs e)

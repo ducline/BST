@@ -100,7 +100,7 @@ namespace BST.InnerForms
             // Remove all controls from the panel
             panel1.Controls.Clear();
 
-            int yLocation = 0;
+            int yLocation = 10;
             int positionValue = 1;
             foreach (string value in predefnames)
             {
