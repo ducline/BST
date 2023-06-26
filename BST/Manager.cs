@@ -40,14 +40,14 @@ namespace BST
             }
 
         }
-
+        bool looping, playing;
         private void LoadForm_LoopingPlayingChanged(object sender, EventArgs e)
         {
             Load loadForm = (Load)sender;
 
             // Check if looping or playing values have changed
-            bool looping = loadForm.Looping;
-            bool playing = loadForm.Playing;
+            looping = loadForm.Looping;
+            playing = loadForm.Playing;
 
             if(looping || playing)
             {
@@ -60,6 +60,7 @@ namespace BST
                 }
             } else
             {
+                if (!wifi) SetAngle.Enabled = true; return;
                 foreach (Control control in panel4.Controls)
                 {
                     if (control is Button buttons)
@@ -306,31 +307,36 @@ namespace BST
             }));
         }
 
-        private string CheckForSelectedButton()
+        private string CheckForOpenForm()
         {
-            foreach (Control control in panel4.Controls)
+            foreach (Control control in panel2.Controls)
             {
-                if (control is Button button)
+                if (control is Form form)
                 {
-                    if (button.BackColor == Color.FromArgb(20, 32, 38))
+                    if (form.Visible)
                     {
-                        return button.Name;
+                        return form.Name;
                     }
-
                 }
             }
 
             return "";
         }
 
+        bool wifi = true;
         private void WifiConnection(bool enable)
         {
             if (enable)
             {
-                // Enable the Predefine, PredefinitionManagement, and CollectionManagement buttons
-                Predefine.Enabled = true;
-                PredefinitionManagement.Enabled = true;
-                CollectionManagement.Enabled = true;
+                wifi = true;
+                if (!(looping || playing))
+                {
+                    // Enable the Predefine, PredefinitionManagement, and CollectionManagement buttons
+                    Predefine.Enabled = true;
+                    PredefinitionManagement.Enabled = true;
+                    CollectionManagement.Enabled = true;
+                    SetAngle.Enabled = true;
+                }
 
                 string imagePath = @"Images\wifi.png"; // Path to the image file
 
@@ -338,12 +344,13 @@ namespace BST
                 pictureBox5.Image = newImage;
             } else
             {
+                wifi = false;
                 // Disable the Predefine, PredefinitionManagement, and CollectionManagement buttons
                 Predefine.Enabled = false;
                 PredefinitionManagement.Enabled = false;
                 CollectionManagement.Enabled = false;
 
-                if(!(CheckForSelectedButton() == "SetAngle")) panel2.Controls.Clear();
+                if(!(CheckForOpenForm() == "SetAngle") && !(CheckForOpenForm() == "Load")) panel2.Controls.Clear();
 
 
                 string imagePath = @"Images\no-wifi.png"; // Path to the image file

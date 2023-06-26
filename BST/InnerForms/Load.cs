@@ -238,5 +238,14 @@ namespace BST.InnerForms
 
             }
         }
+
+        private void Load_Leave(object sender, EventArgs e)
+        {
+            playing = false;
+            Playing = false;
+            looping = false;
+            Looping = false;
+            UpdateLoopingPlaying();
+        }
     }
 }

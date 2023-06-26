@@ -146,6 +146,7 @@
             this.Name = "Load";
             this.Text = "Load";
             this.Load += new System.EventHandler(this.Load_Load);
+            this.Leave += new System.EventHandler(this.Load_Leave);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

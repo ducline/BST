@@ -348,5 +348,10 @@ namespace BriareusSupportTool
             pictureBox4.Image = newImage;
             label3.ForeColor = Color.DarkGray;
         }
+
+        private void pictureBox2_DoubleClick(object sender, EventArgs e)
+        {
+            SwitchConnectivity();
+        }
     }
 }
