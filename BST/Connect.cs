@@ -37,16 +37,22 @@ namespace BriareusSupportTool
 
             if (!bluetooth)
             {
-                establishedConnection("testCOM", "Wired"); return;
+                establishedConnection("COM8", "Wired"); return;
             }
-
             //establishedConnection("testCOM", deviceName); TEST
 
-            if (button1.Text == "CONNECTING") return;
+            if (button1.Text == "CONNECTING")
+            {
+                button1.Text = "CONNECT";
+                pictureBox2.Enabled = true;
+                button1.BackColor = Color.FromArgb(40, 60, 70);
+                return;
+            }
             // Use Invoke to run the code on the UI thread
             this.Invoke((MethodInvoker)delegate
             {
                 button1.Text = "CONNECTING";
+                pictureBox2.Enabled = false;
                 button1.BackColor = Color.Yellow;
             });
 
@@ -142,7 +148,13 @@ namespace BriareusSupportTool
                     string imagePath = @"Images\cable.png"; // Path to the image file
 
                     Image newImage = Image.FromFile(imagePath);
-                    menu.SetPictureBox4Image(newImage);
+                    menu.SetPictureBox4Image(newImage, bluetooth);
+                } else
+                {
+                    string imagePath = @"Images\bluetooth.png"; // Path to the image file
+
+                    Image newImage = Image.FromFile(imagePath);
+                    menu.SetPictureBox4Image(newImage, bluetooth);
                 }
 
                 // Calculate the center point of the parent form

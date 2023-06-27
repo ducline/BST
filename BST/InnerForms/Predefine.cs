@@ -204,7 +204,27 @@ namespace BST.InnerForms
 
         private void button3_Click(object sender, EventArgs e)
         {
+            string matchedStrings = "";
 
+            for (int i = 1; i <= 5; i++)
+            {
+                NumericUpDown numericUpDown = (NumericUpDown)this.Controls.Find("numericUpDown" + i, true)[0];
+                matchedStrings += Convert.ToString((int)numericUpDown.Value) + ";";
+            }
+
+            string modifiedString = matchedStrings.TrimEnd(';');
+
+            Manager managerForm = this.Parent.Parent as Manager;
+
+            if (managerForm != null)
+            {
+                // Call the OpenSearchableForm method of the Manager 
+                managerForm.OpenSearchableForm(modifiedString, "SetAngle", "");
+
+                // Close the PredefinitionManagement form
+                this.Close();
+
+            }
         }
     }
 }

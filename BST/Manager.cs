@@ -383,10 +383,12 @@ namespace BST
             }
         }
 
+        public bool bluetooth;
 
-        public void SetPictureBox4Image(Image image)
+        public void SetPictureBox4Image(Image image, bool enable)
         {
             pictureBox4.Image = image;
+            bluetooth = enable;
         }
 
     }
