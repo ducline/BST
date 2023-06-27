@@ -343,6 +343,7 @@ namespace BST
                     PredefinitionManagement.Enabled = true;
                     CollectionManagement.Enabled = true;
                     SetAngle.Enabled = true;
+                    SignLanguageTranslator.Enabled = true;
                 }
 
                 string imagePath = @"Images\wifi.png"; // Path to the image file
@@ -356,8 +357,9 @@ namespace BST
                 Predefine.Enabled = false;
                 PredefinitionManagement.Enabled = false;
                 CollectionManagement.Enabled = false;
+                SignLanguageTranslator.Enabled = false;
 
-                if(!(CheckForOpenForm() == "SetAngle") && !(CheckForOpenForm() == "Load")) panel2.Controls.Clear();
+                if (!(CheckForOpenForm() == "SetAngle") && !(CheckForOpenForm() == "Load")) panel2.Controls.Clear();
 
 
                 string imagePath = @"Images\no-wifi.png"; // Path to the image file

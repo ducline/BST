@@ -347,16 +347,17 @@ namespace BST.InnerForms
             if (response.Body != "null")
             {
                 List<Dictionary<string, object>> data = response.ResultAs<List<Dictionary<string, object>>>();
+                // Access the values inside the "Collection" location and process them as 
+                // Display the data in a MessageBox
 
-                // Access the values inside the "Collection" location and process them as needed
                 foreach (var entry in data)
                 {
+                    if (entry == null) continue;
                     string key = entry["Key"].ToString();
                     object value = entry["Value"];
-
                     if (key == predefinitiontodelete)
                     {
-                        await client.DeleteTaskAsync($"collections/{collectionName}/Collection/{predefinitiontodelete}");
+                        await client.DeleteTaskAsync($"collections/{collectionName}/Collection/{data.IndexOf(entry)}");
                     }
                 }
             }
@@ -396,7 +397,6 @@ namespace BST.InnerForms
                         string selectedPrefinitions = predefname.Text;
 
                         DeleteFromCollections(selectedPrefinitions);
-                        continue;
 
                         // Get a reference to the collection
                         FirebaseResponse collectionResponse = await client.GetTaskAsync($"predefinitions/{selectedPrefinitions}/");

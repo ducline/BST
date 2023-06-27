@@ -35,7 +35,7 @@ namespace BST.InnerForms
        
         private async void LoadData(string search)
         {
-            if (search != null || search != "")
+            if (!string.IsNullOrEmpty(search))
             {
                 FirebaseResponse response = await client.GetTaskAsync("predefinitions/" + search);
                 Data obj = response.ResultAs<Data>();

@@ -52,6 +52,7 @@ namespace BST.InnerForms
                 int yLocation = 15;
                 foreach (var entry in data)
                 {
+                    if (entry == null) continue;
                     string key = entry["Key"].ToString();
                     object value = entry["Value"];
 
@@ -298,7 +299,7 @@ namespace BST.InnerForms
         private async void button3_Click(object sender, EventArgs e)
         {
             int scrollPosition = panel1.VerticalScroll.Value;
-
+            panel2.Controls.Clear();
             string selectedCollection = SelectedCollection(); // Assuming SelectedCollection() returns the ID or name of the collection to be deleted
 
             // Get a reference to the collection

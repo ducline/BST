@@ -145,6 +145,12 @@
     <Compile Include="InnerForms\SetAngle.Designer.cs">
       <DependentUpon>SetAngle.cs</DependentUpon>
     </Compile>
+    <Compile Include="InnerForms\SignLanguageTranslator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InnerForms\SignLanguageTranslator.Designer.cs">
+      <DependentUpon>SignLanguageTranslator.cs</DependentUpon>
+    </Compile>
     <Compile Include="Manager.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -179,6 +185,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="InnerForms\SetAngle.resx">
       <DependentUpon>SetAngle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InnerForms\SignLanguageTranslator.resx">
+      <DependentUpon>SignLanguageTranslator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Manager.resx">
       <DependentUpon>Manager.cs</DependentUpon>
