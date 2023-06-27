@@ -39,6 +39,9 @@ namespace BriareusSupportTool
             {
                 establishedConnection("COM8", "Wired"); return;
             }
+
+            establishedConnection("COM4", deviceName); return;
+
             //establishedConnection("testCOM", deviceName); TEST
 
             if (button1.Text == "CONNECTING")
@@ -101,7 +104,7 @@ namespace BriareusSupportTool
 
                         // Close the connection
                         //client.Close();
-
+                        MessageBox.Show(comPort);
                         establishedConnection(GetConnectedComPort(comPort), deviceName);
 
                         break;

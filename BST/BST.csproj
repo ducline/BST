@@ -120,6 +120,12 @@
     <Compile Include="InnerForms\Load.Designer.cs">
       <DependentUpon>Load.cs</DependentUpon>
     </Compile>
+    <Compile Include="InnerForms\PopUp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InnerForms\PopUp.Designer.cs">
+      <DependentUpon>PopUp.cs</DependentUpon>
+    </Compile>
     <Compile Include="InnerForms\Predefine.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -162,6 +168,9 @@
     <EmbeddedResource Include="InnerForms\Load.resx">
       <DependentUpon>Load.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="InnerForms\PopUp.resx">
+      <DependentUpon>PopUp.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="InnerForms\Predefine.resx">
       <DependentUpon>Predefine.cs</DependentUpon>
     </EmbeddedResource>
@@ -201,6 +210,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Images\warning.png" />
     <None Include="Images\bluetooth-darker.png" />
     <Content Include="Images\bluetooth.png" />
     <Content Include="Images\BriareusLogo.png" />

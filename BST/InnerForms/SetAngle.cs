@@ -11,7 +11,7 @@ namespace BST.InnerForms
         private SerialPort arduinoPort;
         private bool bluetoothValue;
         private const string USBPortName = "COM8";  // Replace with the appropriate USB port name
-        private const string BluetoothPortName = "COM5";  // Replace with the appropriate Bluetooth port name
+        private const string BluetoothPortName = "COM4";  // Replace with the appropriate Bluetooth port name
 
         string modifiedString;
         public SetAngle(string search)
@@ -22,6 +22,7 @@ namespace BST.InnerForms
 
         private string FindBluetoothPort()
         {
+            return BluetoothPortName; //MAYBE REMOVE LATER
             string bluetoothPort = null;
 
             try

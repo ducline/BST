@@ -13,6 +13,8 @@ using FireSharp.Interfaces;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using System.Collections;
+using System.Net.NetworkInformation;
 
 namespace BST.InnerForms
 {
@@ -320,10 +322,66 @@ namespace BST.InnerForms
             }
 
         }
+        private bool ShowConfirmationDialog()
+        {
+            using (var popupForm = new PopUp("This action will delete the predefinition(s) from all of the collections, are you sure you want to do this?"))
+            {
+                popupForm.ShowDialog();
+
+                if (popupForm.UserClickedContinue)
+                {
+                    return true;
+                    // User clicked Continue
+                }
+                else
+                {
+                    return false;
+                    // User clicked Cancel
+                }
+            }
+        }
+
+        private async void DeletePredefinitionFromCollection(string predefinitiontodelete, string collectionName)
+        {
+            FirebaseResponse response = await client.GetTaskAsync($"collections/{collectionName}/Collection");
+            if (response.Body != "null")
+            {
+                List<Dictionary<string, object>> data = response.ResultAs<List<Dictionary<string, object>>>();
+
+                // Access the values inside the "Collection" location and process them as needed
+                foreach (var entry in data)
+                {
+                    string key = entry["Key"].ToString();
+                    object value = entry["Value"];
+
+                    if (key == predefinitiontodelete)
+                    {
+                        await client.DeleteTaskAsync($"collections/{collectionName}/Collection/{predefinitiontodelete}");
+                    }
+                }
+            }
+        }
+
+        private async void DeleteFromCollections(string predefinition)
+        {
+            FirebaseResponse response = await client.GetTaskAsync("collections");
+            if (response.Body != "null")
+            {
+                Dictionary<string, Data> data = response.ResultAs<Dictionary<string, Data>>();
+
+                // Loop through the retrieved data
+                foreach (var item in data)
+                {
+                    DeletePredefinitionFromCollection(predefinition, item.Key);
+                }
+            }
+        }
 
         private async void button2_Click(object sender, EventArgs e)
         {
             int scrollPosition = panel1.VerticalScroll.Value;
+
+            if (!ShowConfirmationDialog()) return;
 
             string matchedStrings = "";
             List<Task> deletionTasks = new List<Task>(); // Track the deletion tasks
@@ -336,6 +394,9 @@ namespace BST.InnerForms
                     if (predefname.BackColor == Color.Yellow)
                     {
                         string selectedPrefinitions = predefname.Text;
+
+                        DeleteFromCollections(selectedPrefinitions);
+                        continue;
 
                         // Get a reference to the collection
                         FirebaseResponse collectionResponse = await client.GetTaskAsync($"predefinitions/{selectedPrefinitions}/");
