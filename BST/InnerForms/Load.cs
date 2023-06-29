@@ -57,7 +57,6 @@ namespace BST.InnerForms
                     Label predefname = new Label();
                     panel1.Controls.Add(predefname);
                     panel1.Controls.SetChildIndex(predefname, 2);
-                    predefname.Name = key;
                     predefname.ForeColor = Color.White;
                     predefname.BackColor = Color.FromArgb(26, 41, 48);
                     predefname.Size = new Size(panel1.Width - 30, 20);
@@ -66,6 +65,7 @@ namespace BST.InnerForms
                     // Remove "(number)" suffix from key
                     string originalKey = RemoveNumberSuffix(key);
                     predefname.Text = position + " | " + originalKey;
+                    predefname.Name = position + " | " + originalKey;
 
                     stringList.Add(originalKey);
 
@@ -150,7 +150,7 @@ namespace BST.InnerForms
 
             while (looping)
             {
-                int position = 0;
+                int position = 1;
                 foreach (var predefname in stringList)
                 {
                     if (!looping)
@@ -203,6 +203,7 @@ namespace BST.InnerForms
 
             while (playing)
             {
+                int position = 1;
                 foreach (var predefname in stringList)
                 {
                     if (!playing)
@@ -211,7 +212,7 @@ namespace BST.InnerForms
                     // PLAY ARDUINO MOTORS
                     this.Invoke((MethodInvoker)(() =>
                     {
-                        Control control = panel1.Controls.Find(predefname, true).FirstOrDefault();
+                        Control control = panel1.Controls.Find(position + " | " + predefname, true).FirstOrDefault();
                         if (control != null)
                         {
                             ClearHighlights();
@@ -221,6 +222,7 @@ namespace BST.InnerForms
                     }));
 
                     await LoadData(predefname);
+                    position++;
                 }
                 playing = false;
             }
