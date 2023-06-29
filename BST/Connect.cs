@@ -266,21 +266,25 @@ namespace BriareusSupportTool
             
         }
 
+        string oldtext;
         private void SwitchConnectivity()
         {
             label3.Visible = false;
             pictureBox4.Visible = false;
             if (bluetooth)
             {
+                oldtext = textBox1.Text;
                 string imagePath = @"Images\cable.png"; // Path to the image file
                 label3.Text = "Switch to bluetooth connection";
                 Image newImage = Image.FromFile(imagePath);
                 pictureBox2.Image = newImage;
                 bluetooth = false;
                 textBox1.Enabled = false;
+                textBox1.Text = "Wired";
             }
             else
             {
+                textBox1.Text = oldtext;
                 string imagePath = @"Images\bluetooth.png"; // Path to the image file
                 label3.Text = "Switch to wired connection";
                 Image newImage = Image.FromFile(imagePath);

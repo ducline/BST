@@ -12,6 +12,7 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace BST.InnerForms
 {
@@ -56,7 +57,7 @@ namespace BST.InnerForms
                     Label predefname = new Label();
                     panel1.Controls.Add(predefname);
                     panel1.Controls.SetChildIndex(predefname, 2);
-                    predefname.Text = position + " | " + key;
+                    predefname.Name = key;
                     predefname.ForeColor = Color.White;
                     predefname.BackColor = Color.FromArgb(26, 41, 48);
                     predefname.Size = new Size(panel1.Width - 30, 20);
@@ -114,6 +115,19 @@ namespace BST.InnerForms
 
         TimeSpan runningTime;
 
+        private async Task LoadData(string search)
+        {
+            if (!string.IsNullOrEmpty(search))
+            {
+                FirebaseResponse response = await client.GetTaskAsync("predefinitions/" + search);
+                Data obj = response.ResultAs<Data>();
+
+                //MessageBox.Show(search + "\nThumb | " + obj.thumb + "\nIndex | " + obj.index + "\nMiddle | " + obj.middle + "\nRing | " + obj.ring + "\nLittle | " + obj.little);
+            }
+            await Task.Delay(1000); // Delay for 1 second
+
+        }
+
         private async Task LoopCollection()
         {
             SetAngle.Invoke((MethodInvoker)(() => SetAngle.Text = "STOP LOOPING"));
@@ -124,16 +138,45 @@ namespace BST.InnerForms
             runningTime = TimeSpan.Zero;
             UpdateRunningTime();
 
-            while (looping)
+            // Start the timer
+            Timer timer = new Timer();
+            timer.Interval = 1000; // 1 second
+            timer.Tick += (sender, e) =>
             {
-                // LOOP ACTIVITIES
-
-
-
-                await Task.Delay(1000); // Delay for 1 second
                 runningTime = runningTime.Add(TimeSpan.FromSeconds(1));
                 UpdateRunningTime();
+            };
+            timer.Start();
+
+            while (looping)
+            {
+                int position = 0;
+                foreach (var predefname in stringList)
+                {
+                    if (!looping)
+                        break;
+
+                    // PLAY ARDUINO MOTORS
+                    this.Invoke((MethodInvoker)(() =>
+                    {
+                        Control control = panel1.Controls.Find(position + " | " + predefname, true).FirstOrDefault();
+                        if (control != null)
+                        {
+                            ClearHighlights();
+
+                            control.BackColor = Color.Yellow;
+                            control.ForeColor = Color.Black;
+                        }
+                    }));
+
+                    await LoadData(predefname);
+                    position++;
+                }
             }
+
+            // Stop the timer
+            timer.Stop();
+            timer.Dispose();
 
             SetAngle.Invoke((MethodInvoker)(() => SetAngle.Text = "PLAY"));
         }
@@ -148,32 +191,66 @@ namespace BST.InnerForms
             runningTime = TimeSpan.Zero;
             UpdateRunningTime();
 
-            while (playing)
+            // Start the timer
+            Timer timer = new Timer();
+            timer.Interval = 1000; // 1 second
+            timer.Tick += (sender, e) =>
             {
-                this.Invoke((MethodInvoker)delegate
-                {
-                    foreach (var predefname in stringList)
-                    {
-                        // PLAY ARDUINO MOTORS
-
-
-                    }
-                });
-
-                // PLAY ACTIVITIES
-
-                await Task.Delay(1000); // Delay for 1 second
                 runningTime = runningTime.Add(TimeSpan.FromSeconds(1));
                 UpdateRunningTime();
+            };
+            timer.Start();
+
+            while (playing)
+            {
+                foreach (var predefname in stringList)
+                {
+                    if (!playing)
+                        break;
+
+                    // PLAY ARDUINO MOTORS
+                    this.Invoke((MethodInvoker)(() =>
+                    {
+                        Control control = panel1.Controls.Find(predefname, true).FirstOrDefault();
+                        if (control != null)
+                        {
+                            ClearHighlights();
+                            control.BackColor = Color.Yellow;
+                            control.ForeColor = Color.Black;
+                        }
+                    }));
+
+                    await LoadData(predefname);
+                }
+                playing = false;
             }
+
+            // Stop the timer
+            timer.Stop();
+            timer.Dispose();
 
             SetAngle.Invoke((MethodInvoker)(() => SetAngle.Text = "PLAY"));
         }
+
+
+
 
         private void UpdateRunningTime()
         {
             string formattedTime = runningTime.ToString(@"mm\:ss");
             label2.Invoke((MethodInvoker)(() => label2.Text = formattedTime));
+        }
+
+        private void ClearHighlights()
+        {
+            foreach (Control control in panel1.Controls)
+            {
+                if (control.BackColor == Color.Yellow)
+                {
+                    control.ForeColor = Color.White;
+                    control.BackColor = Color.FromArgb(26, 41, 48);
+                }
+            }
         }
 
         private async void SetAngle_Click(object sender, EventArgs e)
@@ -207,6 +284,14 @@ namespace BST.InnerForms
             {
                 await PlayCollection();
             }
+
+            looping = false;
+            Looping = false;
+            playing = false;
+            Playing = false;
+            UpdateLoopingPlaying();
+
+            ClearHighlights();
 
             label2.Visible = false;
             pictureBox1.Visible = false;
