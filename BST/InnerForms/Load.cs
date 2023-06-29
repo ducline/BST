@@ -67,11 +67,24 @@ namespace BST.InnerForms
                     predefname.Text = position + " | " + originalKey;
                     predefname.Name = position + " | " + originalKey;
 
+                    RetrieveValues(originalKey, predefname);
                     stringList.Add(originalKey);
 
                     yLocation += 30;
                     position++;
                 }
+            }
+        }
+
+        private async void RetrieveValues(string predefinition, Label label)
+        {
+            if (!string.IsNullOrEmpty(predefinition))
+            {
+                FirebaseResponse response = await client.GetTaskAsync("predefinitions/" + predefinition);
+                Data obj = response.ResultAs<Data>();
+
+                label.Tag = obj; // Store the 'obj' values in the label's Tag property
+
             }
         }
 
@@ -115,14 +128,19 @@ namespace BST.InnerForms
 
         TimeSpan runningTime;
 
-        private async Task LoadData(string search)
+        private async Task LoadData(Label label)
         {
-            if (!string.IsNullOrEmpty(search))
+            if (label.Tag is Data obj)
             {
-                FirebaseResponse response = await client.GetTaskAsync("predefinitions/" + search);
-                Data obj = response.ResultAs<Data>();
+                // Access the values from the 'obj' object
+                decimal thumb = obj.thumb;
+                decimal index = obj.index;
+                decimal middle = obj.middle;
+                decimal ring = obj.ring;
+                decimal little = obj.little;
 
-                //MessageBox.Show(search + "\nThumb | " + obj.thumb + "\nIndex | " + obj.index + "\nMiddle | " + obj.middle + "\nRing | " + obj.ring + "\nLittle | " + obj.little);
+                // Use the values as needed
+                // ...
             }
             await Task.Delay(1000); // Delay for 1 second
 
@@ -156,10 +174,13 @@ namespace BST.InnerForms
                     if (!looping)
                         break;
 
+                    Label label = new Label();
+
                     // PLAY ARDUINO MOTORS
                     this.Invoke((MethodInvoker)(() =>
                     {
                         Control control = panel1.Controls.Find(position + " | " + predefname, true).FirstOrDefault();
+                        label = control as Label;
                         if (control != null)
                         {
                             ClearHighlights();
@@ -169,7 +190,7 @@ namespace BST.InnerForms
                         }
                     }));
 
-                    await LoadData(predefname);
+                    await LoadData(label);
                     position++;
                 }
             }
@@ -209,10 +230,13 @@ namespace BST.InnerForms
                     if (!playing)
                         break;
 
+                    Label label = new Label();
+
                     // PLAY ARDUINO MOTORS
                     this.Invoke((MethodInvoker)(() =>
                     {
                         Control control = panel1.Controls.Find(position + " | " + predefname, true).FirstOrDefault();
+                        label = control as Label;
                         if (control != null)
                         {
                             ClearHighlights();
@@ -221,7 +245,7 @@ namespace BST.InnerForms
                         }
                     }));
 
-                    await LoadData(predefname);
+                    await LoadData(label);
                     position++;
                 }
                 playing = false;
