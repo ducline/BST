@@ -40,8 +40,6 @@ namespace BriareusSupportTool
                 establishedConnection("COM8", "Wired"); return;
             }
 
-            establishedConnection("COM4", deviceName); return;
-
             //establishedConnection("testCOM", deviceName); TEST
 
             if (button1.Text == "CONNECTING")
@@ -84,7 +82,6 @@ namespace BriareusSupportTool
                 }
             }
 
-            // If the device was found, get its virtual COM port
             if (deviceAddress != "")
             {
                 string comPort = "";
@@ -93,26 +90,16 @@ namespace BriareusSupportTool
                     BluetoothDeviceInfo device = new BluetoothDeviceInfo(BluetoothAddress.Parse(deviceAddress));
                     if (device.InstalledServices.Where(service => service.Equals(new Guid("{00001101-0000-1000-8000-00805F9B34FB}"))).Any())
                     {
-                        // Use Invoke to update the label on the UI thread
                         comPort = port;
-
                         // Connect to the Bluetooth device
                         BluetoothClient client = new BluetoothClient();
                         BluetoothEndPoint endPoint = new BluetoothEndPoint(device.DeviceAddress, BluetoothService.SerialPort);
                         await client.ConnectAsync(endPoint);
-
-
-                        // Close the connection
-                        //client.Close();
-                        MessageBox.Show(comPort);
                         establishedConnection(GetConnectedComPort(comPort), deviceName);
 
                         break;
                     }
                 }
-
-
-
             }
             else
             {

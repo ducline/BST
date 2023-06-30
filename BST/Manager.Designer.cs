@@ -41,11 +41,11 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.SetAngle = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.SignLanguageTranslator = new System.Windows.Forms.Button();
             this.CollectionManagement = new System.Windows.Forms.Button();
             this.PredefinitionManagement = new System.Windows.Forms.Button();
             this.Predefine = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.SignLanguageTranslator = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
@@ -177,6 +177,20 @@
             this.panel4.Size = new System.Drawing.Size(150, 400);
             this.panel4.TabIndex = 4;
             // 
+            // SignLanguageTranslator
+            // 
+            this.SignLanguageTranslator.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.SignLanguageTranslator.FlatAppearance.BorderSize = 0;
+            this.SignLanguageTranslator.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SignLanguageTranslator.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SignLanguageTranslator.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
+            this.SignLanguageTranslator.Location = new System.Drawing.Point(5, 230);
+            this.SignLanguageTranslator.Name = "SignLanguageTranslator";
+            this.SignLanguageTranslator.Size = new System.Drawing.Size(140, 40);
+            this.SignLanguageTranslator.TabIndex = 12;
+            this.SignLanguageTranslator.Text = "SIGN LANGUAGE TRANSLATOR";
+            this.SignLanguageTranslator.UseVisualStyleBackColor = false;
+            // 
             // CollectionManagement
             // 
             this.CollectionManagement.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
@@ -221,21 +235,6 @@
             this.Predefine.TabIndex = 9;
             this.Predefine.Text = "PREDEFINE";
             this.Predefine.UseVisualStyleBackColor = false;
-            // 
-            // SignLanguageTranslator
-            // 
-            this.SignLanguageTranslator.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.SignLanguageTranslator.Enabled = false;
-            this.SignLanguageTranslator.FlatAppearance.BorderSize = 0;
-            this.SignLanguageTranslator.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.SignLanguageTranslator.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SignLanguageTranslator.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
-            this.SignLanguageTranslator.Location = new System.Drawing.Point(5, 230);
-            this.SignLanguageTranslator.Name = "SignLanguageTranslator";
-            this.SignLanguageTranslator.Size = new System.Drawing.Size(140, 40);
-            this.SignLanguageTranslator.TabIndex = 12;
-            this.SignLanguageTranslator.Text = "SIGN LANGUAGE TRANSLATOR";
-            this.SignLanguageTranslator.UseVisualStyleBackColor = false;
             // 
             // Manager
             // 
