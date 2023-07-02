@@ -162,6 +162,7 @@
             this.SetAngle.Name = "SetAngle";
             this.SetAngle.Size = new System.Drawing.Size(140, 40);
             this.SetAngle.TabIndex = 8;
+            this.SetAngle.TabStop = false;
             this.SetAngle.Text = "SET ANGLE";
             this.SetAngle.UseVisualStyleBackColor = false;
             // 
@@ -188,6 +189,7 @@
             this.SignLanguageTranslator.Name = "SignLanguageTranslator";
             this.SignLanguageTranslator.Size = new System.Drawing.Size(140, 40);
             this.SignLanguageTranslator.TabIndex = 12;
+            this.SignLanguageTranslator.TabStop = false;
             this.SignLanguageTranslator.Text = "SIGN LANGUAGE TRANSLATOR";
             this.SignLanguageTranslator.UseVisualStyleBackColor = false;
             // 
@@ -203,6 +205,7 @@
             this.CollectionManagement.Name = "CollectionManagement";
             this.CollectionManagement.Size = new System.Drawing.Size(140, 40);
             this.CollectionManagement.TabIndex = 11;
+            this.CollectionManagement.TabStop = false;
             this.CollectionManagement.Text = "COLLECTION MANAGEMENT";
             this.CollectionManagement.UseVisualStyleBackColor = false;
             // 
@@ -218,6 +221,7 @@
             this.PredefinitionManagement.Name = "PredefinitionManagement";
             this.PredefinitionManagement.Size = new System.Drawing.Size(140, 40);
             this.PredefinitionManagement.TabIndex = 10;
+            this.PredefinitionManagement.TabStop = false;
             this.PredefinitionManagement.Text = "PREDEFINITION MANAGEMENT";
             this.PredefinitionManagement.UseVisualStyleBackColor = false;
             // 
@@ -233,6 +237,7 @@
             this.Predefine.Name = "Predefine";
             this.Predefine.Size = new System.Drawing.Size(140, 40);
             this.Predefine.TabIndex = 9;
+            this.Predefine.TabStop = false;
             this.Predefine.Text = "PREDEFINE";
             this.Predefine.UseVisualStyleBackColor = false;
             // 

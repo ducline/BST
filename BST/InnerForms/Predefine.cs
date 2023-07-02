@@ -50,9 +50,8 @@ namespace BST.InnerForms
             }
         }
 
-        private async void button2_Click(object sender, EventArgs e) // SAVE PREDEFINITION
+        private async void SavePredefinition()
         {
-
             var datalayer = new Data
             {
                 thumb = numericUpDown1.Value,
@@ -65,7 +64,12 @@ namespace BST.InnerForms
             SetResponse resp = await client.SetTaskAsync("predefinitions/" + textBox1.Text, datalayer);
             Data result = resp.ResultAs<Data>();
             OpenPredefinitionManagement(textBox1.Text);
+        }
 
+        private void button2_Click(object sender, EventArgs e) // SAVE PREDEFINITION
+        {
+
+            SavePredefinition();
 
         }
 
@@ -226,5 +230,14 @@ namespace BST.InnerForms
 
             }
         }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter && button2.Enabled)
+            {
+                SavePredefinition();
+            }
+        }
+
     }
 }

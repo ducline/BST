@@ -157,7 +157,7 @@ namespace BST
 
         private void OpenInnerForm(object sender, EventArgs e)
         {
-            panel2.Controls.Clear();
+
             foreach (Control control in panel4.Controls)
             {
                 if (control is Button clearbuttons)
@@ -173,6 +173,10 @@ namespace BST
             button.ForeColor = Color.White;
 
             string formName = button.Name;
+
+            if (formName == CheckForOpenForm()) return;
+
+            panel2.Controls.Clear();
 
             // Create the form type based on the button name
             this.Text = formName + " | Briareus Support Tool";

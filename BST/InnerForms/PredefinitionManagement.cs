@@ -264,6 +264,7 @@ namespace BST.InnerForms
             }
             textBox1.Text = searchBox;
             SearchPredefinition(searchBox);
+            textBox1.Select();
         }
 
         private void AddToCollection(string stringToAdd)

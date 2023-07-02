@@ -523,6 +523,11 @@ namespace BST.InnerForms
             }
         }
 
+        private void SignLanguageTranslator_Load(object sender, EventArgs e)
+        {
+            textBox1.Select();
+        }
+
         private void UpdateRunningTime()
         {
             string formattedTime = runningTime.ToString(@"mm\:ss");

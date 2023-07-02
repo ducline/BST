@@ -48,6 +48,7 @@ namespace BST.InnerForms
         {
             label3.Text = "";
             Button button = new Button();
+            textBox1.Select();
 
             addPredefinitionButton = button;
             if (textBox1.Text == null || textBox1.Text == "")
@@ -84,17 +85,7 @@ namespace BST.InnerForms
             else label3.Text = ""; 
         }
 
-
-
-        private void EnableButtons()
-        {
-            
-        }
-
-        private void DisableButtons()
-        {
-            
-        }
+        bool nopredefinitions = true;
 
         private void ReorderList()
         {
@@ -107,7 +98,7 @@ namespace BST.InnerForms
             int positionValue = 1;
             foreach (string value in predefnames)
             {
-                if(positionValue == 1 && value == "") { yLocation = 10; break; }
+                if (positionValue == 1 && value == "") { yLocation = 10; break; }
                 CreatePositionLabel(positionValue, yLocation);
                 CreateNameLabel(value, yLocation, positionValue);
                 CreateUpButton(positionValue, yLocation);
@@ -116,6 +107,12 @@ namespace BST.InnerForms
                 positionValue++;
                 yLocation += 35;
             }
+
+            if (positionValue == 1)
+            {
+                nopredefinitions = true;
+            }
+            else nopredefinitions = false;
 
             CreatePositionLabel(positionValue, yLocation);
             // ... Continue with the rest of the code
@@ -132,6 +129,7 @@ namespace BST.InnerForms
 
             panel1.VerticalScroll.Value = scrollPosition;
 
+            CheckForValidation();
         }
 
         bool buttonclicked = false;
@@ -313,6 +311,7 @@ namespace BST.InnerForms
 
             var collectionData = new Dictionary<string, int>();
 
+
             for (int i = 0; i < predefnames.Count; i++)
             {
                 string name = predefnames[i];
@@ -328,6 +327,7 @@ namespace BST.InnerForms
                 collectionData.Add(newName, i + 1);
             }
 
+
             var datalayer = new CollectionData
             {
                 Collection = collectionData
@@ -341,7 +341,7 @@ namespace BST.InnerForms
 
         private void CheckForValidation()
         {
-            if (string.IsNullOrWhiteSpace(textBox1.Text))
+            if (string.IsNullOrWhiteSpace(textBox1.Text) || nopredefinitions)
             {
                 // Disabled Background Color
                 button1.BackColor = Color.FromArgb(200, 200, 200);
