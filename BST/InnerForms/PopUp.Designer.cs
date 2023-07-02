@@ -111,6 +111,7 @@
             this.Name = "PopUp";
             this.Text = "PopUp";
             this.Load += new System.EventHandler(this.PopUp_Load);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PopUp_KeyPress);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

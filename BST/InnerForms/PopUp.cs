@@ -51,5 +51,15 @@ namespace BST.InnerForms
 
             CenterToParent(); // Recenter the form when the parent form's location changes
         }
+
+        private void PopUp_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                //YES
+                UserClickedContinue = true;
+                Close();
+            }
+        }
     }
 }

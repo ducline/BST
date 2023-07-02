@@ -11,6 +11,7 @@ using FireSharp.Config;
 using FireSharp.Response;
 using FireSharp.Interfaces;
 using static System.Net.Mime.MediaTypeNames;
+using System.Runtime.CompilerServices;
 
 namespace BST.InnerForms
 {
@@ -48,7 +49,6 @@ namespace BST.InnerForms
         {
             label3.Text = "";
             Button button = new Button();
-            textBox1.Select();
 
             addPredefinitionButton = button;
             if (textBox1.Text == null || textBox1.Text == "")
@@ -65,6 +65,8 @@ namespace BST.InnerForms
             }
 
             ReorderList();
+
+            textBox1.Select();
 
         }
 
@@ -125,6 +127,7 @@ namespace BST.InnerForms
             addPredefinitionButton.FlatAppearance.BorderSize = 0;
             addPredefinitionButton.Location = new Point(25, yLocation - 8); // Adjust the location as needed
             addPredefinitionButton.Size = new Size(100, 30); // Adjust the size as needed
+            addPredefinitionButton.TabStop = false;
             addPredefinitionButton.Click += AddPredefinitionButton_Click;
 
             panel1.VerticalScroll.Value = scrollPosition;
@@ -204,6 +207,7 @@ namespace BST.InnerForms
             deleteButton.ForeColor = Color.Red;
             deleteButton.FlatStyle = FlatStyle.Flat;
             deleteButton.FlatAppearance.BorderSize = 0;
+            deleteButton.TabStop = false;
 
         }
 
@@ -235,6 +239,7 @@ namespace BST.InnerForms
             upButton.FlatStyle = FlatStyle.Flat;
             upButton.FlatAppearance.BorderSize = 0;
             upButtons.Add(upButton);
+            upButton.TabStop = false;
         }
 
         private void CreateDownButton(int position, int yLocation)
@@ -250,6 +255,7 @@ namespace BST.InnerForms
             downButton.FlatStyle = FlatStyle.Flat;
             downButton.FlatAppearance.BorderSize = 0;
             downButtons.Add(downButton);
+            downButton.TabStop = false;
         }
 
 
@@ -305,8 +311,10 @@ namespace BST.InnerForms
 
         }
 
-        private async void button1_Click(object sender, EventArgs e)
+        private async void SaveCollection()
         {
+            if (!button1.Enabled) return;
+
             string collectionName = textBox1.Text;
 
             var collectionData = new Dictionary<string, int>();
@@ -333,7 +341,12 @@ namespace BST.InnerForms
                 Collection = collectionData
             };
 
-            SetResponse resp = await client.SetTaskAsync("collections/" + collectionName, datalayer);
+            await client.SetTaskAsync("collections/" + collectionName, datalayer);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SaveCollection();
 
             OpenCollectionManagement();
         }
@@ -407,6 +420,8 @@ namespace BST.InnerForms
                 label3.Text = "Save first!"; return;
             }
 
+            SaveCollection();
+
             Manager managerForm = this.Parent.Parent as Manager;
 
             if (managerForm != null)
@@ -420,5 +435,14 @@ namespace BST.InnerForms
             }
         }
 
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                SaveCollection();
+                OpenCollectionManagement();
+            }
+        }
+       
     }
 }
