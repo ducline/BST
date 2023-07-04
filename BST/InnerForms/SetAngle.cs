@@ -64,6 +64,7 @@ namespace BST.InnerForms
         {
             Manager managerForm = this.Parent.Parent as Manager;
             arduinoPort = managerForm.arduinoPort;
+            bluetoothValue = managerForm.bluetooth;
 
             if (modifiedString != "")
             {
@@ -82,11 +83,7 @@ namespace BST.InnerForms
             }
 
             label1.Text = "";
-            if (managerForm != null)
-            {
-                bluetoothValue = managerForm.bluetooth;
-                // Use the 'bluetoothValue' variable as needed
-            }
+
 
         }
 
