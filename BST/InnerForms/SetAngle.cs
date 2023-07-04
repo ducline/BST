@@ -8,80 +8,34 @@ namespace BST.InnerForms
 {
     public partial class SetAngle : Form
     {
-        private SerialPort arduinoPort;
+
         private bool bluetoothValue;
         private const string USBPortName = "COM8";  // Replace with the appropriate USB port name
         private const string BluetoothPortName = "COM4";  // Replace with the appropriate Bluetooth port name
-
         string modifiedString;
+        private SerialPort arduinoPort;
         public SetAngle(string search)
         {
             InitializeComponent();
             modifiedString = search;
+            
+            
         }
 
         private string FindBluetoothPort()
         {
             return BluetoothPortName; //MAYBE REMOVE LATER
-            string bluetoothPort = null;
 
-            try
-            {
-                ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity WHERE Caption LIKE '%(COM%'");
-                foreach (ManagementObject obj in searcher.Get())
-                {
-                    object captionObj = obj["Caption"];
-                    if (captionObj != null && captionObj.ToString().Contains("HC-05"))
-                    {
-                        object portObj = obj["Caption"];
-                        if (portObj != null)
-                        {
-                            string caption = portObj.ToString();
-                            int startIndex = caption.LastIndexOf("(COM") + 1;
-                            int endIndex = caption.LastIndexOf(")");
-                            if (startIndex >= 0 && endIndex >= 0 && endIndex > startIndex)
-                            {
-                                bluetoothPort = caption.Substring(startIndex, endIndex - startIndex);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // Handle any exceptions that occurred during the search
-                // You can log the exception or display an error message
-                Console.WriteLine("Failed to find Bluetooth port: " + ex.Message);
-            }
-
-            return bluetoothPort;
         }
 
-        private void InitializeSerialPort()
+
+        public void ResetFingers()
         {
-            string portName = bluetoothValue ? FindBluetoothPort() : USBPortName;
-            int baudRate = 9600;
+            bool sendDataViaBluetooth = bluetoothValue;  // Get the boolean value from the bluetoothValue variable
 
-            if (portName != null)
-            {
-                arduinoPort = new SerialPort(portName, baudRate);
+            string data = $"0, 0, 0, 0, 0, {sendDataViaBluetooth}";
 
-                try
-                {
-                    arduinoPort.Open();
-                }
-                catch (Exception ex)
-                {
-                    label1.Text = "Failed to open the Arduino port. Error: " + ex.Message;
-                }
-            }
-            else
-            {
-                label1.Text = "Port not found.";
-            }
         }
-
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -100,14 +54,18 @@ namespace BST.InnerForms
             }
             else
             {
-                label1.Text = "Arduino port is not open.";
+                label1.Text = "Unable to send data.";
             }
+
         }
 
 
         private void SetAngle_Load(object sender, EventArgs e)
         {
-            if(modifiedString != "")
+            Manager managerForm = this.Parent.Parent as Manager;
+            arduinoPort = managerForm.arduinoPort;
+
+            if (modifiedString != "")
             {
                 string[] values = modifiedString.Split(';');
                 int count = Math.Min(values.Length, 5); // Limit the count to 5 in case there are fewer values
@@ -124,24 +82,25 @@ namespace BST.InnerForms
             }
 
             label1.Text = "";
-
-            Manager managerForm = this.Parent.Parent as Manager;
             if (managerForm != null)
             {
                 bluetoothValue = managerForm.bluetooth;
                 // Use the 'bluetoothValue' variable as needed
             }
 
-            InitializeSerialPort();
         }
 
         private void SetAngle_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (arduinoPort != null && arduinoPort.IsOpen)
-            {
-                arduinoPort.Close();
-            }
+            //arduinoPort.Close();
         }
+
+        private void SetAngle_FormClosed(object sender, FormClosedEventArgs e)
+        {
+
+
+        }
+
 
     }
 }

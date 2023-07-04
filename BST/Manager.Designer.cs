@@ -46,6 +46,7 @@
             this.PredefinitionManagement = new System.Windows.Forms.Button();
             this.Predefine = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.alert = new System.Windows.Forms.Label();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
@@ -241,12 +242,24 @@
             this.Predefine.Text = "PREDEFINE";
             this.Predefine.UseVisualStyleBackColor = false;
             // 
+            // alert
+            // 
+            this.alert.AutoSize = true;
+            this.alert.ForeColor = System.Drawing.Color.Firebrick;
+            this.alert.Location = new System.Drawing.Point(196, 43);
+            this.alert.MaximumSize = new System.Drawing.Size(300, 50);
+            this.alert.Name = "alert";
+            this.alert.Size = new System.Drawing.Size(27, 13);
+            this.alert.TabIndex = 32;
+            this.alert.Text = "alert";
+            // 
             // Manager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(41)))), ((int)(((byte)(48)))));
             this.ClientSize = new System.Drawing.Size(900, 500);
+            this.Controls.Add(this.alert);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -256,6 +269,7 @@
             this.Name = "Manager";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Briareus Support Tool";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Manager_FormClosed);
             this.Load += new System.EventHandler(this.Manager_Load);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
@@ -266,6 +280,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.panel4.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -287,5 +302,6 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.Button SignLanguageTranslator;
+        private System.Windows.Forms.Label alert;
     }
 }

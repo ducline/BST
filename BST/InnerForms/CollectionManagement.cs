@@ -38,7 +38,7 @@ namespace BST.InnerForms
 
         private List<string> labelOrder = new List<string>(); // Declare a list to store label texts in order
 
-        private async void LoadPredefinitions(string collectionName)
+        public async void LoadPredefinitions(string collectionName)
         {
             panel2.Controls.Clear();
             labelOrder.Clear(); // Clear the label order list

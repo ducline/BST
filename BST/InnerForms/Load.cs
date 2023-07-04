@@ -1,17 +1,21 @@
 ﻿using FireSharp.Config;
 using FireSharp.Interfaces;
 using FireSharp.Response;
+using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
+using System.Management;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace BST.InnerForms
@@ -19,6 +23,9 @@ namespace BST.InnerForms
     public partial class Load : Form
     {
         string collection;
+        private SerialPort arduinoPort;
+        private const string USBPortName = "COM8";  // Replace with the appropriate USB port name
+        private bool bluetoothValue = false;
 
         IFirebaseConfig config = new FirebaseConfig
         {
@@ -100,18 +107,25 @@ namespace BST.InnerForms
             return key; // No "(number)" suffix found, return original key
         }
 
-
         private void Load_Load(object sender, EventArgs e)
         {
+            alert.Text = "";
+            Manager managerForm = this.Parent.Parent as Manager;
+            arduinoPort = managerForm.arduinoPort;
+            bluetoothValue = managerForm.bluetooth;
+
             client = new FireSharp.FirebaseClient(config);
             if (client == null)
             {
                 MessageBox.Show("Error in connection");
             }
-            label1.Text = collection;
-            LoadCollection(collection);
-        }
+            if (!string.IsNullOrEmpty(collection)) // FROM COLLECTIONS
+            {
+                label1.Text = collection;
+                LoadCollection(collection);
+            }
 
+        }
 
 
         public event EventHandler LoopingPlayingChanged;
@@ -133,16 +147,30 @@ namespace BST.InnerForms
             if (label.Tag is Data obj)
             {
                 // Access the values from the 'obj' object
-                decimal thumb = obj.thumb;
-                decimal index = obj.index;
-                decimal middle = obj.middle;
-                decimal ring = obj.ring;
-                decimal little = obj.little;
+                int angle1 = (int)obj.thumb;
+                int angle2 = (int)obj.index;
+                int angle3 = (int)obj.middle;
+                int angle4 = (int)obj.ring;
+                int angle5 = (int)obj.little;
+
+                string data = $"{angle1},{angle2},{angle3},{angle4},{angle5},{bluetoothValue}";
+
+                try
+                {
+                    arduinoPort.WriteLine(data);
+                    alert.Text = "";
+                }
+                catch (Exception ex)
+                {
+                    alert.Text = ex.Message + " Showing demonstration.";
+                }
+             
 
                 // Use the values as needed
                 // ...
             }
-            await Task.Delay(1000); // Delay for 1 second
+            int delayal = (int)(numericUpDown1.Value * 1000);
+            await Task.Delay(delayal); // Delay for 2 second
 
         }
 
@@ -254,8 +282,14 @@ namespace BST.InnerForms
             // Stop the timer
             timer.Stop();
             timer.Dispose();
+            try
+            {
+                SetAngle.Invoke((MethodInvoker)(() => SetAngle.Text = "PLAY"));
 
-            SetAngle.Invoke((MethodInvoker)(() => SetAngle.Text = "PLAY"));
+            } catch (Exception ex)
+            {
+                alert.Text = ex.Message;
+            }
         }
 
 
@@ -264,7 +298,13 @@ namespace BST.InnerForms
         private void UpdateRunningTime()
         {
             string formattedTime = runningTime.ToString(@"mm\:ss");
-            label2.Invoke((MethodInvoker)(() => label2.Text = formattedTime));
+            try
+            {
+                label2.Invoke((MethodInvoker)(() => label2.Text = formattedTime));
+
+            } catch (Exception ex) { 
+                alert.Text = ex.Message;
+            }
         }
 
         private void ClearHighlights()
@@ -299,6 +339,7 @@ namespace BST.InnerForms
 
             button1.Enabled = false;
             checkBox1.Enabled = false;
+            numericUpDown1.Enabled = false;
             pictureBox1.Visible = true;
             label2.Visible = true;
 
@@ -322,6 +363,7 @@ namespace BST.InnerForms
             label2.Visible = false;
             pictureBox1.Visible = false;
             checkBox1.Enabled = true;
+            numericUpDown1.Enabled = true;
             button1.Enabled = true;
         }
 
@@ -359,5 +401,266 @@ namespace BST.InnerForms
             Looping = false;
             UpdateLoopingPlaying();
         }
+
+        //STL FUNCTIONS
+
+        private void FindFingerValues(string character, Label label)
+        {
+            char inputChar = char.ToUpper(character[0]);
+
+            int thumbAngle = 0;
+            int indexAngle = 0;
+            int middleAngle = 0;
+            int ringAngle = 0;
+            int littleAngle = 0;
+
+            switch (inputChar)
+            {
+                case 'A':
+                    thumbAngle = 0;
+                    indexAngle = 180;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 180;
+                    break;
+                case 'B':
+                    thumbAngle = 45;
+                    indexAngle = 180;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 180;
+                    break;
+                case 'C':
+                    thumbAngle = 90;
+                    indexAngle = 90;
+                    middleAngle = 90;
+                    ringAngle = 90;
+                    littleAngle = 90;
+                    break;
+                case 'D':
+                    thumbAngle = 0;
+                    indexAngle = 180;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 180;
+                    break;
+                case 'E':
+                    thumbAngle = 0;
+                    indexAngle = 180;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 180;
+                    break;
+                case 'F':
+                    thumbAngle = 0;
+                    indexAngle = 180;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 0;
+                    break;
+                case 'G':
+                    thumbAngle = 0;
+                    indexAngle = 180;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 180;
+                    break;
+                case 'H':
+                    thumbAngle = 90;
+                    indexAngle = 180;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 180;
+                    break;
+                case 'I':
+                    thumbAngle = 0;
+                    indexAngle = 180;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 0;
+                    break;
+                case 'J':
+                    thumbAngle = 180;
+                    indexAngle = 180;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 180;
+                    break;
+                case 'K':
+                    thumbAngle = 90;
+                    indexAngle = 180;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 180;
+                    break;
+                case 'L':
+                    thumbAngle = 0;
+                    indexAngle = 180;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 0;
+                    break;
+                case 'M':
+                    thumbAngle = 90;
+                    indexAngle = 180;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 0;
+                    break;
+                case 'N':
+                    thumbAngle = 90;
+                    indexAngle = 180;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 180;
+                    break;
+                case 'O':
+                    thumbAngle = 180;
+                    indexAngle = 180;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 180;
+                    break;
+                case 'P':
+                    thumbAngle = 90;
+                    indexAngle = 180;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 180;
+                    break;
+                case 'Q':
+                    thumbAngle = 45;
+                    indexAngle = 180;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 0;
+                    break;
+                case 'R':
+                    thumbAngle = 0;
+                    indexAngle = 180;
+                    middleAngle = 0;
+                    ringAngle = 180;
+                    littleAngle = 0;
+                    break;
+                case 'S':
+                    thumbAngle = 0;
+                    indexAngle = 0;
+                    middleAngle = 0;
+                    ringAngle = 0;
+                    littleAngle = 0;
+                    break;
+                case 'T':
+                    thumbAngle = 0;
+                    indexAngle = 180;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 180;
+                    break;
+                case 'U':
+                    thumbAngle = 90;
+                    indexAngle = 180;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 0;
+                    break;
+                case 'V':
+                    thumbAngle = 90;
+                    indexAngle = 180;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 0;
+                    break;
+                case 'W':
+                    thumbAngle = 90;
+                    indexAngle = 180;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 0;
+                    break;
+                case 'X':
+                    thumbAngle = 0;
+                    indexAngle = 0;
+                    middleAngle = 0;
+                    ringAngle = 0;
+                    littleAngle = 0;
+                    break;
+                case 'Y':
+                    thumbAngle = 45;
+                    indexAngle = 180;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 0;
+                    break;
+                case 'Z':
+                    thumbAngle = 0;
+                    indexAngle = 180;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 0;
+                    break;
+                default:
+                    break;
+            }
+
+            // Set the values in the label's Tag property
+            label.Tag = new Data
+            {
+                thumb = thumbAngle,
+                index = indexAngle,
+                middle = middleAngle,
+                ring = ringAngle,
+                little = littleAngle
+            };
+
+        }
+
+        public void LoadSTL(string incomingSTL)
+        {
+            if (string.IsNullOrEmpty(incomingSTL))
+            {
+                string STLText = label1.Text;
+                RetrieveSTLValues(STLText);
+
+            }
+            else
+            {
+                RetrieveSTLValues(incomingSTL);
+            }
+        }
+
+        private void RetrieveSTLValues(string predefinition)
+        {
+            stringList.Clear();
+            int yLocation = 15;
+            int position = 1;
+            for (int i = 0; i < predefinition.Length; i++)
+            {
+                string character = Convert.ToString(predefinition[i]);
+                // Do something with the character, such as displaying it in the label
+
+                Label letter = new Label();
+                panel1.Controls.Add(letter);
+                panel1.Controls.SetChildIndex(letter, 2);
+                letter.ForeColor = Color.White;
+                letter.BackColor = Color.FromArgb(26, 41, 48);
+                letter.Size = new Size(panel1.Width - 30, 20);
+                letter.Location = new Point(10, yLocation);
+
+                // Remove "(number)" suffix from key
+                letter.Text = position + " | " + character;
+                letter.Name = position + " | " + character;
+
+                FindFingerValues(character, letter);
+                stringList.Add(character);
+
+                yLocation += 30;
+                position++;
+            }
+        }
+
+
     }
+
+
+
 }

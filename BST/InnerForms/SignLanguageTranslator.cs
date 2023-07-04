@@ -17,53 +17,6 @@ namespace BST.InnerForms
         {
             InitializeComponent();
         }
-        private struct FingerAngles
-        {
-            public int ThumbAngle;
-            public int IndexAngle;
-            public int MiddleAngle;
-            public int RingAngle;
-            public int LittleAngle;
-        }
-
-        private FingerAngles GetFingerAnglesFromLabel(Label label)
-        {
-            if (label.Tag is FingerAngles fingerAngles)
-            {
-                return fingerAngles;
-            }
-            else
-            {
-                // Return default values or handle the case when the Tag is not of the expected type
-                return default(FingerAngles);
-            }
-        }
-
-        private async Task LoadData(Label label)
-        {
-            FingerAngles angles = GetFingerAnglesFromLabel(label);
-
-            int thumbAngle = angles.ThumbAngle;
-            int indexAngle = angles.IndexAngle;
-            int middleAngle = angles.MiddleAngle;
-            int ringAngle = angles.RingAngle;
-            int littleAngle = angles.LittleAngle;
-
-            if (label.Tag is Data obj)
-            {
-                // Access the values from the 'obj' object
-                decimal thumb = obj.thumb;
-                decimal index = obj.index;
-                decimal middle = obj.middle;
-                decimal ring = obj.ring;
-                decimal little = obj.little;
-
-                // Use the values as needed
-                // ...
-            }
-            await Task.Delay(1000); // Delay for 1 second
-
-        }
 
         private void FindFingerValues(string character, Label label)
         {
@@ -263,18 +216,6 @@ namespace BST.InnerForms
                     break;
             }
 
-            // Create a new instance of FingerAngles and assign the angle values
-            FingerAngles fingerAngles = new FingerAngles
-            {
-                ThumbAngle = thumbAngle,
-                IndexAngle = indexAngle,
-                MiddleAngle = middleAngle,
-                RingAngle = ringAngle,
-                LittleAngle = littleAngle
-            };
-
-            // Set the Tag property of the label to the FingerAngles object
-            label.Tag = fingerAngles;
         }
 
 
@@ -332,206 +273,27 @@ namespace BST.InnerForms
             }
         }
 
-        public bool Looping { get; private set; }
-        public bool Playing { get; private set; }
 
-        bool looping = false, playing = false;
-        TimeSpan runningTime;
-
-
-        private async void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            if (button1.Text == "STOP PLAYING")
+            Manager managerForm = this.Parent.Parent as Manager;
+
+            if (managerForm != null)
             {
-                playing = false;
-                Playing = false;
-                UpdateLoopingPlaying();
+                // Call the OpenSearchableForm method of the Manager 
+                managerForm.OpenSearchableForm(textBox1.Text, "Load", "STL");
+
+                // Close the PredefinitionManagement form
+                this.Close();
+
+
             }
-            if (button1.Text == "STOP LOOPING")
-            {
-                looping = false;
-                Looping = false;
-                UpdateLoopingPlaying();
-            }
-
-            if (button1.Text != "LOAD TRANSLATION")
-                return;
-
-            checkBox1.Enabled = false;
-            textBox1.Enabled = false;
-            pictureBox1.Visible = true;
-            label2.Visible = true;
-
-            if (checkBox1.Checked)
-            {
-                await LoopCollection();
-            }
-            else
-            {
-                await PlayCollection();
-            }
-
-            looping = false;
-            Looping = false;
-            playing = false;
-            Playing = false;
-            UpdateLoopingPlaying();
-
-            ClearHighlights();
-
-            label2.Visible = false;
-            pictureBox1.Visible = false;
-            checkBox1.Enabled = true;
-            textBox1.Enabled = true;
-
-
-        }
-
-        private void UpdateLoopingPlaying()
-        {
-            OnLoopingPlayingChanged();
-        }
-
-        public event EventHandler LoopingPlayingChanged;
-
-        protected virtual void OnLoopingPlayingChanged()
-        {
-            LoopingPlayingChanged?.Invoke(this, EventArgs.Empty);
-        }
-
-        private async Task LoopCollection()
-        {
-            button1.Invoke((MethodInvoker)(() => button1.Text = "STOP LOOPING"));
-
-            looping = true;
-            Looping = true;
-            UpdateLoopingPlaying();
-            runningTime = TimeSpan.Zero;
-            UpdateRunningTime();
-
-            // Start the timer
-            Timer timer = new Timer();
-            timer.Interval = 1000; // 1 second
-            timer.Tick += (sender, e) =>
-            {
-                runningTime = runningTime.Add(TimeSpan.FromSeconds(1));
-                UpdateRunningTime();
-            };
-            timer.Start();
-
-            while (looping)
-            {
-                int position = 1;
-                foreach (var predefname in stringList)
-                {
-                    if (!looping)
-                        break;
-
-                    Label label = new Label();
-
-                    // PLAY ARDUINO MOTORS
-                    this.Invoke((MethodInvoker)(() =>
-                    {
-                        Control control = panel1.Controls.Find(position + " | " + predefname, true).FirstOrDefault();
-                        label = control as Label;
-                        if (control != null)
-                        {
-                            ClearHighlights();
-
-                            control.BackColor = Color.Yellow;
-                            control.ForeColor = Color.Black;
-                        }
-                    }));
-
-                    await LoadData(label);
-                    position++;
-                }
-            }
-
-            // Stop the timer
-            timer.Stop();
-            timer.Dispose();
-
-            button1.Invoke((MethodInvoker)(() => button1.Text = "LOAD TRANSLATION"));
-        }
-
-        private async Task PlayCollection()
-        {
-            button1.Invoke((MethodInvoker)(() => button1.Text = "STOP PLAYING"));
-
-            playing = true;
-            Playing = true;
-            UpdateLoopingPlaying();
-            runningTime = TimeSpan.Zero;
-            UpdateRunningTime();
-
-            // Start the timer
-            Timer timer = new Timer();
-            timer.Interval = 1000; // 1 second
-            timer.Tick += (sender, e) =>
-            {
-                runningTime = runningTime.Add(TimeSpan.FromSeconds(1));
-                UpdateRunningTime();
-            };
-            timer.Start();
-
-            while (playing)
-            {
-                int position = 1;
-                foreach (var predefname in stringList)
-                {
-                    if (!playing)
-                        break;
-
-                    Label label = new Label();
-
-                    // PLAY ARDUINO MOTORS
-                    this.Invoke((MethodInvoker)(() =>
-                    {
-                        Control control = panel1.Controls.Find(position + " | " + predefname, true).FirstOrDefault();
-                        label = control as Label;
-                        if (control != null)
-                        {
-                            ClearHighlights();
-                            control.BackColor = Color.Yellow;
-                            control.ForeColor = Color.Black;
-                        }
-                    }));
-
-                    await LoadData(label);
-                    position++;
-                }
-                playing = false;
-            }
-
-            // Stop the timer
-            timer.Stop();
-            timer.Dispose();
-
-            button1.Invoke((MethodInvoker)(() => button1.Text = "LOAD TRANSLATION"));
-        }
-
-        private void ClearHighlights()
-        {
-            foreach (Control control in panel1.Controls)
-            {
-                if (control.BackColor == Color.Yellow)
-                {
-                    control.ForeColor = Color.White;
-                    control.BackColor = Color.FromArgb(26, 41, 48);
-                }
-            }
-        }
+}
 
         private void SignLanguageTranslator_Load(object sender, EventArgs e)
         {
             textBox1.Select();
         }
 
-        private void UpdateRunningTime()
-        {
-            string formattedTime = runningTime.ToString(@"mm\:ss");
-            label2.Invoke((MethodInvoker)(() => label2.Text = formattedTime));
-        }
     }
 }

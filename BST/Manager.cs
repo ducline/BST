@@ -11,11 +11,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
+using System.IO.Ports;
+using System.Management;
 
 namespace BST
 {
     public partial class Manager : Form
     {
+
+        public SerialPort arduinoPort;
+        private const string USBPortName = "COM8";  // Replace with the appropriate USB port name
+
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
@@ -81,6 +87,8 @@ namespace BST
 
         public void OpenSearchableForm(string search, string formName, string secondaryValue)
         {
+            arduinoPort.Close();
+
             this.Text = formName + " | Briareus Support Tool";
 
             foreach (Control control in panel4.Controls)
@@ -114,12 +122,29 @@ namespace BST
             panel2.Controls.Add(form);
             form.Show();
 
+            if (form.Name == "SetAngle")
+            {
+                SetAngle setangle = (SetAngle)form;
+                if (secondaryValue == "CLOSING")
+                {
 
+                    setangle.ResetFingers();
+                }
+            }
 
             if (form.Name == "Load")
             {
                 Load loadForm = (Load)form;
                 loadForm.LoopingPlayingChanged += LoadForm_LoopingPlayingChanged;
+                if(secondaryValue == "STL")
+                {
+                    Label label1 = (Label)form.Controls.Find("label1", true).FirstOrDefault();
+                    Button button1= (Button)form.Controls.Find("button1", true).FirstOrDefault();
+
+                    button1.Visible = false;
+                    label1.Text = search;
+                    loadForm.LoadSTL(search);
+                }
             }
 
             if (form.Name == "PredefinitionManagement")
@@ -152,11 +177,22 @@ namespace BST
                 }
             }
 
+            try
+            {
+                arduinoPort.Open();
+                alert.Text = "";
+
+            }
+            catch (Exception ex) 
+            {
+                alert.Text = ex.Message;
+            }
 
         }
 
         private void OpenInnerForm(object sender, EventArgs e)
         {
+            arduinoPort.Close();
 
             foreach (Control control in panel4.Controls)
             {
@@ -176,7 +212,8 @@ namespace BST
 
             if (formName == CheckForOpenForm()) return;
 
-            panel2.Controls.Clear();
+            DisposeOfOpenInnerForm();
+            //arduinoPort.Close()
 
             // Create the form type based on the button name
             this.Text = formName + " | Briareus Support Tool";
@@ -202,6 +239,16 @@ namespace BST
             form.Dock = DockStyle.Fill;
             panel2.Controls.Add(form);
             form.Show();
+
+            try
+            {
+                arduinoPort.Open();
+                alert.Text = "";
+            }
+            catch (Exception ex)
+            {
+                alert.Text = ex.Message;
+            }
 
         }
 
@@ -290,6 +337,8 @@ namespace BST
 
         private async void Manager_Load(object sender, EventArgs e)
         {
+            alert.Text = "";
+            InitializeSerialPort();
             IsInternetAvailable();
             await CheckInternetConnectionAsync(); // Perform the initial check
 
@@ -319,6 +368,20 @@ namespace BST
                     WifiConnection(false);
                 }
             }));
+        }
+
+        private void DisposeOfOpenInnerForm()
+        {
+            foreach (Control control in panel2.Controls)
+            {
+                if (control is Form form)
+                {
+                    if (form.Visible)
+                    {
+                        form.Dispose();
+                    }
+                }
+            }
         }
 
         private string CheckForOpenForm()
@@ -398,6 +461,94 @@ namespace BST
             pictureBox4.Image = image;
             bluetooth = enable;
         }
+
+        //ARDUINO SERIAL PORT
+
+        private void InitializeSerialPort()
+        {
+            string portName = USBPortName;
+            int baudRate = 9600;
+
+            if (portName != null)
+            {
+                arduinoPort = new SerialPort(portName, baudRate);
+
+                try
+                {
+                    arduinoPort.Open();
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    // Attempt to grant access to the port
+                    GrantPortAccess(portName);
+                    try
+                    {
+                        arduinoPort.Open();
+                    }
+                    catch (Exception ex)
+                    {
+                        alert.Text = "Failed to open the Arduino port. Error: " + ex.Message;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    alert.Text = "Failed to open the Arduino port. Error: " + ex.Message;
+                }
+            }
+            else
+            {
+                alert.Text = "Port not found.";
+            }
+        }
+
+        private void Manager_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            string data = $"0,0,0,0,0,{bluetooth}";
+            try
+            {
+                arduinoPort.WriteLine(data);
+            }
+            catch (Exception ex)
+            {
+                alert.Text = ex.Message;
+            }
+        }
+
+        private void GrantPortAccess(string portName)
+        {
+            try
+            {
+                ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_SerialPort");
+                foreach (ManagementObject obj in searcher.Get())
+                {
+                    object deviceIDObj = obj["DeviceID"];
+                    if (deviceIDObj != null && deviceIDObj.ToString() == portName)
+                    {
+                        object pnpDeviceIDObj = obj["PNPDeviceID"];
+                        if (pnpDeviceIDObj != null)
+                        {
+                            string pnpDeviceID = pnpDeviceIDObj.ToString();
+                            string[] split = pnpDeviceID.Split('&');
+                            if (split.Length >= 4)
+                            {
+                                string hardwareID = split[3];
+                                ManagementObject portConfig = new ManagementObject(@"root\CIMV2",
+                                    "Win32_SerialPortConfiguration.DeviceID='" + hardwareID + "'",
+                                    null);
+                                object[] args = { 1 };
+                                portConfig.InvokeMethod("SetPowerState", args);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Failed to grant access to the port: " + ex.Message);
+            }
+        }
+
 
     }
 }

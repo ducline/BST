@@ -65,7 +65,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.Color.Firebrick;
-            this.label1.Location = new System.Drawing.Point(27, 11);
+            this.label1.Location = new System.Drawing.Point(44, 210);
             this.label1.MaximumSize = new System.Drawing.Size(300, 50);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(67, 13);
@@ -160,6 +160,7 @@
             this.Name = "SetAngle";
             this.Text = "SetAngle";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SetAngle_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SetAngle_FormClosed);
             this.Load += new System.EventHandler(this.SetAngle_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
