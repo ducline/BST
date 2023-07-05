@@ -47,6 +47,7 @@
             this.Predefine = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.alert = new System.Windows.Forms.Label();
+            this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
@@ -246,8 +247,8 @@
             // 
             this.alert.AutoSize = true;
             this.alert.ForeColor = System.Drawing.Color.Firebrick;
-            this.alert.Location = new System.Drawing.Point(196, 43);
-            this.alert.MaximumSize = new System.Drawing.Size(300, 50);
+            this.alert.Location = new System.Drawing.Point(193, 33);
+            this.alert.MaximumSize = new System.Drawing.Size(400, 50);
             this.alert.Name = "alert";
             this.alert.Size = new System.Drawing.Size(27, 13);
             this.alert.TabIndex = 32;
@@ -303,5 +304,6 @@
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.Button SignLanguageTranslator;
         private System.Windows.Forms.Label alert;
+        private System.IO.Ports.SerialPort serialPort1;
     }
 }

@@ -21,6 +21,7 @@ namespace BST
 
         public SerialPort arduinoPort;
         private const string USBPortName = "COM8";  // Replace with the appropriate USB port name
+        private const string BluetoothPort = "COM4";
 
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
@@ -31,11 +32,9 @@ namespace BST
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
 
-        public string CommunicationPort = "";
         public Manager(string comPort, string deviceName)
         {
             InitializeComponent();
-            CommunicationPort = "COM4";
             this.Icon = Icon.ExtractAssociatedIcon(@"Images\Ico\BriareusSupportLogo.Ico");
             label1.Text = deviceName;
 
@@ -300,6 +299,8 @@ namespace BST
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
+            ResetAngles();
+
             // Create a new Menu form
             Connect connect = new Connect();
 
@@ -464,12 +465,9 @@ namespace BST
 
         //ARDUINO SERIAL PORT
 
-        private void InitializeSerialPort()
+        private void USBConnection(string portName, int baudRate)
         {
-            string portName = USBPortName;
-            int baudRate = 9600;
-
-            if (portName != null)
+            if (!string.IsNullOrEmpty(portName))
             {
                 arduinoPort = new SerialPort(portName, baudRate);
 
@@ -501,7 +499,58 @@ namespace BST
             }
         }
 
-        private void Manager_FormClosed(object sender, FormClosedEventArgs e)
+        private void BluetoothConnection(string portName, int baudRate)
+        {
+            MessageBox.Show("testblueto");
+            if (!string.IsNullOrEmpty(portName))
+            {
+                try
+                {
+                    serialPort1.PortName = portName;
+                    serialPort1.BaudRate = baudRate;
+                    serialPort1.Open();
+                    serialPort1.DataReceived += SerialPort1_DataReceived;
+                }
+                catch (Exception ex)
+                {
+                    alert.Text = "Failed to open the Bluetooth port. Error: " + ex.Message;
+                }
+            }
+            else
+            {
+                alert.Text = "Bluetooth port not found.";
+            }
+        }
+
+        private void SerialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            SerialPort serialPort = (SerialPort)sender;
+            string receivedData = serialPort.ReadLine();
+
+            // Process received data as needed
+            // Example: Display received data in a text box
+            //receivedTextBox.Invoke((MethodInvoker)(() => receivedTextBox.Text = receivedData));
+        }
+
+        private void InitializeSerialPort()
+        {
+            string portName;
+            int baudRate = 9600;
+
+            if (bluetooth)
+            {
+                portName = BluetoothPort;
+                BluetoothConnection(portName, baudRate);
+            }
+            else
+            {
+                portName = USBPortName;
+                USBConnection(portName, baudRate);
+            }
+        
+        }
+
+        private void ResetAngles()
         {
             string data = $"0,0,0,0,0,{bluetooth}";
             try
@@ -512,6 +561,11 @@ namespace BST
             {
                 alert.Text = ex.Message;
             }
+        }
+
+        private void Manager_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            ResetAngles();
         }
 
         private void GrantPortAccess(string portName)

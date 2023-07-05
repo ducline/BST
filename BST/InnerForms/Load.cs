@@ -319,6 +319,21 @@ namespace BST.InnerForms
             }
         }
 
+        private void ResetAngles()
+        {
+            string data = $"0,0,0,0,0,{bluetoothValue}";
+
+            try
+            {
+                arduinoPort.WriteLine(data);
+                alert.Text = "";
+            }
+            catch (Exception ex)
+            {
+                alert.Text = ex.Message + " Showing demonstration.";
+            }
+        }
+
         private async void SetAngle_Click(object sender, EventArgs e)
         {
             if (SetAngle.Text == "STOP PLAYING")
@@ -365,6 +380,8 @@ namespace BST.InnerForms
             checkBox1.Enabled = true;
             numericUpDown1.Enabled = true;
             button1.Enabled = true;
+
+            ResetAngles();
         }
 
         private void UpdateLoopingPlaying()

@@ -94,7 +94,13 @@ namespace BriareusSupportTool
                         // Connect to the Bluetooth device
                         BluetoothClient client = new BluetoothClient();
                         BluetoothEndPoint endPoint = new BluetoothEndPoint(device.DeviceAddress, BluetoothService.SerialPort);
-                        await client.ConnectAsync(endPoint);
+                        try
+                        {
+                            await client.ConnectAsync(endPoint);
+                        } catch (Exception ex)
+                        {
+                            label2.Text = ex.Message;
+                        }
                         establishedConnection(GetConnectedComPort(comPort), deviceName);
 
                         break;
