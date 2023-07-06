@@ -1,18 +1,13 @@
 ﻿using BriareusSupportTool;
 using BST.InnerForms;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
-using System.Text;
+using System.Management;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Net.NetworkInformation;
-using System.Runtime.CompilerServices;
-using System.IO.Ports;
-using System.Management;
 
 namespace BST
 {
@@ -501,19 +496,20 @@ namespace BST
 
         private void BluetoothConnection(string portName, int baudRate)
         {
-            MessageBox.Show("testblueto");
             if (!string.IsNullOrEmpty(portName))
             {
+                serialPort1.PortName = portName;
+                serialPort1.BaudRate = baudRate;
+                Console.WriteLine("test");
                 try
                 {
-                    serialPort1.PortName = portName;
-                    serialPort1.BaudRate = baudRate;
-                    serialPort1.Open();
-                    serialPort1.DataReceived += SerialPort1_DataReceived;
+                    if (!serialPort1.IsOpen) serialPort1.Open();
+                    serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(SerialPort1_DataReceived);
                 }
                 catch (Exception ex)
                 {
                     alert.Text = "Failed to open the Bluetooth port. Error: " + ex.Message;
+                    Console.WriteLine(alert.Text);
                 }
             }
             else
@@ -522,11 +518,21 @@ namespace BST
             }
         }
 
+        int count = 0;
         private void SerialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            SerialPort serialPort = (SerialPort)sender;
-            string receivedData = serialPort.ReadLine();
 
+            try
+            {
+                SerialPort serialPort = (SerialPort)sender;
+                string receivedData = serialPort.ReadLine();
+                Console.WriteLine("Data" + count + receivedData);
+                count++;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
             // Process received data as needed
             // Example: Display received data in a text box
             //receivedTextBox.Invoke((MethodInvoker)(() => receivedTextBox.Text = receivedData));
@@ -535,17 +541,15 @@ namespace BST
         private void InitializeSerialPort()
         {
             string portName;
-            int baudRate = 9600;
-
             if (bluetooth)
             {
                 portName = BluetoothPort;
-                BluetoothConnection(portName, baudRate);
+                BluetoothConnection(portName, 115200);
             }
             else
             {
                 portName = USBPortName;
-                USBConnection(portName, baudRate);
+                USBConnection(portName, 9600);
             }
         
         }

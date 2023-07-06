@@ -14,6 +14,7 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using System.Management;
 
 namespace BST.InnerForms
 {
@@ -208,6 +209,14 @@ namespace BST.InnerForms
                         };
 
 
+                        predefname.MouseDoubleClick += (sender, e) =>
+                        {
+                            Label label = sender as Label;
+                            ManageCollection(label.Text);
+
+
+                        };
+
                         yLocation += 30;
                     }
                 }
@@ -224,31 +233,6 @@ namespace BST.InnerForms
             }
 
             UpdateCollectionValidation();
-        }
-
-        private void OpenCollection(object sender, EventArgs e)
-        {
-            Button button = sender as Button;
-
-            if (button.Text == "Edit")
-            {
-                Label predefname = button.Tag as Label;
-
-                Manager managerForm = this.Parent.Parent as Manager;
-
-                if (managerForm != null)
-                {
-                    // Call the OpenSearchableForm method of the Manager 
-                    managerForm.OpenSearchableForm(predefname.Text, "Predefine", "");
-
-                    // Close the PredefinitionManagement form
-                    this.Close();
-
-                    // Open the Predefine form
-                    //Predefine predefineForm = new Predefine();
-                    //predefineForm.Show();
-                }
-            }
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
@@ -275,7 +259,7 @@ namespace BST.InnerForms
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void ManageCollection(string selectedcollection)
         {
             string matchedStrings = "";
 
@@ -286,14 +270,22 @@ namespace BST.InnerForms
 
             string modifiedString = matchedStrings.TrimEnd(';');
 
+            if (string.IsNullOrEmpty(modifiedString)) return;
+
+
             Manager managerForm = this.Parent.Parent as Manager;
 
             if (managerForm != null)
             {
-                managerForm.OpenSearchableForm(modifiedString, "Collection", SelectedCollection());
+                managerForm.OpenSearchableForm(modifiedString, "Collection", selectedcollection);
                 this.Close();
 
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ManageCollection(SelectedCollection());
         }
 
         private async void button3_Click(object sender, EventArgs e)

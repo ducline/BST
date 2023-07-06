@@ -46,18 +46,36 @@ namespace BST.InnerForms
 
         private void OpenPredefine(object sender, EventArgs e)
         {
-            Button button = sender as Button;
-
-            if (button.Text == "Edit")
+            if (sender is Button button)
             {
-                Label predefname = button.Tag as Label;
+                if (button.Text == "Edit")
+                {
+                    Label predefname = button.Tag as Label;
 
+                    Manager managerForm = this.Parent.Parent as Manager;
+
+                    if (managerForm != null)
+                    {
+                        // Call the OpenSearchableForm method of the Manager 
+                        managerForm.OpenSearchableForm(predefname.Text, "Predefine", "");
+
+                        // Close the PredefinitionManagement form
+                        this.Close();
+
+                        // Open the Predefine form
+                        //Predefine predefineForm = new Predefine();
+                        //predefineForm.Show();
+                    }
+                }
+            }
+            if (sender is Label label)
+            {
                 Manager managerForm = this.Parent.Parent as Manager;
 
                 if (managerForm != null)
                 {
                     // Call the OpenSearchableForm method of the Manager 
-                    managerForm.OpenSearchableForm(predefname.Text, "Predefine", "");
+                    managerForm.OpenSearchableForm(label.Text, "Predefine", "");
 
                     // Close the PredefinitionManagement form
                     this.Close();
@@ -67,6 +85,9 @@ namespace BST.InnerForms
                     //predefineForm.Show();
                 }
             }
+
+
+            
         }
 
         private void UpdateCollectionValidation()
@@ -214,6 +235,18 @@ namespace BST.InnerForms
                             UpdateCollectionValidation();
 
 
+                        };
+
+
+                        predefname.MouseDoubleClick += (sender, e) =>
+                        {
+                            if (textBox2.Visible)
+                            {
+                                Label label = sender as Label;
+                                AddToCollection(label.Text);
+                                return;
+                            }
+                            OpenPredefine(sender, e);
                         };
 
 
