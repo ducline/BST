@@ -69,12 +69,57 @@ namespace BST.InnerForms
                     predefname.Size = new Size(panel2.Width - 30, 20);
                     predefname.Location = new Point(10, yLocation);
 
+                    predefname.MouseDoubleClick += (sender, e) =>
+                    {
+                        OpenPredefine(sender, e);
+                    };
+
                     labelOrder.Add(key); // Store the label text in the order they are created
 
                     yLocation += 30;
                 }
             }
         }
+
+        private void OpenPredefine(object sender, EventArgs e)
+        {
+            if (sender is Label label)
+            {
+                Manager managerForm = this.Parent.Parent as Manager;
+
+                if (managerForm != null)
+                {
+                    string labelText = label.Text;
+
+                    // Check if labelText contains " (number)"
+                    int startIndex = labelText.LastIndexOf(" (");
+                    int endIndex = labelText.LastIndexOf(")");
+
+                    if (startIndex != -1 && endIndex != -1 && endIndex > startIndex)
+                    {
+                        // Extract the number from the parentheses
+                        string number = labelText.Substring(startIndex + 2, endIndex - startIndex - 2);
+
+                        // Check if the extracted string is a valid number
+                        if (int.TryParse(number, out _))
+                        {
+                            // Remove the "(number)" from the string
+                            labelText = labelText.Remove(startIndex);
+
+                            // Trim any trailing or leading whitespace
+                            labelText = labelText.Trim();
+                        }
+                    }
+
+                    // Call the OpenSearchableForm method of the Manager
+                    managerForm.OpenSearchableForm(labelText, "Predefine", "");
+
+                    // Close the PredefinitionManagement form
+                    this.Close();
+                }
+            }
+        }
+
 
         private string SelectedCollection()
         {
