@@ -48,7 +48,7 @@ namespace BST.InnerForms
 
             if (arduinoPort != null && arduinoPort.IsOpen)
             {
-                string data = $"{angle1},{angle2},{angle3},{angle4},{angle5},{sendDataViaBluetooth}";
+                string data = $"{angle1},{angle2},{angle3},{angle4},{angle5}";
                 arduinoPort.WriteLine(data);
                 label1.Text = "";
             }

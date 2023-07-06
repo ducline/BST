@@ -556,7 +556,7 @@ namespace BST
 
         private void ResetAngles()
         {
-            string data = $"0,0,0,0,0,{bluetooth}";
+            string data = $"0,0,0,0,0";
             try
             {
                 arduinoPort.WriteLine(data);

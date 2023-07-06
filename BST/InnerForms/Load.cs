@@ -153,7 +153,7 @@ namespace BST.InnerForms
                 int angle4 = (int)obj.ring;
                 int angle5 = (int)obj.little;
 
-                string data = $"{angle1},{angle2},{angle3},{angle4},{angle5},{bluetoothValue}";
+                string data = $"{angle1},{angle2},{angle3},{angle4},{angle5}";
 
                 try
                 {
@@ -321,7 +321,7 @@ namespace BST.InnerForms
 
         private void ResetAngles()
         {
-            string data = $"0,0,0,0,0,{bluetoothValue}";
+            string data = $"0,0,0,0,0";
 
             try
             {
