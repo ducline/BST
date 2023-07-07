@@ -16,7 +16,7 @@ namespace BST
 
         public SerialPort arduinoPort;
         private const string USBPortName = "COM8";  // Replace with the appropriate USB port name
-        private const string BluetoothPort = "COM4";
+        private const string BluetoothPort = "COM5";
 
 
         public const int WM_NCLBUTTONDOWN = 0xA1;

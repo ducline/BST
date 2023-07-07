@@ -102,11 +102,12 @@
             // 
             // label2
             // 
+            this.label2.AutoEllipsis = true;
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Arial Narrow", 10F);
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(23, 285);
-            this.label2.MaximumSize = new System.Drawing.Size(250, 50);
+            this.label2.MaximumSize = new System.Drawing.Size(250, 40);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(250, 34);
             this.label2.TabIndex = 7;
