@@ -10,10 +10,10 @@ namespace BST.InnerForms
     {
 
         private bool bluetoothValue;
-        private const string USBPortName = "COM8";  // Replace with the appropriate USB port name
-        private const string BluetoothPortName = "COM4";  // Replace with the appropriate Bluetooth port name
         string modifiedString;
-        private SerialPort arduinoPort;
+        private SerialPort USBPortSerial;
+        private SerialPort bluetoothPortSerial;
+
         public SetAngle(string search)
         {
             InitializeComponent();
@@ -46,10 +46,10 @@ namespace BST.InnerForms
             int angle5 = (int)numericUpDown5.Value;
             bool sendDataViaBluetooth = bluetoothValue;  // Get the boolean value from the bluetoothValue variable
 
-            if (arduinoPort != null && arduinoPort.IsOpen)
+            if (USBPortSerial != null && USBPortSerial.IsOpen)
             {
                 string data = $"{angle1},{angle2},{angle3},{angle4},{angle5}";
-                arduinoPort.WriteLine(data);
+                USBPortSerial.WriteLine(data);
                 label1.Text = "";
             }
             else
@@ -63,7 +63,8 @@ namespace BST.InnerForms
         private void SetAngle_Load(object sender, EventArgs e)
         {
             Manager managerForm = this.Parent.Parent as Manager;
-            arduinoPort = managerForm.USBPortSerial;
+            USBPortSerial = managerForm.USBPortSerial;
+            bluetoothPortSerial = managerForm.bluetoothPortSerial;
             bluetoothValue = managerForm.bluetooth;
 
             if (modifiedString != "")
@@ -89,7 +90,7 @@ namespace BST.InnerForms
 
         private void SetAngle_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //arduinoPort.Close();
+            //USBPortSerial.Close();
         }
 
         private void SetAngle_FormClosed(object sender, FormClosedEventArgs e)

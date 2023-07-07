@@ -176,36 +176,14 @@ namespace BST
 
             try
             {
-                if (bluetooth)
-                {
-                    // Open the Bluetooth serial port in a separate thread
-                    Task.Run(() =>
-                    {
-                        bluetoothPortSerial.Open();
+                if (bluetooth) bluetoothPortSerial.Open(); else USBPortSerial.Open();
+                alert.Text = "";
 
-                        // Update UI elements using Invoke
-                        Invoke((MethodInvoker)delegate
-                        {
-                            alert.Text = "";
-                        });
-                    });
-                }
-                else
-                {
-                    // Open the USB serial port
-                    USBPortSerial.Open();
-                    alert.Text = "";
-                }
             }
-            catch (Exception ex)
+            catch (Exception ex) 
             {
-                // Update UI elements using Invoke
-                Invoke((MethodInvoker)delegate
-                {
-                    alert.Text = ex.Message;
-                });
+                alert.Text = ex.Message;
             }
-
 
         }
 
@@ -262,36 +240,13 @@ namespace BST
 
             try
             {
-                if (bluetooth)
-                {
-                    // Open the Bluetooth serial port in a separate thread
-                    Task.Run(() =>
-                    {
-                        bluetoothPortSerial.Open();
-
-                        // Update UI elements using Invoke
-                        Invoke((MethodInvoker)delegate
-                        {
-                            alert.Text = "";
-                        });
-                    });
-                }
-                else
-                {
-                    // Open the USB serial port
-                    USBPortSerial.Open();
-                    alert.Text = "";
-                }
+                if (bluetooth) bluetoothPortSerial.Open(); else USBPortSerial.Open();
+                alert.Text = "";
             }
             catch (Exception ex)
             {
-                // Update UI elements using Invoke
-                Invoke((MethodInvoker)delegate
-                {
-                    alert.Text = ex.Message;
-                });
+                alert.Text = ex.Message;
             }
-
 
         }
 
