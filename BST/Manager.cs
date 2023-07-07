@@ -119,16 +119,6 @@ namespace BST
             panel2.Controls.Add(form);
             form.Show();
 
-            if (form.Name == "SetAngle")
-            {
-                SetAngle setangle = (SetAngle)form;
-                if (secondaryValue == "CLOSING")
-                {
-
-                    setangle.ResetFingers();
-                }
-            }
-
             if (form.Name == "Load")
             {
                 Load loadForm = (Load)form;
@@ -472,7 +462,14 @@ namespace BST
 
                 try
                 {
-                    if (bluetooth) bluetoothPortSerial.Open(); else USBPortSerial.Open();
+                    if (bluetooth && !bluetoothPortSerial.IsOpen)
+                    {
+                        bluetoothPortSerial.Open();
+                    }
+                    else if (!bluetooth && !USBPortSerial.IsOpen)
+                    {
+                        USBPortSerial.Open();
+                    }
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -480,7 +477,14 @@ namespace BST
                     GrantPortAccess(portName);
                     try
                     {
-                        if (bluetooth) bluetoothPortSerial.Open(); else USBPortSerial.Open();
+                        if (bluetooth && !bluetoothPortSerial.IsOpen)
+                        {
+                            bluetoothPortSerial.Open();
+                        }
+                        else if (!bluetooth && !USBPortSerial.IsOpen)
+                        {
+                            USBPortSerial.Open();
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -506,7 +510,14 @@ namespace BST
 
                 try
                 {
-                    if (bluetooth) bluetoothPortSerial.Open(); else USBPortSerial.Open();
+                    if (bluetooth && !bluetoothPortSerial.IsOpen)
+                    {
+                        bluetoothPortSerial.Open();
+                    }
+                    else if (!bluetooth && !USBPortSerial.IsOpen)
+                    {
+                        USBPortSerial.Open();
+                    }
                 }
                 catch (UnauthorizedAccessException)
                 {

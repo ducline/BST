@@ -116,6 +116,7 @@ namespace BriareusSupportTool
                     button1.BackColor = Color.FromArgb(40, 60, 70);
                     label2.ForeColor = Color.Red;
                     label2.Text = string.Format("Device {0} not found. Make sure you have bluetooth and discoverable mode on", deviceName);
+                    pictureBox2.Enabled = true;
                 });
 
 

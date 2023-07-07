@@ -22,15 +22,6 @@ namespace BST.InnerForms
             
         }
 
-
-        public void ResetFingers()
-        {
-            bool sendDataViaBluetooth = bluetoothValue;  // Get the boolean value from the bluetoothValue variable
-
-            string data = $"0, 0, 0, 0, 0, {sendDataViaBluetooth}";
-
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             int angle1 = (int)numericUpDown1.Value;
@@ -39,16 +30,10 @@ namespace BST.InnerForms
             int angle4 = (int)numericUpDown4.Value;
             int angle5 = (int)numericUpDown5.Value;
 
-            if (USBPortSerial != null && USBPortSerial.IsOpen)
-            {
-                string data = $"{angle1},{angle2},{angle3},{angle4},{angle5}";
-                if(bluetoothValue) bluetoothPortSerial.WriteLine(data); else USBPortSerial.WriteLine(data);
-                label1.Text = "";
-            }
-            else
-            {
-                label1.Text = "Unable to send data.";
-            }
+            
+            string data = $"{angle1},{angle2},{angle3},{angle4},{angle5}";
+            if(bluetoothValue) bluetoothPortSerial.WriteLine(data); else USBPortSerial.WriteLine(data);
+            label1.Text = "";
 
         }
 
