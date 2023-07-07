@@ -1,5 +1,6 @@
 ﻿using BriareusSupportTool;
 using BST.InnerForms;
+using InTheHand.Net;
 using System;
 using System.Drawing;
 using System.IO.Ports;
@@ -14,9 +15,10 @@ namespace BST
     public partial class Manager : Form
     {
 
-        public SerialPort arduinoPort;
-        private const string USBPortName = "COM8";  // Replace with the appropriate USB port name
-        private const string BluetoothPort = "COM5";
+        public SerialPort USBPortSerial;
+        public SerialPort bluetoothPortSerial;
+        private const string USBPortSerialSerialName = "COM8";  // Replace with the appropriate USB port name
+        private const string BluetoothPort = "COM4";
 
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
@@ -81,7 +83,8 @@ namespace BST
 
         public void OpenSearchableForm(string search, string formName, string secondaryValue)
         {
-            arduinoPort.Close();
+            if (bluetooth) bluetoothPortSerial.Close(); else USBPortSerial.Close();
+
 
             this.Text = formName + " | Briareus Support Tool";
 
@@ -173,20 +176,42 @@ namespace BST
 
             try
             {
-                arduinoPort.Open();
-                alert.Text = "";
+                if (bluetooth)
+                {
+                    // Open the Bluetooth serial port in a separate thread
+                    Task.Run(() =>
+                    {
+                        bluetoothPortSerial.Open();
 
+                        // Update UI elements using Invoke
+                        Invoke((MethodInvoker)delegate
+                        {
+                            alert.Text = "";
+                        });
+                    });
+                }
+                else
+                {
+                    // Open the USB serial port
+                    USBPortSerial.Open();
+                    alert.Text = "";
+                }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                alert.Text = ex.Message;
+                // Update UI elements using Invoke
+                Invoke((MethodInvoker)delegate
+                {
+                    alert.Text = ex.Message;
+                });
             }
+
 
         }
 
         private void OpenInnerForm(object sender, EventArgs e)
         {
-            arduinoPort.Close();
+            if (bluetooth) bluetoothPortSerial.Close(); else USBPortSerial.Close();
 
             foreach (Control control in panel4.Controls)
             {
@@ -207,7 +232,8 @@ namespace BST
             if (formName == CheckForOpenForm()) return;
 
             DisposeOfOpenInnerForm();
-            //arduinoPort.Close()
+            //            if (bluetooth) bluetoothPortSerial.Close(); else USBPortSerial.Close();
+
 
             // Create the form type based on the button name
             this.Text = formName + " | Briareus Support Tool";
@@ -236,13 +262,36 @@ namespace BST
 
             try
             {
-                arduinoPort.Open();
-                alert.Text = "";
+                if (bluetooth)
+                {
+                    // Open the Bluetooth serial port in a separate thread
+                    Task.Run(() =>
+                    {
+                        bluetoothPortSerial.Open();
+
+                        // Update UI elements using Invoke
+                        Invoke((MethodInvoker)delegate
+                        {
+                            alert.Text = "";
+                        });
+                    });
+                }
+                else
+                {
+                    // Open the USB serial port
+                    USBPortSerial.Open();
+                    alert.Text = "";
+                }
             }
             catch (Exception ex)
             {
-                alert.Text = ex.Message;
+                // Update UI elements using Invoke
+                Invoke((MethodInvoker)delegate
+                {
+                    alert.Text = ex.Message;
+                });
             }
+
 
         }
 
@@ -464,11 +513,11 @@ namespace BST
         {
             if (!string.IsNullOrEmpty(portName))
             {
-                arduinoPort = new SerialPort(portName, baudRate);
+                USBPortSerial = new SerialPort(portName, baudRate);
 
                 try
                 {
-                    arduinoPort.Open();
+                    if (bluetooth) bluetoothPortSerial.Open(); else USBPortSerial.Open();
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -476,7 +525,7 @@ namespace BST
                     GrantPortAccess(portName);
                     try
                     {
-                        arduinoPort.Open();
+                        if (bluetooth) bluetoothPortSerial.Open(); else USBPortSerial.Open();
                     }
                     catch (Exception ex)
                     {
@@ -498,18 +547,28 @@ namespace BST
         {
             if (!string.IsNullOrEmpty(portName))
             {
-                serialPort1.PortName = portName;
-                serialPort1.BaudRate = baudRate;
-                Console.WriteLine("test");
+                bluetoothPortSerial = new SerialPort(portName, baudRate);
+
                 try
                 {
-                    if (!serialPort1.IsOpen) serialPort1.Open();
-                    serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(SerialPort1_DataReceived);
+                    if (bluetooth) bluetoothPortSerial.Open(); else USBPortSerial.Open();
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    // Attempt to grant access to the port
+                    GrantPortAccess(portName);
+                    try
+                    {
+                        if (bluetooth) bluetoothPortSerial.Open(); else USBPortSerial.Open();
+                    }
+                    catch (Exception ex)
+                    {
+                        alert.Text = "Failed to open the Arduino port. Error: " + ex.Message;
+                    }
                 }
                 catch (Exception ex)
                 {
-                    alert.Text = "Failed to open the Bluetooth port. Error: " + ex.Message;
-                    Console.WriteLine(alert.Text);
+                    alert.Text = "Failed to open the Arduino port. Error: " + ex.Message;
                 }
             }
             else
@@ -540,16 +599,13 @@ namespace BST
 
         private void InitializeSerialPort()
         {
-            string portName;
             if (bluetooth)
             {
-                portName = BluetoothPort;
-                BluetoothConnection(portName, 115200);
+                BluetoothConnection(BluetoothPort, 9600);
             }
             else
             {
-                portName = USBPortName;
-                USBConnection(portName, 9600);
+                USBConnection(USBPortSerialSerialName, 9600);
             }
         
         }
@@ -559,7 +615,7 @@ namespace BST
             string data = $"0,0,0,0,0";
             try
             {
-                arduinoPort.WriteLine(data);
+                if (bluetooth) bluetoothPortSerial.WriteLine(data); else USBPortSerial.WriteLine(data);
             }
             catch (Exception ex)
             {

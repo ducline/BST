@@ -63,7 +63,7 @@ namespace BST.InnerForms
         private void SetAngle_Load(object sender, EventArgs e)
         {
             Manager managerForm = this.Parent.Parent as Manager;
-            arduinoPort = managerForm.arduinoPort;
+            arduinoPort = managerForm.USBPortSerial;
             bluetoothValue = managerForm.bluetooth;
 
             if (modifiedString != "")

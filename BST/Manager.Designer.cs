@@ -245,6 +245,7 @@
             // 
             // alert
             // 
+            this.alert.AutoEllipsis = true;
             this.alert.AutoSize = true;
             this.alert.ForeColor = System.Drawing.Color.Firebrick;
             this.alert.Location = new System.Drawing.Point(193, 33);

@@ -23,8 +23,8 @@ namespace BST.InnerForms
     public partial class Load : Form
     {
         string collection;
-        private SerialPort arduinoPort;
-        private const string USBPortName = "COM8";  // Replace with the appropriate USB port name
+        private SerialPort USBPortSerial;
+        private SerialPort bluetoothPortSerial;
         private bool bluetoothValue = false;
 
         IFirebaseConfig config = new FirebaseConfig
@@ -111,7 +111,9 @@ namespace BST.InnerForms
         {
             alert.Text = "";
             Manager managerForm = this.Parent.Parent as Manager;
-            arduinoPort = managerForm.arduinoPort;
+            USBPortSerial = managerForm.USBPortSerial;
+            bluetoothPortSerial = managerForm.bluetoothPortSerial;
+
             bluetoothValue = managerForm.bluetooth;
 
             client = new FireSharp.FirebaseClient(config);
@@ -157,7 +159,7 @@ namespace BST.InnerForms
 
                 try
                 {
-                    arduinoPort.WriteLine(data);
+                    if (bluetoothValue) bluetoothPortSerial.WriteLine(data); else USBPortSerial.WriteLine(data);
                     alert.Text = "";
                 }
                 catch (Exception ex)
@@ -325,7 +327,7 @@ namespace BST.InnerForms
 
             try
             {
-                arduinoPort.WriteLine(data);
+                if (bluetoothValue) bluetoothPortSerial.WriteLine(data); else USBPortSerial.WriteLine(data);
                 alert.Text = "";
             }
             catch (Exception ex)
