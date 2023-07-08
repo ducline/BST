@@ -219,6 +219,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Images\comport.png" />
     <Content Include="Images\warning.png" />
     <None Include="Images\bluetooth-darker.png" />
     <Content Include="Images\bluetooth.png" />

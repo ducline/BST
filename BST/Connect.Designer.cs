@@ -36,10 +36,13 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -97,7 +100,7 @@
             this.textBox1.Location = new System.Drawing.Point(76, 222);
             this.textBox1.MaximumSize = new System.Drawing.Size(179, 13);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(179, 13);
+            this.textBox1.Size = new System.Drawing.Size(74, 13);
             this.textBox1.TabIndex = 5;
             this.textBox1.Text = "Briareus";
             // 
@@ -129,6 +132,17 @@
             this.label3.Click += new System.EventHandler(this.label3_Click);
             this.label3.MouseLeave += new System.EventHandler(this.label3_MouseLeave);
             this.label3.MouseHover += new System.EventHandler(this.label3_MouseHover);
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.Image = global::BST.Properties.Resources.comport;
+            this.pictureBox5.Location = new System.Drawing.Point(168, 218);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(23, 22);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox5.TabIndex = 11;
+            this.pictureBox5.TabStop = false;
+            this.pictureBox5.Visible = false;
             // 
             // pictureBox4
             // 
@@ -181,12 +195,29 @@
             this.pictureBox2.MouseLeave += new System.EventHandler(this.pictureBox2_MouseLeave);
             this.pictureBox2.MouseHover += new System.EventHandler(this.pictureBox2_MouseHover);
             // 
+            // textBox2
+            // 
+            this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(41)))), ((int)(((byte)(48)))));
+            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox2.ForeColor = System.Drawing.Color.White;
+            this.textBox2.Location = new System.Drawing.Point(195, 222);
+            this.textBox2.MaximumSize = new System.Drawing.Size(179, 13);
+            this.textBox2.MaxLength = 6;
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(50, 13);
+            this.textBox2.TabIndex = 12;
+            this.textBox2.Text = "COM4";
+            this.textBox2.Visible = false;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            // 
             // Connect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(41)))), ((int)(((byte)(48)))));
             this.ClientSize = new System.Drawing.Size(300, 400);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.pictureBox5);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.pictureBox4);
             this.Controls.Add(this.pictureBox3);
@@ -205,6 +236,7 @@
             this.Text = "Briareus Support Tool";
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Connect_KeyPress);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Connect_MouseDown);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -227,5 +259,7 @@
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.PictureBox pictureBox5;
+        private System.Windows.Forms.TextBox textBox2;
     }
 }

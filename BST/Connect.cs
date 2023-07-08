@@ -35,15 +35,12 @@ namespace BriareusSupportTool
 
         private void CreateConnection()
         {
-            string comPort;
+            string comPort = textBox2.Text;
             string bluetoothdevice = "HC-05";
-            if (bluetooth) comPort = "COM4"; else comPort = "COM8";
 
             string deviceName = textBox1.Text;
-
             if (!bluetooth)
             {
-                MessageBox.Show(DiscoverUSBPort());
                 establishedConnection(comPort, deviceName); return;
             }
 
@@ -89,111 +86,33 @@ namespace BriareusSupportTool
                 label2.Text = string.Format("Device {0} not found. Make sure you have bluetooth and discoverable mode on", bluetoothdevice);
                 pictureBox2.Enabled = true;
             });
-            // Define the name of the Bluetooth device you want to connect to
 
-
-            //// Run Bluetooth device discovery on a separate thread
-            //var devicesTask = Task.Run(() =>
-            //{
-            //    BluetoothClient client = new BluetoothClient();
-            //    IReadOnlyCollection<BluetoothDeviceInfo> testdevices = client.DiscoverDevices();
-            //    return testdevices;
-            //});
-
-            //// Wait for the Bluetooth device discovery to complete
-            //var devices = await devicesTask;
-
-            //// Search for the specified device and get its Bluetooth address
-            //string deviceAddress = "";
-            //foreach (BluetoothDeviceInfo device in devices)
-            //{
-            //    if (device.DeviceName == deviceName)
-            //    {
-            //        deviceAddress = device.DeviceAddress.ToString();
-            //        break;
-            //    }
-            //}
-
-            //if (deviceAddress != "")
-            //{
-            //    string comPort = "";
-            //    foreach (var port in SerialPort.GetPortNames())
-            //    {
-            //        BluetoothDeviceInfo device = new BluetoothDeviceInfo(BluetoothAddress.Parse(deviceAddress));
-            //        if (device.InstalledServices.Where(service => service.Equals(new Guid("{00001101-0000-1000-8000-00805F9B34FB}"))).Any())
-            //        {
-            //            comPort = port;
-            //            // Connect to the Bluetooth device
-            //            BluetoothClient client = new BluetoothClient();
-            //            BluetoothEndPoint endPoint = new BluetoothEndPoint(device.DeviceAddress, BluetoothService.SerialPort);
-            //            try
-            //            {
-            //                await client.ConnectAsync(endPoint);
-            //            } catch (Exception ex)
-            //            {
-            //                label2.Text = ex.Message;
-            //            }
-            //            establishedConnection(GetConnectedComPort(comPort), deviceName);
-
-            //            break;
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            
-
-
-            //}
         }
 
         public static string DiscoverUSBPort()
         {
             string[] ports = SerialPort.GetPortNames();
-            List<Task<string>> tasks = new List<Task<string>>();
 
             foreach (string port in ports)
             {
-                tasks.Add(Task.Run(async () =>
+                try
                 {
-                    try
+                    using (SerialPort serialPort = new SerialPort(port))
                     {
-                        using (SerialPort serialPort = new SerialPort(port, 9600))
-                        {
-                            serialPort.Open();
-                            serialPort.WriteLine("0,0,0,0,0");
-
-                            // Set a timeout value in milliseconds for the Read operation
-                            serialPort.ReadTimeout = 5000; // 5 seconds
-
-                            try
-                            {
-                                string response = await Task.Run(() => serialPort.ReadLine());
-
-                                if (response.Contains("SUCCESS"))
-                                {
-                                    return port;
-                                }
-                            }
-                            catch (TimeoutException)
-                            {
-                                // Read operation timed out, continue to the next port
-                            }
-                        }
+                        // You can customize the baud rate, parity, data bits, etc.
+                        serialPort.Open();
+                        return port;
                     }
-                    catch (IOException)
-                    {
-                        // Port is in use or unavailable, return null
-                    }
-
-                    return null;
-                }));
+                }
+                catch (IOException)
+                {
+                    // Port is in use or unavailable, continue to the next port
+                    continue;
+                }
             }
 
-            Task<string> completedTask = Task.WhenAny(tasks).Result;
-            return completedTask.Result;
+            return null; // No available port found
         }
-
 
 
         private void establishedConnection(string comPort, string deviceName)
@@ -317,6 +236,8 @@ namespace BriareusSupportTool
         {
             label3.Visible = !label3.Visible;
             pictureBox4.Visible = !pictureBox4.Visible;
+            pictureBox5.Visible = !pictureBox5.Visible;
+            textBox2.Visible = !textBox2.Visible;
             
         }
 
@@ -325,6 +246,8 @@ namespace BriareusSupportTool
         {
             label3.Visible = false;
             pictureBox4.Visible = false;
+            pictureBox5.Visible = false;
+            textBox2.Visible = false;
             if (bluetooth)
             {
                 oldtext = textBox1.Text;
@@ -334,6 +257,7 @@ namespace BriareusSupportTool
                 pictureBox2.Image = newImage;
                 bluetooth = false;
                 textBox1.Text = "Wired";
+                textBox2.Text = "COM8";
             }
             else
             {
@@ -344,6 +268,7 @@ namespace BriareusSupportTool
                 pictureBox2.Image = newImage;
                 bluetooth = true;
                 textBox1.Select();
+                textBox2.Text = "COM4";
             }
         }
 
@@ -424,5 +349,19 @@ namespace BriareusSupportTool
         {
             SwitchConnectivity();
         }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            string prefix = "COM";
+            string text = textBox2.Text;
+
+            if (!text.StartsWith(prefix))
+            {
+                textBox2.Text = prefix; // Reset the text to the predefined prefix
+                textBox2.SelectionStart = prefix.Length; // Set the cursor at the end of the prefix
+            }
+        }
+
+
     }
 }
