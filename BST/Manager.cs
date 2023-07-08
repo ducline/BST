@@ -29,9 +29,11 @@ namespace BST
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
 
+        private string portName;
         public Manager(string comPort, string deviceName)
         {
             InitializeComponent();
+            portName = comPort;
             this.Icon = Icon.ExtractAssociatedIcon(@"Images\Ico\BriareusSupportLogo.Ico");
             label1.Text = deviceName;
 
@@ -83,7 +85,7 @@ namespace BST
 
         public void OpenSearchableForm(string search, string formName, string secondaryValue)
         {
-            if (bluetooth) bluetoothPortSerial.Close(); else USBPortSerial.Close();
+            //if (bluetooth) bluetoothPortSerial.Close(); else USBPortSerial.Close();
 
 
             this.Text = formName + " | Briareus Support Tool";
@@ -172,6 +174,7 @@ namespace BST
             }
             catch (Exception ex) 
             {
+                if (bluetooth) return;
                 alert.Text = ex.Message;
             }
 
@@ -179,7 +182,7 @@ namespace BST
 
         private void OpenInnerForm(object sender, EventArgs e)
         {
-            if (bluetooth) bluetoothPortSerial.Close(); else USBPortSerial.Close();
+            //if (bluetooth) bluetoothPortSerial.Close(); else USBPortSerial.Close();
 
             foreach (Control control in panel4.Controls)
             {
@@ -200,7 +203,6 @@ namespace BST
             if (formName == CheckForOpenForm()) return;
 
             DisposeOfOpenInnerForm();
-            //            if (bluetooth) bluetoothPortSerial.Close(); else USBPortSerial.Close();
 
 
             // Create the form type based on the button name
@@ -235,6 +237,7 @@ namespace BST
             }
             catch (Exception ex)
             {
+                if (bluetooth) return;
                 alert.Text = ex.Message;
             }
 
@@ -289,6 +292,10 @@ namespace BST
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             ResetAngles();
+            if (bluetooth && bluetoothPortSerial.IsOpen)
+            {
+                bluetoothPortSerial.Close();
+            }
 
             // Create a new Menu form
             Connect connect = new Connect();
@@ -488,11 +495,13 @@ namespace BST
                     }
                     catch (Exception ex)
                     {
+                        if (bluetooth) return;
                         alert.Text = "Failed to open the Arduino port. Error: " + ex.Message;
                     }
                 }
                 catch (Exception ex)
                 {
+                    if (bluetooth) return;
                     alert.Text = "Failed to open the Arduino port. Error: " + ex.Message;
                 }
             }
@@ -529,11 +538,13 @@ namespace BST
                     }
                     catch (Exception ex)
                     {
+                        if (bluetooth) return;
                         alert.Text = "Failed to open the Arduino port. Error: " + ex.Message;
                     }
                 }
                 catch (Exception ex)
                 {
+                    if (bluetooth) return;
                     alert.Text = "Failed to open the Arduino port. Error: " + ex.Message;
                 }
             }
@@ -567,11 +578,11 @@ namespace BST
         {
             if (bluetooth)
             {
-                BluetoothConnection(BluetoothPort, 9600);
+                BluetoothConnection(portName, 9600);
             }
             else
             {
-                USBConnection(USBPortSerialSerialName, 9600);
+                USBConnection(portName, 9600);
             }
         
         }
@@ -592,6 +603,10 @@ namespace BST
         private void Manager_FormClosed(object sender, FormClosedEventArgs e)
         {
             ResetAngles();
+            if (bluetooth && bluetoothPortSerial.IsOpen)
+            {
+                bluetoothPortSerial.Close();
+            }
         }
 
         private void GrantPortAccess(string portName)

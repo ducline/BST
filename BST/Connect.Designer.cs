@@ -92,13 +92,14 @@
             // 
             this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(41)))), ((int)(((byte)(48)))));
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.Enabled = false;
             this.textBox1.ForeColor = System.Drawing.Color.White;
             this.textBox1.Location = new System.Drawing.Point(76, 222);
             this.textBox1.MaximumSize = new System.Drawing.Size(179, 13);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(179, 13);
             this.textBox1.TabIndex = 5;
-            this.textBox1.Text = "HC-05";
+            this.textBox1.Text = "Briareus";
             // 
             // label2
             // 

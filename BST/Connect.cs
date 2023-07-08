@@ -13,6 +13,8 @@ using InTheHand.Net;
 using BST;
 using InTheHand.Net.Bluetooth;
 using System.Net.Sockets;
+using System.Management;
+using System.IO;
 
 namespace BriareusSupportTool
 {
@@ -31,13 +33,18 @@ namespace BriareusSupportTool
             this.Icon = Icon.ExtractAssociatedIcon(@"Images\Ico\BriareusSupportLogo.Ico");
         }
 
-        private async void CreateConnection()
+        private void CreateConnection()
         {
+            string comPort;
+            string bluetoothdevice = "HC-05";
+            if (bluetooth) comPort = "COM4"; else comPort = "COM8";
+
             string deviceName = textBox1.Text;
 
             if (!bluetooth)
             {
-                establishedConnection("COM8", "Wired"); return;
+                MessageBox.Show(DiscoverUSBPort());
+                establishedConnection(comPort, deviceName); return;
             }
 
             //establishedConnection("testCOM", deviceName); TEST
@@ -57,71 +64,137 @@ namespace BriareusSupportTool
                 button1.BackColor = Color.Yellow;
             });
 
+            // Use Invoke to update the button and label on the UI thread
+            SerialPort bluetoothPortSerial = new SerialPort(comPort, 9600);
+
+            try
+            {
+                bluetoothPortSerial.Open();
+                bluetoothPortSerial.Close();
+                establishedConnection(comPort, deviceName);
+
+            }
+            catch (Exception ex)
+            {
+                label2.Text = ex.Message;
+            }
+
+
+
+            this.Invoke((MethodInvoker)delegate
+            {
+                button1.Text = "CONNECT";
+                button1.BackColor = Color.FromArgb(40, 60, 70);
+                label2.ForeColor = Color.Red;
+                label2.Text = string.Format("Device {0} not found. Make sure you have bluetooth and discoverable mode on", bluetoothdevice);
+                pictureBox2.Enabled = true;
+            });
             // Define the name of the Bluetooth device you want to connect to
 
 
-            // Run Bluetooth device discovery on a separate thread
-            var devicesTask = Task.Run(() =>
-            {
-                BluetoothClient client = new BluetoothClient();
-                IReadOnlyCollection<BluetoothDeviceInfo> testdevices = client.DiscoverDevices();
-                return testdevices;
-            });
+            //// Run Bluetooth device discovery on a separate thread
+            //var devicesTask = Task.Run(() =>
+            //{
+            //    BluetoothClient client = new BluetoothClient();
+            //    IReadOnlyCollection<BluetoothDeviceInfo> testdevices = client.DiscoverDevices();
+            //    return testdevices;
+            //});
 
-            // Wait for the Bluetooth device discovery to complete
-            var devices = await devicesTask;
+            //// Wait for the Bluetooth device discovery to complete
+            //var devices = await devicesTask;
 
-            // Search for the specified device and get its Bluetooth address
-            string deviceAddress = "";
-            foreach (BluetoothDeviceInfo device in devices)
-            {
-                if (device.DeviceName == deviceName)
-                {
-                    deviceAddress = device.DeviceAddress.ToString();
-                    break;
-                }
-            }
+            //// Search for the specified device and get its Bluetooth address
+            //string deviceAddress = "";
+            //foreach (BluetoothDeviceInfo device in devices)
+            //{
+            //    if (device.DeviceName == deviceName)
+            //    {
+            //        deviceAddress = device.DeviceAddress.ToString();
+            //        break;
+            //    }
+            //}
 
-            if (deviceAddress != "")
-            {
-                string comPort = "";
-                foreach (var port in SerialPort.GetPortNames())
-                {
-                    BluetoothDeviceInfo device = new BluetoothDeviceInfo(BluetoothAddress.Parse(deviceAddress));
-                    if (device.InstalledServices.Where(service => service.Equals(new Guid("{00001101-0000-1000-8000-00805F9B34FB}"))).Any())
-                    {
-                        comPort = port;
-                        // Connect to the Bluetooth device
-                        BluetoothClient client = new BluetoothClient();
-                        BluetoothEndPoint endPoint = new BluetoothEndPoint(device.DeviceAddress, BluetoothService.SerialPort);
-                        try
-                        {
-                            await client.ConnectAsync(endPoint);
-                        } catch (Exception ex)
-                        {
-                            label2.Text = ex.Message;
-                        }
-                        establishedConnection(GetConnectedComPort(comPort), deviceName);
+            //if (deviceAddress != "")
+            //{
+            //    string comPort = "";
+            //    foreach (var port in SerialPort.GetPortNames())
+            //    {
+            //        BluetoothDeviceInfo device = new BluetoothDeviceInfo(BluetoothAddress.Parse(deviceAddress));
+            //        if (device.InstalledServices.Where(service => service.Equals(new Guid("{00001101-0000-1000-8000-00805F9B34FB}"))).Any())
+            //        {
+            //            comPort = port;
+            //            // Connect to the Bluetooth device
+            //            BluetoothClient client = new BluetoothClient();
+            //            BluetoothEndPoint endPoint = new BluetoothEndPoint(device.DeviceAddress, BluetoothService.SerialPort);
+            //            try
+            //            {
+            //                await client.ConnectAsync(endPoint);
+            //            } catch (Exception ex)
+            //            {
+            //                label2.Text = ex.Message;
+            //            }
+            //            establishedConnection(GetConnectedComPort(comPort), deviceName);
 
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                // Use Invoke to update the button and label on the UI thread
-                this.Invoke((MethodInvoker)delegate
-                {
-                    button1.Text = "CONNECT";
-                    button1.BackColor = Color.FromArgb(40, 60, 70);
-                    label2.ForeColor = Color.Red;
-                    label2.Text = string.Format("Device {0} not found. Make sure you have bluetooth and discoverable mode on", deviceName);
-                    pictureBox2.Enabled = true;
-                });
+            //            break;
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            
 
 
-            }
+            //}
         }
+
+        public static string DiscoverUSBPort()
+        {
+            string[] ports = SerialPort.GetPortNames();
+            List<Task<string>> tasks = new List<Task<string>>();
+
+            foreach (string port in ports)
+            {
+                tasks.Add(Task.Run(async () =>
+                {
+                    try
+                    {
+                        using (SerialPort serialPort = new SerialPort(port, 9600))
+                        {
+                            serialPort.Open();
+                            serialPort.WriteLine("0,0,0,0,0");
+
+                            // Set a timeout value in milliseconds for the Read operation
+                            serialPort.ReadTimeout = 5000; // 5 seconds
+
+                            try
+                            {
+                                string response = await Task.Run(() => serialPort.ReadLine());
+
+                                if (response.Contains("SUCCESS"))
+                                {
+                                    return port;
+                                }
+                            }
+                            catch (TimeoutException)
+                            {
+                                // Read operation timed out, continue to the next port
+                            }
+                        }
+                    }
+                    catch (IOException)
+                    {
+                        // Port is in use or unavailable, return null
+                    }
+
+                    return null;
+                }));
+            }
+
+            Task<string> completedTask = Task.WhenAny(tasks).Result;
+            return completedTask.Result;
+        }
+
+
 
         private void establishedConnection(string comPort, string deviceName)
         {
@@ -238,19 +311,6 @@ namespace BriareusSupportTool
 
         }
 
-        private string GetConnectedComPort(string previousComPort)
-        {
-            string[] portNamesAfterConnection = SerialPort.GetPortNames();
-            foreach (string portName in portNamesAfterConnection)
-            {
-                if (!previousComPort.Contains(portName))
-                {
-                    return portName;
-                }
-            }
-            return null;
-        }
-
         bool bluetooth = true;
 
         private void pictureBox2_Click(object sender, EventArgs e)
@@ -273,7 +333,6 @@ namespace BriareusSupportTool
                 Image newImage = Image.FromFile(imagePath);
                 pictureBox2.Image = newImage;
                 bluetooth = false;
-                textBox1.Enabled = false;
                 textBox1.Text = "Wired";
             }
             else
@@ -284,7 +343,6 @@ namespace BriareusSupportTool
                 Image newImage = Image.FromFile(imagePath);
                 pictureBox2.Image = newImage;
                 bluetooth = true;
-                textBox1.Enabled = true;
                 textBox1.Select();
             }
         }

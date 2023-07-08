@@ -113,7 +113,6 @@ namespace BST.InnerForms
             Manager managerForm = this.Parent.Parent as Manager;
             USBPortSerial = managerForm.USBPortSerial;
             bluetoothPortSerial = managerForm.bluetoothPortSerial;
-
             bluetoothValue = managerForm.bluetooth;
 
             client = new FireSharp.FirebaseClient(config);
