@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BST", "BST\BST.csproj", "{85058A29-3864-4F0F-A114-73B55D91CEDD}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Briareus Support Tool Setup", "Briareus Support Tool Setup\Briareus Support Tool Setup.vdproj", "{C1D08179-511E-408A-93EC-BC539B6D625F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{85058A29-3864-4F0F-A114-73B55D91CEDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85058A29-3864-4F0F-A114-73B55D91CEDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85058A29-3864-4F0F-A114-73B55D91CEDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1D08179-511E-408A-93EC-BC539B6D625F}.Debug|Any CPU.ActiveCfg = Debug
+		{C1D08179-511E-408A-93EC-BC539B6D625F}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

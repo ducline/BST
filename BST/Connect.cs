@@ -61,6 +61,7 @@ namespace BriareusSupportTool
                 button1.BackColor = Color.Yellow;
             });
 
+
             // Use Invoke to update the button and label on the UI thread
             SerialPort bluetoothPortSerial = new SerialPort(comPort, 9600);
 
