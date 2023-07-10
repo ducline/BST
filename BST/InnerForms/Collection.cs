@@ -311,7 +311,7 @@ namespace BST.InnerForms
 
         }
 
-        private async void SaveCollection()
+        private async Task SaveCollection()
         {
             if (!button1.Enabled) return;
 
@@ -344,9 +344,9 @@ namespace BST.InnerForms
             await client.SetTaskAsync("collections/" + collectionName, datalayer);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
-            SaveCollection();
+            await SaveCollection();
 
             OpenCollectionManagement();
         }
@@ -413,14 +413,14 @@ namespace BST.InnerForms
             return sb.ToString();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private async void button2_Click(object sender, EventArgs e)
         {
             if (textBox1.Enabled)
             {
                 label3.Text = "Save first!"; return;
             }
 
-            SaveCollection();
+            await SaveCollection();
 
             Manager managerForm = this.Parent.Parent as Manager;
 
@@ -435,11 +435,11 @@ namespace BST.InnerForms
             }
         }
 
-        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        private async void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
-                SaveCollection();
+                await SaveCollection();
                 OpenCollectionManagement();
             }
         }

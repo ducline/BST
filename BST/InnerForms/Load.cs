@@ -443,10 +443,10 @@ namespace BST.InnerForms
                     break;
                 case 'B':
                     thumbAngle = 45;
-                    indexAngle = 180;
-                    middleAngle = 180;
-                    ringAngle = 180;
-                    littleAngle = 180;
+                    indexAngle = 0;
+                    middleAngle = 0;
+                    ringAngle = 0;
+                    littleAngle = 0;
                     break;
                 case 'C':
                     thumbAngle = 90;
@@ -456,151 +456,151 @@ namespace BST.InnerForms
                     littleAngle = 90;
                     break;
                 case 'D':
-                    thumbAngle = 0;
-                    indexAngle = 180;
+                    thumbAngle = 180;
+                    indexAngle = 0;
                     middleAngle = 180;
                     ringAngle = 180;
                     littleAngle = 180;
                     break;
                 case 'E':
-                    thumbAngle = 0;
-                    indexAngle = 180;
-                    middleAngle = 180;
-                    ringAngle = 180;
-                    littleAngle = 180;
+                    thumbAngle = 180;
+                    indexAngle = 120;
+                    middleAngle = 120;
+                    ringAngle = 120;
+                    littleAngle = 120;
                     break;
                 case 'F':
-                    thumbAngle = 0;
-                    indexAngle = 180;
-                    middleAngle = 180;
-                    ringAngle = 180;
+                    thumbAngle = 180;
+                    indexAngle = 120;
+                    middleAngle = 0;
+                    ringAngle = 0;
                     littleAngle = 0;
                     break;
                 case 'G':
                     thumbAngle = 0;
-                    indexAngle = 180;
+                    indexAngle = 90;
                     middleAngle = 180;
                     ringAngle = 180;
                     littleAngle = 180;
                     break;
                 case 'H':
                     thumbAngle = 90;
-                    indexAngle = 180;
-                    middleAngle = 180;
+                    indexAngle = 0;
+                    middleAngle = 0;
                     ringAngle = 180;
                     littleAngle = 180;
                     break;
                 case 'I':
-                    thumbAngle = 0;
+                    thumbAngle = 90;
                     indexAngle = 180;
                     middleAngle = 180;
                     ringAngle = 180;
                     littleAngle = 0;
                     break;
                 case 'J':
-                    thumbAngle = 180;
-                    indexAngle = 180;
-                    middleAngle = 180;
-                    ringAngle = 180;
-                    littleAngle = 180;
+                    thumbAngle = 90;
+                    indexAngle = 0;
+                    middleAngle = 0;
+                    ringAngle = 0;
+                    littleAngle = 90;
                     break;
                 case 'K':
                     thumbAngle = 90;
-                    indexAngle = 180;
-                    middleAngle = 180;
+                    indexAngle = 0;
+                    middleAngle = 0;
                     ringAngle = 180;
                     littleAngle = 180;
                     break;
                 case 'L':
                     thumbAngle = 0;
-                    indexAngle = 180;
-                    middleAngle = 180;
-                    ringAngle = 180;
-                    littleAngle = 0;
-                    break;
-                case 'M':
-                    thumbAngle = 90;
-                    indexAngle = 180;
-                    middleAngle = 180;
-                    ringAngle = 180;
-                    littleAngle = 0;
-                    break;
-                case 'N':
-                    thumbAngle = 90;
-                    indexAngle = 180;
+                    indexAngle = 0;
                     middleAngle = 180;
                     ringAngle = 180;
                     littleAngle = 180;
                     break;
+                case 'M':
+                    thumbAngle = 145;
+                    indexAngle = 145;
+                    middleAngle = 145;
+                    ringAngle = 145;
+                    littleAngle = 145;
+                    break;
+                case 'N':
+                    thumbAngle = 180;
+                    indexAngle = 120;
+                    middleAngle = 120;
+                    ringAngle = 180;
+                    littleAngle = 180;
+                    break;
                 case 'O':
+                    thumbAngle = 90;
+                    indexAngle = 90;
+                    middleAngle = 90;
+                    ringAngle = 90;
+                    littleAngle = 90;
+                    break;
+                case 'P':
+                    thumbAngle = 90;
+                    indexAngle = 0;
+                    middleAngle = 45;
+                    ringAngle = 180;
+                    littleAngle = 180;
+                    break;
+                case 'Q':
+                    thumbAngle = 120;
+                    indexAngle = 45;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 180;
+                    break;
+                case 'R':
+                    thumbAngle = 45;
+                    indexAngle = 0;
+                    middleAngle = 0;
+                    ringAngle = 45;
+                    littleAngle = 45;
+                    break;
+                case 'S':
                     thumbAngle = 180;
                     indexAngle = 180;
                     middleAngle = 180;
                     ringAngle = 180;
                     littleAngle = 180;
                     break;
-                case 'P':
-                    thumbAngle = 90;
-                    indexAngle = 180;
-                    middleAngle = 180;
-                    ringAngle = 180;
-                    littleAngle = 180;
-                    break;
-                case 'Q':
-                    thumbAngle = 45;
-                    indexAngle = 180;
-                    middleAngle = 180;
-                    ringAngle = 180;
-                    littleAngle = 0;
-                    break;
-                case 'R':
-                    thumbAngle = 0;
-                    indexAngle = 180;
-                    middleAngle = 0;
-                    ringAngle = 180;
-                    littleAngle = 0;
-                    break;
-                case 'S':
-                    thumbAngle = 0;
-                    indexAngle = 0;
-                    middleAngle = 0;
-                    ringAngle = 0;
-                    littleAngle = 0;
-                    break;
                 case 'T':
-                    thumbAngle = 0;
+                    thumbAngle = 90;
                     indexAngle = 180;
                     middleAngle = 180;
                     ringAngle = 180;
                     littleAngle = 180;
                     break;
                 case 'U':
-                    thumbAngle = 90;
-                    indexAngle = 180;
-                    middleAngle = 180;
-                    ringAngle = 180;
-                    littleAngle = 0;
+                    thumbAngle = 180;
+                    indexAngle = 0;
+                    middleAngle = 0;
+                    ringAngle = 90;
+                    littleAngle = 180;
                     break;
                 case 'V':
-                    thumbAngle = 90;
-                    indexAngle = 180;
-                    middleAngle = 180;
-                    ringAngle = 180;
-                    littleAngle = 0;
+                    thumbAngle = 180;
+                    indexAngle = 0;
+                    middleAngle = 0;
+                    ringAngle = 90;
+                    littleAngle = 180;
                     break;
                 case 'W':
-                    thumbAngle = 90;
-                    indexAngle = 180;
-                    middleAngle = 180;
-                    ringAngle = 180;
-                    littleAngle = 0;
-                    break;
-                case 'X':
-                    thumbAngle = 0;
+                    thumbAngle = 180;
                     indexAngle = 0;
                     middleAngle = 0;
                     ringAngle = 0;
-                    littleAngle = 0;
+                    littleAngle = 180;
+                    break;
+                case 'X':
+                    thumbAngle = 180;
+                    indexAngle = 45;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 180;
                     break;
                 case 'Y':
                     thumbAngle = 45;
@@ -610,10 +610,10 @@ namespace BST.InnerForms
                     littleAngle = 0;
                     break;
                 case 'Z':
-                    thumbAngle = 0;
-                    indexAngle = 180;
-                    middleAngle = 180;
-                    ringAngle = 180;
+                    thumbAngle = 45;
+                    indexAngle = 90;
+                    middleAngle = 90;
+                    ringAngle = 90;
                     littleAngle = 0;
                     break;
                 default:
