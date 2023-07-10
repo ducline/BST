@@ -442,7 +442,7 @@ namespace BST.InnerForms
                     littleAngle = 180;
                     break;
                 case 'B':
-                    thumbAngle = 45;
+                    thumbAngle = 90;
                     indexAngle = 0;
                     middleAngle = 0;
                     ringAngle = 0;
@@ -456,11 +456,11 @@ namespace BST.InnerForms
                     littleAngle = 90;
                     break;
                 case 'D':
-                    thumbAngle = 180;
+                    thumbAngle = 90;
                     indexAngle = 0;
-                    middleAngle = 180;
-                    ringAngle = 180;
-                    littleAngle = 180;
+                    middleAngle = 90;
+                    ringAngle = 90;
+                    littleAngle = 90;
                     break;
                 case 'E':
                     thumbAngle = 180;
@@ -470,15 +470,15 @@ namespace BST.InnerForms
                     littleAngle = 120;
                     break;
                 case 'F':
-                    thumbAngle = 180;
-                    indexAngle = 120;
+                    thumbAngle = 135;
+                    indexAngle = 135;
                     middleAngle = 0;
                     ringAngle = 0;
                     littleAngle = 0;
                     break;
                 case 'G':
                     thumbAngle = 0;
-                    indexAngle = 90;
+                    indexAngle = 45;
                     middleAngle = 180;
                     ringAngle = 180;
                     littleAngle = 180;
@@ -491,7 +491,7 @@ namespace BST.InnerForms
                     littleAngle = 180;
                     break;
                 case 'I':
-                    thumbAngle = 90;
+                    thumbAngle = 135;
                     indexAngle = 180;
                     middleAngle = 180;
                     ringAngle = 180;
@@ -499,13 +499,13 @@ namespace BST.InnerForms
                     break;
                 case 'J':
                     thumbAngle = 90;
-                    indexAngle = 0;
-                    middleAngle = 0;
-                    ringAngle = 0;
-                    littleAngle = 90;
+                    indexAngle = 180;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 0;
                     break;
                 case 'K':
-                    thumbAngle = 90;
+                    thumbAngle = 45;
                     indexAngle = 0;
                     middleAngle = 0;
                     ringAngle = 180;
@@ -527,8 +527,8 @@ namespace BST.InnerForms
                     break;
                 case 'N':
                     thumbAngle = 180;
-                    indexAngle = 120;
-                    middleAngle = 120;
+                    indexAngle = 135;
+                    middleAngle = 135;
                     ringAngle = 180;
                     littleAngle = 180;
                     break;
@@ -547,7 +547,7 @@ namespace BST.InnerForms
                     littleAngle = 180;
                     break;
                 case 'Q':
-                    thumbAngle = 120;
+                    thumbAngle = 45;
                     indexAngle = 45;
                     middleAngle = 180;
                     ringAngle = 180;
@@ -557,8 +557,8 @@ namespace BST.InnerForms
                     thumbAngle = 45;
                     indexAngle = 0;
                     middleAngle = 0;
-                    ringAngle = 45;
-                    littleAngle = 45;
+                    ringAngle = 135;
+                    littleAngle = 135;
                     break;
                 case 'S':
                     thumbAngle = 180;
@@ -578,15 +578,15 @@ namespace BST.InnerForms
                     thumbAngle = 180;
                     indexAngle = 0;
                     middleAngle = 0;
-                    ringAngle = 90;
+                    ringAngle = 135;
                     littleAngle = 180;
                     break;
                 case 'V':
                     thumbAngle = 180;
                     indexAngle = 0;
                     middleAngle = 0;
-                    ringAngle = 90;
-                    littleAngle = 180;
+                    ringAngle = 45;
+                    littleAngle = 45;
                     break;
                 case 'W':
                     thumbAngle = 180;
@@ -596,11 +596,11 @@ namespace BST.InnerForms
                     littleAngle = 180;
                     break;
                 case 'X':
-                    thumbAngle = 180;
+                    thumbAngle = 135;
                     indexAngle = 45;
-                    middleAngle = 180;
-                    ringAngle = 180;
-                    littleAngle = 180;
+                    middleAngle = 135;
+                    ringAngle = 135;
+                    littleAngle = 135;
                     break;
                 case 'Y':
                     thumbAngle = 45;
@@ -610,11 +610,11 @@ namespace BST.InnerForms
                     littleAngle = 0;
                     break;
                 case 'Z':
-                    thumbAngle = 45;
-                    indexAngle = 90;
-                    middleAngle = 90;
-                    ringAngle = 90;
-                    littleAngle = 0;
+                    thumbAngle = 180;
+                    indexAngle = 0;
+                    middleAngle = 180;
+                    ringAngle = 180;
+                    littleAngle = 180;
                     break;
                 default:
                     break;
